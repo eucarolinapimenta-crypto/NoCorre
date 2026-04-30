@@ -1,0 +1,2926 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#112D4E">
+<meta name="description" content="NoCorre — Veja exatamente o que fica no seu bolso depois de cada dia na rua">
+<title>NoCorre</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+:root{
+  --pri:#112D4E;
+  --pri-mid:#1A4270;
+  --pri-lt:#E8F0F9;
+  --acc:#E87F24;
+  --acc-lt:#FEF0E3;
+  --ok:#1F6F5F;
+  --ok-lt:#E6F4F1;
+  --err:#C0392B;
+  --err-lt:#FDECEA;
+  --warn:#D4820A;
+  --warn-lt:#FEF3E2;
+  --bg:#F9F7F7;
+  --bg2:#F0EEF0;
+  --card:#FFFFFF;
+  --txt:#0D1B2A;
+  --txt2:#5A6472;
+  --txt3:#9AA3AD;
+  --brd:#E4E8EE;
+  --brd2:#D0D6DE;
+  --st:env(safe-area-inset-top,0px);
+  --sb:env(safe-area-inset-bottom,0px);
+  --r:14px;
+  --r-sm:10px;
+  --r-lg:20px;
+  --shadow:0 2px 12px rgba(17,45,78,.07);
+  --shadow-lg:0 8px 32px rgba(17,45,78,.12);
+}
+html,body{width:100%;overflow-x:hidden}
+body{font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;background:var(--bg);color:var(--txt);min-height:100dvh;font-size:14px;-webkit-font-smoothing:antialiased}
+
+/* ── App shell ── */
+.app{width:100%;max-width:100%;margin:0 auto;min-height:100dvh;background:var(--bg);padding-bottom:calc(72px + var(--sb))}
+@media(min-width:600px){.app{max-width:480px;box-shadow:0 0 40px rgba(17,45,78,.1)}}
+
+/* ── Header ── */
+.header{background:var(--pri);color:#fff;padding:calc(14px + var(--st)) 20px 18px}
+.header-row{display:flex;justify-content:space-between;align-items:center}
+.logo-mark{display:flex;align-items:center;gap:8px}
+.logo-svg{width:28px;height:28px;flex-shrink:0}
+.logo-txt{font-size:18px;font-weight:800;letter-spacing:-.3px;color:#fff}
+.logo-dot{color:var(--acc)}
+.header-actions{display:flex;gap:8px;align-items:center}
+.header-avatar{width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,.15);border:2px solid rgba(255,255,255,.25);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;cursor:pointer;color:#fff}
+.header-greeting{margin-top:14px}
+.header-greeting h1{font-size:19px;font-weight:700;line-height:1.2}
+.header-greeting .sub{font-size:12px;opacity:.65;margin-top:3px;font-weight:400}
+.sim-btn{margin-top:10px;padding:5px 12px;border-radius:20px;border:1px dashed rgba(255,255,255,.4);background:transparent;color:rgba(255,255,255,.75);font-size:11px;cursor:pointer;font-family:inherit}
+
+/* ── Pages ── */
+.page{display:none;padding:16px;animation:fadeIn .2s ease}
+.page.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+
+/* ── Cards ── */
+.card{background:var(--card);border-radius:var(--r);padding:16px;margin-bottom:12px;box-shadow:var(--shadow);border:1px solid var(--brd)}
+
+/* ── Main balance card ── */
+.balance-card{background:var(--card);border-radius:var(--r);padding:20px;margin-bottom:12px;box-shadow:var(--shadow);border:1px solid var(--brd)}
+.balance-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:4px}
+.balance-lbl{font-size:12px;color:var(--txt2);font-weight:500}
+.period-btn-sel{background:var(--pri-lt);border:none;padding:5px 10px;border-radius:20px;font-size:11px;font-weight:600;color:var(--pri);cursor:pointer;font-family:inherit;display:inline-flex;align-items:center;gap:4px}
+.balance-amount{font-size:36px;font-weight:800;color:var(--ok);line-height:1.1;letter-spacing:-1px;margin:8px 0}
+.balance-amount.neg{color:var(--err)}
+.balance-row{display:flex;gap:0;border-top:1px solid var(--brd);padding-top:12px;margin-top:4px}
+.balance-col{flex:1;text-align:center}
+.balance-col:not(:last-child){border-right:1px solid var(--brd)}
+.balance-col-lbl{font-size:10px;color:var(--txt3);margin-bottom:3px;font-weight:500}
+.balance-col-val{font-size:14px;font-weight:700}
+.balance-col-val.inc{color:var(--ok)}
+.balance-col-val.exp{color:var(--err)}
+
+/* ── GPS Session ── */
+.gps-card{background:var(--pri);border-radius:var(--r);padding:18px;margin-bottom:12px;color:#fff}
+.gps-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
+.gps-title{font-size:12px;font-weight:600;opacity:.7;text-transform:uppercase;letter-spacing:.5px}
+.gps-badge{display:flex;align-items:center;gap:5px;font-size:11px;font-weight:600;background:rgba(255,255,255,.1);padding:4px 10px;border-radius:20px}
+.gps-dot{width:6px;height:6px;border-radius:50%;background:#4ade80;animation:pulse 2s infinite;flex-shrink:0}
+.gps-dot.off{background:rgba(255,255,255,.4);animation:none}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.8)}}
+.gps-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;margin-bottom:16px}
+.gps-stat{text-align:center;background:rgba(255,255,255,.08);border-radius:10px;padding:10px 4px}
+.gps-stat-val{font-size:16px;font-weight:700;line-height:1}
+.gps-stat-lbl{font-size:9px;opacity:.6;margin-top:3px;font-weight:500}
+.gps-bottom{display:flex;justify-content:space-between;align-items:flex-end;background:rgba(255,255,255,.06);border-radius:10px;padding:12px}
+.gps-net-lbl{font-size:10px;opacity:.65;margin-bottom:4px;font-weight:500}
+.gps-net-val{font-size:22px;font-weight:800;color:#4ade80;letter-spacing:-.5px}
+.gps-side{text-align:right}
+.gps-side-item{font-size:10px;opacity:.6;margin-bottom:2px}
+.gps-side-item span{font-weight:600;opacity:.9}
+
+/* ── Goal card ── */
+.goal-card{background:var(--card);border-radius:var(--r);padding:16px;margin-bottom:12px;box-shadow:var(--shadow);border:1px solid var(--brd)}
+.goal-card-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.goal-card-title{font-size:13px;font-weight:700;color:var(--txt)}
+.goal-edit-btn{font-size:11px;color:var(--pri);background:var(--pri-lt);border:none;padding:4px 10px;border-radius:20px;cursor:pointer;font-weight:600;font-family:inherit}
+.goal-progress-wrap{position:relative;margin-bottom:8px}
+.goal-bar-bg{height:8px;background:var(--brd);border-radius:4px;overflow:hidden}
+.goal-bar-fill{height:100%;background:linear-gradient(90deg,var(--ok),#2DC7AD);border-radius:4px;transition:width .6s ease}
+.goal-bar-fill.neg{background:linear-gradient(90deg,var(--err),#E57373)}
+.goal-nums{display:flex;justify-content:space-between;margin-top:6px;font-size:11px}
+.goal-cur{font-weight:700;color:var(--ok)}
+.goal-tgt{color:var(--txt2)}
+.goal-pct-badge{font-size:10px;font-weight:700;color:var(--ok);background:var(--ok-lt);padding:2px 8px;border-radius:10px}
+.goal-empty-txt{font-size:13px;color:var(--txt2);margin-bottom:10px;line-height:1.5}
+.goal-cta{font-size:12px;color:var(--pri);background:var(--pri-lt);border:none;padding:7px 16px;border-radius:20px;cursor:pointer;font-weight:600;font-family:inherit}
+
+/* ── Quick stats ── */
+.qs-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
+.qs-card{background:var(--card);border-radius:var(--r);padding:14px;box-shadow:var(--shadow);border:1px solid var(--brd)}
+.qs-card.accent{background:var(--pri);border-color:var(--pri)}
+.qs-lbl{font-size:10px;color:var(--txt2);font-weight:500;margin-bottom:6px;text-transform:uppercase;letter-spacing:.3px}
+.qs-card.accent .qs-lbl{color:rgba(255,255,255,.6)}
+.qs-val{font-size:20px;font-weight:800;color:var(--txt);letter-spacing:-.5px}
+.qs-card.accent .qs-val{color:#fff}
+.qs-sub{font-size:10px;color:var(--txt3);margin-top:3px}
+.qs-card.accent .qs-sub{color:rgba(255,255,255,.5)}
+
+/* ── Section header ── */
+.sec-hdr{display:flex;justify-content:space-between;align-items:center;margin:20px 0 10px}
+.sec-hdr h3{font-size:15px;font-weight:700;color:var(--txt)}
+.sec-hdr a{font-size:12px;color:var(--acc);font-weight:600;cursor:pointer;text-decoration:none}
+
+/* ── Transaction row ── */
+.txn{display:flex;align-items:center;padding:11px 0;border-bottom:1px solid var(--brd);cursor:pointer;gap:12px}
+.txn:last-child{border-bottom:none}
+.txn.pending{opacity:.6}
+.txn-icon{width:38px;height:38px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0}
+.txn-icon.income{background:var(--ok-lt)}
+.txn-icon.expense{background:var(--err-lt)}
+.txn-info{flex:1;min-width:0}
+.txn-title{font-size:13px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--txt)}
+.txn-date{font-size:11px;color:var(--txt2);margin-top:1px}
+.txn-amt{font-weight:700;font-size:14px;white-space:nowrap}
+.txn-amt.income{color:var(--ok)}
+.txn-amt.expense{color:var(--err)}
+.pend-badge{font-size:9px;background:var(--warn);color:#fff;padding:1px 6px;border-radius:6px;margin-left:4px;font-weight:700}
+.auto-badge{font-size:9px;background:var(--pri-lt);color:var(--pri);padding:1px 5px;border-radius:6px;margin-left:4px;font-weight:700}
+
+/* ── Insight card ── */
+.ins{background:var(--card);border-radius:var(--r);padding:14px;margin-bottom:10px;border-left:3px solid var(--pri);box-shadow:var(--shadow)}
+.ins.ok{border-left-color:var(--ok);background:var(--ok-lt)}
+.ins.warn{border-left-color:var(--acc);background:var(--acc-lt)}
+.ins.err{border-left-color:var(--err);background:var(--err-lt)}
+.ins-icon{font-size:20px;margin-bottom:4px}
+.ins-title{font-size:13px;font-weight:700;margin-bottom:3px;color:var(--txt)}
+.ins-text{font-size:12px;color:var(--txt2);line-height:1.5}
+
+/* ── Onboarding ── */
+.ob-step{display:flex;gap:12px;margin-bottom:8px;padding:14px;background:var(--card);border-radius:var(--r);cursor:pointer;border:2px solid var(--brd);transition:border .2s;box-shadow:var(--shadow)}
+.ob-step.done{border-color:var(--ok);background:var(--ok-lt)}
+.ob-num{width:28px;height:28px;border-radius:50%;background:var(--bg2);display:flex;align-items:center;justify-content:center;font-weight:700;color:var(--txt2);flex-shrink:0;font-size:13px}
+.ob-step.done .ob-num{background:var(--ok);color:#fff}
+.ob-step h4{font-size:13px;margin-bottom:2px;font-weight:600}
+.ob-step p{font-size:11px;color:var(--txt2)}
+
+/* ── Buttons ── */
+.btn{background:var(--pri);color:#fff;border:none;padding:14px 18px;border-radius:var(--r);font-size:14px;font-weight:700;cursor:pointer;width:100%;transition:all .15s;font-family:inherit;letter-spacing:-.1px}
+.btn:active{transform:scale(.98);opacity:.9}
+.btn.sec{background:var(--card);color:var(--pri);border:1.5px solid var(--pri)}
+.btn.acc{background:var(--acc);color:#fff}
+.btn.sm{padding:9px 14px;font-size:13px}
+
+/* ── Tabs ── */
+.tabs{display:flex;background:var(--bg2);padding:3px;border-radius:var(--r-sm);margin-bottom:14px}
+.tab{flex:1;padding:9px;text-align:center;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;color:var(--txt2);transition:all .15s;background:none;border:none;font-family:inherit}
+.tab.active{background:var(--card);color:var(--pri);box-shadow:0 1px 4px rgba(17,45,78,.08)}
+
+/* ── Filter chips ── */
+.chips{display:flex;gap:6px;overflow-x:auto;padding-bottom:6px;margin-bottom:12px;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chip{background:var(--card);border:1.5px solid var(--brd);padding:7px 13px;border-radius:20px;font-size:12px;cursor:pointer;white-space:nowrap;font-family:inherit;flex-shrink:0;transition:all .15s;font-weight:500;color:var(--txt2)}
+.chip.active{background:var(--pri);color:#fff;border-color:var(--pri)}
+
+/* ── State chips ── */
+.state-chips{display:flex;gap:6px;overflow-x:auto;padding-bottom:8px;margin-bottom:8px;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.state-chips::-webkit-scrollbar{display:none}
+.st-chip{background:var(--acc-lt);border:1.5px solid #F5C491;padding:6px 10px;border-radius:14px;font-size:11px;cursor:pointer;white-space:nowrap;font-family:inherit;flex-shrink:0;color:var(--warn);font-weight:600;transition:all .15s}
+.st-chip.active{background:var(--acc);color:#fff;border-color:var(--acc)}
+
+/* ── Chart ── */
+.chart-wrap{position:relative;height:180px;margin-top:10px}
+.bar{position:absolute;bottom:24px;background:var(--pri);border-radius:5px 5px 0 0;transition:height .3s;opacity:.85}
+.bar:hover{opacity:1}
+.bar.neg{background:var(--err)}
+.bar-val{position:absolute;top:-16px;left:50%;transform:translateX(-50%);font-size:9px;font-weight:700;white-space:nowrap;color:var(--txt2)}
+.bar-lbl{position:absolute;bottom:0;font-size:10px;color:var(--txt2);text-align:center}
+
+/* ── Profile ── */
+.p-stat{display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--brd);gap:12px}
+.p-stat:last-child{border-bottom:none}
+.p-stat-lbl{color:var(--txt2);font-size:13px;flex:1;min-width:0}
+.p-stat-val{font-weight:700;font-size:13px;white-space:nowrap;color:var(--txt)}
+
+/* ── Empty state ── */
+.empty{text-align:center;padding:36px 20px;color:var(--txt2)}
+.empty .em{font-size:42px;margin-bottom:12px}
+.empty h3{font-size:14px;margin-bottom:5px;color:var(--txt);font-weight:700}
+.empty p{font-size:12px;line-height:1.5}
+
+/* ── Bottom nav ── */
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;background:var(--card);border-top:1px solid var(--brd);display:flex;justify-content:space-around;padding:6px 0 calc(6px + var(--sb));z-index:99;box-shadow:0 -4px 20px rgba(17,45,78,.06)}
+@media(min-width:600px){.bottom-nav{left:50%;right:auto;transform:translateX(-50%);width:100%;max-width:480px}}
+.nav-btn{display:flex;flex-direction:column;align-items:center;gap:2px;padding:5px 4px;cursor:pointer;color:var(--txt3);background:none;border:none;font-size:10px;font-weight:500;font-family:inherit;flex:1;min-width:0;transition:color .15s}
+.nav-btn.active{color:var(--pri)}
+.nav-btn .ni{font-size:20px;line-height:1}
+.nav-btn.active .ni{transform:scale(1.1)}
+
+/* ── FAB ── */
+.widget-wrap{position:fixed;bottom:calc(80px + var(--sb));right:20px;z-index:101;display:flex;flex-direction:column;align-items:flex-end;gap:10px}
+@media(min-width:600px){.widget-wrap{right:max(20px,calc(50% - 220px))}}
+.w-panel{display:none;background:var(--card);border-radius:var(--r);padding:16px;box-shadow:var(--shadow-lg);min-width:240px;animation:slideUp .2s ease;border:1px solid var(--brd)}
+.w-panel.open{display:block}
+@keyframes slideUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.w-title{font-size:11px;font-weight:700;color:var(--txt2);margin-bottom:10px;text-transform:uppercase;letter-spacing:.6px}
+.w-type-row{display:flex;background:var(--bg2);border-radius:8px;padding:3px;margin-bottom:10px}
+.w-type-btn{flex:1;padding:8px;border:none;border-radius:6px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;transition:all .15s;background:transparent;color:var(--txt2)}
+.w-type-btn.income{background:var(--ok);color:#fff}
+.w-type-btn.expense{background:var(--err);color:#fff}
+.w-input{width:100%;padding:11px 12px;border:1.5px solid var(--brd);border-radius:var(--r-sm);font-size:16px;font-family:inherit;outline:none;margin-bottom:10px;color:var(--txt)}
+.w-input:focus{border-color:var(--pri)}
+.w-sel{width:100%;padding:9px 12px;border:1.5px solid var(--brd);border-radius:var(--r-sm);font-size:13px;font-family:inherit;margin-bottom:10px;background:var(--card);outline:none;color:var(--txt)}
+.fab{width:54px;height:54px;border-radius:50%;background:var(--acc);color:#fff;border:none;font-size:24px;cursor:pointer;box-shadow:0 4px 20px rgba(232,127,36,.45);transition:transform .25s;display:flex;align-items:center;justify-content:center}
+.fab.open{transform:rotate(45deg)}
+.fab:active{transform:scale(.92)}
+
+/* ── Modal ── */
+.modal{position:fixed;inset:0;background:rgba(13,27,42,.55);display:none;align-items:flex-end;justify-content:center;z-index:200;backdrop-filter:blur(2px)}
+.modal.active{display:flex}
+.modal-box{background:var(--card);border-radius:var(--r-lg) var(--r-lg) 0 0;width:100%;max-width:480px;max-height:90dvh;overflow-y:auto;padding:20px 16px calc(20px + var(--sb));animation:slideUp .3s ease}
+.modal-hdr{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;gap:12px}
+.modal-title{font-size:18px;font-weight:800;color:var(--txt)}
+.modal-close{background:var(--bg2);border:none;width:30px;height:30px;border-radius:50%;font-size:16px;cursor:pointer;color:var(--txt2);display:flex;align-items:center;justify-content:center}
+.form-lbl{display:block;font-size:12px;font-weight:600;margin-bottom:6px;color:var(--txt)}
+.form-grp{margin-bottom:14px}
+.f-input,.f-sel,.f-area{width:100%;padding:12px;border:1.5px solid var(--brd);border-radius:var(--r-sm);font-size:14px;font-family:inherit;background:var(--card);transition:border-color .15s;-webkit-appearance:none;appearance:none;color:var(--txt)}
+.f-sel{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath fill='%235A6472' d='M5 6L0 0h10z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;padding-right:32px}
+.f-input:focus,.f-sel:focus,.f-area:focus{outline:none;border-color:var(--pri)}
+.f-area{resize:vertical;min-height:80px}
+.cat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px}
+.cat-chip{padding:10px 6px;border:1.5px solid var(--brd);border-radius:var(--r-sm);background:var(--card);font-size:11px;cursor:pointer;text-align:center;font-family:inherit;transition:all .15s;color:var(--txt2);font-weight:500}
+.cat-chip.active{border-color:var(--pri);background:var(--pri-lt);color:var(--pri);font-weight:700}
+.cat-chip span{display:block;font-size:18px;margin-bottom:2px}
+.period-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px}
+.per-btn{padding:12px;border:1.5px solid var(--brd);border-radius:var(--r-sm);background:var(--card);cursor:pointer;font-size:13px;font-weight:600;font-family:inherit;text-align:center;color:var(--txt2);transition:all .15s}
+.per-btn.active{border-color:var(--pri);background:var(--pri-lt);color:var(--pri)}
+.per-btn span{display:block;font-size:22px;margin-bottom:4px}
+
+/* ── Posts ── */
+.post{background:var(--card);border-radius:var(--r);padding:14px;margin-bottom:10px;box-shadow:var(--shadow);border:1px solid var(--brd)}
+.post-hdr{display:flex;align-items:flex-start;gap:10px;margin-bottom:8px}
+.post-av{width:36px;height:36px;border-radius:50%;background:var(--pri);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;flex-shrink:0}
+.post-author{font-size:13px;font-weight:700;color:var(--txt)}
+.post-meta{font-size:11px;color:var(--txt2);margin-top:1px}
+.post-tags{display:flex;gap:4px;flex-wrap:wrap;margin-top:4px}
+.p-tag{background:var(--pri-lt);color:var(--pri);padding:2px 8px;border-radius:8px;font-size:10px;font-weight:600}
+.p-tag.loc{background:var(--acc-lt);color:var(--acc)}
+.post-body{font-size:13px;line-height:1.55;margin-bottom:10px;color:var(--txt)}
+.post-acts{display:flex;gap:14px;color:var(--txt2);font-size:12px}
+.post-act{cursor:pointer;background:none;border:none;color:inherit;font-size:inherit;font-family:inherit;display:flex;align-items:center;gap:3px;padding:4px 0;font-weight:500}
+.post-act.liked{color:var(--err)}
+
+/* ── News ── */
+.news-card{background:var(--card);border-radius:var(--r);overflow:hidden;margin-bottom:10px;cursor:pointer;transition:transform .15s;box-shadow:var(--shadow);border:1px solid var(--brd)}
+.news-card:active{transform:scale(.98)}
+.news-thumb{height:88px;display:flex;align-items:center;justify-content:center;font-size:34px;position:relative}
+.news-thumb.uber{background:linear-gradient(135deg,#111,#2d2d2d)}
+.news-thumb.ifood{background:linear-gradient(135deg,#c41825,#ea1d2c)}
+.news-thumb.n99{background:linear-gradient(135deg,#d4940a,#f5c542)}
+.news-thumb.loggi{background:linear-gradient(135deg,#00a884,#00d4aa)}
+.news-thumb.rappi{background:linear-gradient(135deg,#c0392b,#fa6450)}
+.news-thumb.geral{background:linear-gradient(135deg,#112D4E,#1A4270)}
+.news-plat{position:absolute;top:8px;left:8px;background:rgba(0,0,0,.6);color:#fff;padding:2px 8px;border-radius:8px;font-size:10px;font-weight:700}
+.news-impact{position:absolute;top:8px;right:8px;padding:2px 8px;border-radius:8px;font-size:10px;font-weight:700}
+.news-impact.positive{background:var(--ok);color:#fff}
+.news-impact.negative{background:var(--err);color:#fff}
+.news-impact.neutral{background:var(--warn);color:#fff}
+.news-body{padding:12px}
+.news-title{font-size:14px;font-weight:700;margin-bottom:4px;line-height:1.3;color:var(--txt)}
+.news-sum{font-size:12px;color:var(--txt2);line-height:1.4;margin-bottom:6px}
+.news-foot{font-size:10px;color:var(--txt3);display:flex;justify-content:space-between}
+
+/* ── Tip box ── */
+.tip-box{background:var(--pri-lt);border-left:3px solid var(--pri);padding:12px 14px;border-radius:var(--r-sm);margin-bottom:12px}
+.tip-box .tt{font-weight:700;font-size:13px;color:var(--pri);margin-bottom:3px}
+.tip-box .tb{font-size:12px;color:var(--txt2);line-height:1.4}
+
+/* ── Fuel ── */
+.fuel-my{background:linear-gradient(135deg,var(--acc-lt),#FDE8CC);border-radius:var(--r);padding:16px;margin-bottom:14px;border:1px solid #F5C491}
+.fuel-my-title{font-size:12px;font-weight:700;color:var(--warn);margin-bottom:10px;text-transform:uppercase;letter-spacing:.4px}
+.fuel-3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.fuel-item{text-align:center;background:rgba(255,255,255,.7);border-radius:10px;padding:10px 4px}
+.fi-em{font-size:18px}
+.fi-name{font-size:9px;color:var(--warn);margin:2px 0;font-weight:600}
+.fi-price{font-size:16px;font-weight:800;color:#7C4700}
+.fi-trend{font-size:9px;margin-top:2px}
+.fuel-src{font-size:10px;color:var(--warn);margin-top:8px;font-weight:500}
+.fuel-reg-hdr{background:var(--pri);color:#fff;border-radius:10px;padding:8px 12px;font-size:12px;font-weight:700;margin-bottom:8px;display:flex;justify-content:space-between}
+.fuel-st-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:4px}
+.fuel-st{background:var(--card);border-radius:12px;padding:12px;box-shadow:var(--shadow);border:1.5px solid var(--brd)}
+.fuel-st.mine{border-color:var(--acc);background:var(--acc-lt)}
+.fuel-st-name{font-size:12px;font-weight:700;margin-bottom:6px;color:var(--txt)}
+.f-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:3px}
+.f-lbl{font-size:10px;color:var(--txt2)}
+.f-price{font-size:12px;font-weight:700;color:var(--txt)}
+.f-coleta{font-size:9px;color:var(--txt3);margin-top:5px}
+.trend-up{font-size:9px;background:var(--err-lt);color:var(--err);padding:1px 5px;border-radius:5px;font-weight:700}
+.trend-dn{font-size:9px;background:var(--ok-lt);color:var(--ok);padding:1px 5px;border-radius:5px;font-weight:700}
+.trend-eq{font-size:9px;background:var(--bg2);color:var(--txt3);padding:1px 5px;border-radius:5px;font-weight:600}
+
+/* ── GPS / Rides ── */
+.rides-summary{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:16px}
+.rides-stat{background:var(--card);border-radius:var(--r);padding:12px 8px;text-align:center;box-shadow:var(--shadow);border:1px solid var(--brd)}
+.rides-stat-val{font-size:18px;font-weight:800;color:var(--txt)}
+.rides-stat-lbl{font-size:10px;color:var(--txt2);margin-top:3px;font-weight:500}
+.hourly-bar-wrap{display:flex;align-items:flex-end;gap:3px;height:60px;margin:10px 0 4px}
+.h-bar{flex:1;border-radius:3px 3px 0 0;min-height:3px;background:var(--brd);cursor:pointer;transition:background .15s}
+.h-bar.has-data{background:var(--pri);opacity:.5}
+.h-bar.peak{opacity:1;background:var(--acc)}
+.h-bar-lbl{display:flex;justify-content:space-between;font-size:9px;color:var(--txt3);font-weight:500}
+.efficiency-row{display:flex;gap:8px;margin-bottom:8px}
+.eff-card{flex:1;background:var(--card);border-radius:var(--r);padding:12px;box-shadow:var(--shadow);border:1px solid var(--brd);text-align:center}
+.eff-val{font-size:16px;font-weight:800;color:var(--txt)}
+.eff-lbl{font-size:10px;color:var(--txt2);margin-top:3px;font-weight:500}
+.trip-item{display:flex;align-items:stretch;gap:12px;padding:12px 0;border-bottom:1px solid var(--brd)}
+.trip-item:last-child{border-bottom:none}
+.trip-line{width:3px;border-radius:2px;background:var(--pri);flex-shrink:0}
+.trip-body{flex:1;min-width:0}
+.trip-row{display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
+.trip-desc{font-size:13px;font-weight:700;color:var(--txt)}
+.trip-earn{font-size:15px;font-weight:800;color:var(--ok);white-space:nowrap}
+.trip-meta{display:flex;gap:5px;margin-top:5px;flex-wrap:wrap}
+.trip-tag{font-size:10px;background:var(--bg2);color:var(--txt2);padding:2px 8px;border-radius:8px;white-space:nowrap;font-weight:500}
+.trip-tag.cost{background:var(--err-lt);color:var(--err)}
+.trip-tag.net{background:var(--ok-lt);color:var(--ok);font-weight:700}
+.trip-tag.wait{background:var(--warn-lt);color:var(--warn)}
+
+/* ── Login ── */
+.login-pg{min-height:100dvh;background:var(--pri);display:flex;flex-direction:column;justify-content:center;align-items:center;padding:24px;color:#fff;text-align:center;width:100%;position:fixed;top:0;left:0}
+.login-logo{margin-bottom:16px;display:flex;justify-content:center}
+.login-pg h1{font-size:34px;font-weight:800;margin-bottom:6px;letter-spacing:-.5px}
+.login-pg h1 span{color:var(--acc)}
+.login-pg > p{font-size:14px;opacity:.75;margin-bottom:32px;max-width:300px;line-height:1.6;font-weight:400}
+.login-form{background:var(--card);color:var(--txt);padding:24px 20px;border-radius:var(--r-lg);width:100%;max-width:380px}
+.login-form h2{font-size:17px;margin-bottom:16px;font-weight:700}
+
+/* ── Toast ── */
+.toast{position:fixed;top:calc(20px + var(--st));left:50%;transform:translateX(-50%);background:var(--txt);color:#fff;padding:12px 18px;border-radius:var(--r);font-size:13px;font-weight:500;z-index:1000;box-shadow:var(--shadow-lg);animation:toastIn .3s ease;max-width:calc(100vw - 40px)}
+@keyframes toastIn{from{transform:translate(-50%,-100%);opacity:0}to{transform:translate(-50%,0);opacity:1}}
+.toast.ok{background:var(--ok)}
+.toast.err{background:var(--err)}
+.toast.warn{background:var(--acc)}
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="loginPage" class="login-pg">
+  <div class="login-logo">
+    <svg width="52" height="52" viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect width="52" height="52" rx="14" fill="#E87F24"/>
+      <path d="M14 26C14 19.373 19.373 14 26 14C32.627 14 38 19.373 38 26" stroke="white" stroke-width="3.5" stroke-linecap="round"/>
+      <path d="M26 14V26L33 19" stroke="white" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle cx="26" cy="26" r="3" fill="white"/>
+      <path d="M14 26C14 32.627 19.373 38 26 38C32.627 38 38 32.627 38 26" stroke="white" stroke-width="3.5" stroke-linecap="round" stroke-dasharray="4 4"/>
+    </svg>
+  </div>
+  <h1>No<span>Corre</span></h1>
+  <p>Veja exatamente <strong>o que fica no seu bolso</strong> depois de cada dia na rua</p>
+  <div class="login-form">
+    <h2>Vamos começar?</h2>
+    <div class="form-grp">
+      <label class="form-lbl">Como te chamam?</label>
+      <input class="f-input" id="lName" placeholder="Seu nome" onkeypress="if(event.key==='Enter')doLogin()">
+    </div>
+    <div class="form-grp">
+      <label class="form-lbl">Onde você trabalha mais?</label>
+      <select class="f-sel" id="lPlatform">
+        <option value="uber">🚗 Uber / 99</option>
+        <option value="ifood">🍔 iFood / Rappi</option>
+        <option value="loggi">📦 Loggi / Bluefy</option>
+        <option value="freelancer">💻 Freelancer</option>
+        <option value="outro">🔄 Outro</option>
+      </select>
+    </div>
+    <div class="form-grp">
+      <label class="form-lbl">Seu estado</label>
+      <select class="f-sel" id="lState"><option value="">Selecione...</option></select>
+    </div>
+    <button class="btn acc" onclick="doLogin()">Entrar no corre →</button>
+  </div>
+</div>
+
+<!-- APP -->
+<div id="app" class="app" style="display:none">
+
+  <!-- Header -->
+  <div class="header">
+    <div class="header-row">
+      <div class="logo-mark">
+        <svg class="logo-svg" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect width="36" height="36" rx="10" fill="#E87F24"/>
+          <path d="M10 18C10 13.582 13.582 10 18 10C22.418 10 26 13.582 26 18" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+          <path d="M18 10V18L22.5 13.5" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="18" cy="18" r="2" fill="white"/>
+          <path d="M10 18C10 22.418 13.582 26 18 26C22.418 26 26 22.418 26 18" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="2.5 3"/>
+        </svg>
+        <span class="logo-txt">No<span class="logo-dot">Corre</span></span>
+      </div>
+      <div class="header-actions">
+        <div id="avatarBtn" class="header-avatar" onclick="showPage('profile')">U</div>
+      </div>
+    </div>
+    <div class="header-greeting">
+      <h1 id="greetTxt">Olá! 👋</h1>
+      <div class="sub" id="greetDate"></div>
+    </div>
+    <button class="sim-btn" onclick="simulateCapture()">🧪 Simular captura automática</button>
+  </div>
+
+  <!-- ── DASHBOARD ── -->
+  <div id="pgDashboard" class="page active">
+
+    <!-- GPS Session -->
+    <div class="gps-card" id="gpsCard">
+      <div class="gps-header">
+        <span class="gps-title">Sessão de hoje</span>
+        <span class="gps-badge"><span class="gps-dot" id="gpsDot"></span><span id="gpsStatusTxt">Ativo</span></span>
+      </div>
+      <div class="gps-stats">
+        <div class="gps-stat"><div class="gps-stat-val" id="gpsKm">0</div><div class="gps-stat-lbl">km</div></div>
+        <div class="gps-stat"><div class="gps-stat-val" id="gpsTrips">0</div><div class="gps-stat-lbl">corridas</div></div>
+        <div class="gps-stat"><div class="gps-stat-val" id="gpsOnline">0h</div><div class="gps-stat-lbl">online</div></div>
+        <div class="gps-stat"><div class="gps-stat-val" id="gpsWait">0%</div><div class="gps-stat-lbl">esperando</div></div>
+      </div>
+      <div class="gps-bottom">
+        <div>
+          <div class="gps-net-lbl">Ganho líquido hoje</div>
+          <div class="gps-net-val" id="gpsNet">R$ 0,00</div>
+        </div>
+        <div class="gps-side">
+          <div class="gps-side-item">⛽ <span id="gpsCombust">R$ 0,00</span> em custos</div>
+          <div class="gps-side-item"><span id="gpsPerKm">R$ 0,00</span>/km líquido</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Balance card -->
+    <div class="balance-card">
+      <div class="balance-header">
+        <span class="balance-lbl" id="incomeLbl">O que ficou para você</span>
+        <button class="period-btn-sel" onclick="openModal('periodModal')">
+          <span id="periodLbl">Mês</span> ▾
+        </button>
+      </div>
+      <div class="balance-amount" id="incomeVal">R$ 0,00</div>
+      <div class="balance-row">
+        <div class="balance-col">
+          <div class="balance-col-lbl">Entrou</div>
+          <div class="balance-col-val inc" id="incomeGross">R$ 0</div>
+        </div>
+        <div class="balance-col">
+          <div class="balance-col-lbl">Saiu</div>
+          <div class="balance-col-val exp" id="incomeExp">R$ 0</div>
+        </div>
+        <div class="balance-col">
+          <div class="balance-col-lbl">Projeção mês</div>
+          <div class="balance-col-val" id="statProj" style="color:var(--pri)">R$ 0</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Goal card -->
+    <div class="goal-card" id="goalCard">
+      <div class="goal-card-header">
+        <span class="goal-card-title">🎯 <span id="goalPeriodLbl">Meta do mês</span></span>
+        <button class="goal-edit-btn" onclick="openModal('goalModal')" id="goalEditBtn">Editar</button>
+      </div>
+      <div id="goalContent">
+        <div class="goal-progress-wrap">
+          <div class="goal-bar-bg"><div class="goal-bar-fill" id="goalFill" style="width:0%"></div></div>
+        </div>
+        <div class="goal-nums">
+          <span class="goal-cur" id="goalCur">R$ 0</span>
+          <span class="goal-pct-badge" id="goalPct">0%</span>
+          <span class="goal-tgt" id="goalTgt">de R$ 0</span>
+        </div>
+      </div>
+      <div id="goalEmpty" style="display:none">
+        <p class="goal-empty-txt">Defina quanto quer ter no bolso e acompanhe seu progresso em tempo real.</p>
+        <button class="goal-cta" onclick="openModal('goalModal')">+ Definir meta</button>
+      </div>
+    </div>
+
+    <!-- Quick stats -->
+    <div class="qs-grid">
+      <div class="qs-card">
+        <div class="qs-lbl">Hoje</div>
+        <div class="qs-val" id="statToday">R$ 0</div>
+        <div class="qs-sub" id="projDetail"></div>
+      </div>
+      <div class="qs-card accent">
+        <div class="qs-lbl">📈 Projeção do mês</div>
+        <div class="qs-val" id="statProjCard">R$ 0</div>
+        <div class="qs-sub" id="projDetailCard">baseado na média recente</div>
+      </div>
+    </div>
+
+    <!-- Insights -->
+    <div class="sec-hdr"><h3>💡 O que o NoCorre viu</h3></div>
+    <div id="insightsBox"></div>
+
+    <!-- Recent -->
+    <div class="sec-hdr">
+      <h3>Movimentações recentes</h3>
+      <a onclick="showPage('transactions')">Ver tudo →</a>
+    </div>
+    <div class="card" id="recentBox"></div>
+
+    <!-- Onboarding -->
+    <div id="obSection" style="display:none">
+      <div class="sec-hdr"><h3>🎯 Por onde começar</h3></div>
+      <div id="obSteps"></div>
+    </div>
+  </div>
+
+  <!-- ── CORRIDAS ── -->
+  <div id="pgRides" class="page">
+    <h2 style="margin-bottom:4px;font-size:20px;font-weight:800">Corridas</h2>
+    <p style="font-size:12px;color:var(--txt2);margin-bottom:12px;font-weight:400">Histórico capturado pelo GPS do app</p>
+    <div class="chips" id="ridesChips">
+      <button class="chip active" onclick="setRidesFilter('today',this)">Hoje</button>
+      <button class="chip" onclick="setRidesFilter('7d',this)">7 dias</button>
+      <button class="chip" onclick="setRidesFilter('15d',this)">15 dias</button>
+      <button class="chip" onclick="setRidesFilter('30d',this)">30 dias</button>
+      <button class="chip" onclick="setRidesFilter('month1',this)">Mês ant.</button>
+      <button class="chip" onclick="setRidesFilter('month2',this)">2 meses</button>
+    </div>
+    <div class="rides-summary">
+      <div class="rides-stat"><div class="rides-stat-val" id="rTotalTrips">0</div><div class="rides-stat-lbl" id="rTotalTripsLbl">corridas hoje</div></div>
+      <div class="rides-stat"><div class="rides-stat-val" id="rTotalKm">0 km</div><div class="rides-stat-lbl">km rodados</div></div>
+      <div class="rides-stat"><div class="rides-stat-val" id="rPerKm">R$ 0</div><div class="rides-stat-lbl">líquido/km</div></div>
+    </div>
+    <div class="sec-hdr"><h3>⚡ Eficiência</h3></div>
+    <div class="efficiency-row">
+      <div class="eff-card"><div class="eff-val" id="rAvgEarn">R$ 0</div><div class="eff-lbl">por corrida</div></div>
+      <div class="eff-card"><div class="eff-val" id="rAvgKm">0 km</div><div class="eff-lbl">por corrida</div></div>
+      <div class="eff-card"><div class="eff-val" id="rAvgWait">0 min</div><div class="eff-lbl">espera média</div></div>
+    </div>
+    <div class="sec-hdr"><h3>🕐 Ganho por horário</h3></div>
+    <div class="card">
+      <div class="hourly-bar-wrap" id="hourlyBars"></div>
+      <div class="h-bar-lbl"><span>6h</span><span>10h</span><span>14h</span><span>18h</span><span>22h</span></div>
+      <div style="font-size:10px;color:var(--txt3);margin-top:8px;font-weight:500" id="hourlyTip">Toque em uma barra para ver o ganho naquele horário</div>
+    </div>
+    <div class="sec-hdr"><h3>🚗 Corridas registradas <span id="rCount" style="font-size:12px;color:var(--txt2);font-weight:400"></span></h3></div>
+    <div class="card" id="tripsBox"></div>
+  </div>
+
+  <!-- ── HISTÓRICO ── -->
+  <div id="pgTransactions" class="page">
+    <h2 style="margin-bottom:14px;font-size:20px;font-weight:800">Histórico</h2>
+    <div class="tabs">
+      <button class="tab active" id="tAll" onclick="setTxnFilter('all',this)">Tudo</button>
+      <button class="tab" id="tInc" onclick="setTxnFilter('income',this)">Ganhos</button>
+      <button class="tab" id="tExp" onclick="setTxnFilter('expense',this)">O que saiu</button>
+    </div>
+    <div class="chips">
+      <button class="chip active" onclick="setTxnPeriod('7',this)">7 dias</button>
+      <button class="chip" onclick="setTxnPeriod('30',this)">30 dias</button>
+      <button class="chip" onclick="setTxnPeriod('0',this)">Tudo</button>
+    </div>
+    <div class="card" id="txnBox"></div>
+  </div>
+
+  <!-- ── ANÁLISES ── -->
+  <div id="pgStats" class="page">
+    <h2 style="margin-bottom:14px;font-size:20px;font-weight:800">Análises</h2>
+    <div class="form-lbl" style="margin-bottom:6px">📅 Período</div>
+    <div class="chips" id="statsChips">
+      <button class="chip active" data-p="7" onclick="setStatsPeriod('7',this)">7 dias</button>
+      <button class="chip" data-p="15" onclick="setStatsPeriod('15',this)">15 dias</button>
+      <button class="chip" data-p="month" onclick="setStatsPeriod('month',this)">Mês atual</button>
+    </div>
+    <div class="card">
+      <div class="qs-lbl" id="chartTitle">Ganhos — últimos 7 dias</div>
+      <div class="chart-wrap" id="chartBox"></div>
+    </div>
+    <div class="sec-hdr"><h3>⚡ Melhores e piores dias</h3></div>
+    <div id="patternsBox"></div>
+    <div class="sec-hdr"><h3>🕐 Horários mais vantajosos</h3></div>
+    <div class="card" id="hourlyStatsBox"></div>
+    <div class="sec-hdr"><h3>🔮 Quanto falta para a meta?</h3></div>
+    <div id="forecastBox"></div>
+    <div class="sec-hdr"><h3>📈 Resumo</h3></div>
+    <div class="card">
+      <div class="p-stat"><span class="p-stat-lbl">Total que entrou</span><span class="p-stat-val" style="color:var(--ok)" id="sGross">R$ 0,00</span></div>
+      <div class="p-stat"><span class="p-stat-lbl">Total que saiu</span><span class="p-stat-val" style="color:var(--err)" id="sExp">R$ 0,00</span></div>
+      <div class="p-stat"><span class="p-stat-lbl">O que ficou para você</span><span class="p-stat-val" style="color:var(--ok)" id="sNet">R$ 0,00</span></div>
+      <div class="p-stat"><span class="p-stat-lbl">Percentual de custos</span><span class="p-stat-val" id="sCostPct">0%</span></div>
+      <div class="p-stat"><span class="p-stat-lbl">Média diária</span><span class="p-stat-val" id="sAvg">R$ 0,00</span></div>
+      <div class="p-stat"><span class="p-stat-lbl">Melhor dia</span><span class="p-stat-val" id="sBest">-</span></div>
+    </div>
+    <div class="sec-hdr"><h3>📊 Para onde foi o que saiu</h3></div>
+    <div class="card" id="sByCat"></div>
+  </div>
+
+  <!-- ── GALERA ── -->
+  <div id="pgCommunity" class="page">
+    <h2 style="margin-bottom:12px;font-size:20px;font-weight:800">Galera na rua</h2>
+    <div class="form-lbl" style="margin-bottom:6px">📍 Perto de você</div>
+    <div class="state-chips" id="stateChips"></div>
+    <div class="form-lbl" style="margin-bottom:6px">🏷️ Plataforma</div>
+    <div class="chips">
+      <button class="chip active" onclick="setCommunityFilter('all',this)">Todos</button>
+      <button class="chip" onclick="setCommunityFilter('uber',this)">🚗 Uber/99</button>
+      <button class="chip" onclick="setCommunityFilter('ifood',this)">🍔 iFood</button>
+      <button class="chip" onclick="setCommunityFilter('loggi',this)">📦 Loggi</button>
+      <button class="chip" onclick="setCommunityFilter('rappi',this)">🛵 Rappi</button>
+      <button class="chip" onclick="setCommunityFilter('dicas',this)">💡 Dicas</button>
+    </div>
+    <button class="btn sec" style="margin-bottom:12px" onclick="openModal('postModal')">✏️ Compartilhar com a galera</button>
+    <div id="communityFeed"></div>
+  </div>
+
+  <!-- ── NOVIDADES ── -->
+  <div id="pgNews" class="page">
+    <h2 style="margin-bottom:12px;font-size:20px;font-weight:800">Novidades</h2>
+    <div class="fuel-my">
+      <div class="fuel-my-title">⛽ Preços no seu estado</div>
+      <div class="fuel-3" id="fuelMyState"></div>
+      <div class="fuel-src" id="fuelColeta"></div>
+    </div>
+    <button class="btn sec" style="margin-bottom:16px;font-size:13px" onclick="openModal('fuelModal')">🗺️ Ver preços em outras regiões</button>
+    <div class="tip-box">
+      <div class="tt">📰 O que está mudando por aí</div>
+      <div class="tb">Novidades em tarifas, regras e bônus das plataformas.</div>
+    </div>
+    <div class="chips">
+      <button class="chip active" onclick="setNewsFilter('all',this)">Todas</button>
+      <button class="chip" onclick="setNewsFilter('uber',this)">🚗 Uber</button>
+      <button class="chip" onclick="setNewsFilter('n99',this)">🟡 99</button>
+      <button class="chip" onclick="setNewsFilter('ifood',this)">🍔 iFood</button>
+      <button class="chip" onclick="setNewsFilter('rappi',this)">🛵 Rappi</button>
+      <button class="chip" onclick="setNewsFilter('loggi',this)">📦 Loggi</button>
+      <button class="chip" onclick="setNewsFilter('geral',this)">📋 Geral</button>
+    </div>
+    <div class="chips">
+      <button class="chip active" onclick="setNewsImpact('all',this)">Todos</button>
+      <button class="chip" onclick="setNewsImpact('positive',this)">📈 Positivo</button>
+      <button class="chip" onclick="setNewsImpact('negative',this)">📉 Negativo</button>
+      <button class="chip" onclick="setNewsImpact('neutral',this)">📊 Neutro</button>
+    </div>
+    <div id="newsFeed"></div>
+  </div>
+
+  <!-- ── PERFIL ── -->
+  <div id="pgProfile" class="page">
+    <h2 style="margin-bottom:14px;font-size:20px;font-weight:800">Perfil</h2>
+    <div class="card" style="text-align:center;padding:24px">
+      <div id="profAvatar" style="width:72px;height:72px;border-radius:50%;background:var(--pri);display:flex;align-items:center;justify-content:center;font-size:28px;color:#fff;margin:0 auto 12px;font-weight:800"></div>
+      <h3 id="profName" style="font-size:18px;margin-bottom:3px;font-weight:800"></h3>
+      <p id="profPlatform" style="color:var(--txt2);font-size:13px;font-weight:500"></p>
+      <p id="profLocation" style="color:var(--txt2);font-size:12px;margin-top:4px"></p>
+    </div>
+
+    <div class="sec-hdr"><h3>🚗 Meu veículo</h3></div>
+    <div class="card" id="vehicleCard">
+      <div id="vehicleDisplay"></div>
+      <button class="btn sec" style="margin-top:10px;font-size:13px" onclick="openModal('vehicleModal')">⚙️ Configurar veículo</button>
+    </div>
+
+    <div class="sec-hdr"><h3>📊 Seu histórico</h3></div>
+    <div class="card">
+      <div class="p-stat"><span class="p-stat-lbl">Com o NoCorre desde</span><span class="p-stat-val" id="pSince">-</span></div>
+      <div class="p-stat"><span class="p-stat-lbl">Registros feitos</span><span class="p-stat-val" id="pCount">0</span></div>
+      <div class="p-stat"><span class="p-stat-lbl">Total que entrou</span><span class="p-stat-val" style="color:var(--ok)" id="pGross">R$ 0,00</span></div>
+      <div class="p-stat"><span class="p-stat-lbl">Total que saiu</span><span class="p-stat-val" style="color:var(--err)" id="pExp">R$ 0,00</span></div>
+      <div class="p-stat"><span class="p-stat-lbl">O que ficou para você</span><span class="p-stat-val" style="color:var(--pri)" id="pNet">R$ 0,00</span></div>
+    </div>
+    <div class="sec-hdr"><h3>⚙️ Ajustes</h3></div>
+    <div class="card">
+      <div class="p-stat" style="cursor:pointer" onclick="openModal('goalModal')"><span class="p-stat-lbl">🎯 Definir minha meta</span><span class="p-stat-val" style="color:var(--acc)">→</span></div>
+      <div class="p-stat" style="cursor:pointer" onclick="openModal('stateModal')"><span class="p-stat-lbl">📍 Mudar meu estado</span><span class="p-stat-val" style="color:var(--acc)" id="pStateLbl">→</span></div>
+      <div class="p-stat" style="cursor:pointer" onclick="openModal('feedbackModal')"><span class="p-stat-lbl">💬 Dar minha opinião</span><span class="p-stat-val" style="color:var(--acc)">→</span></div>
+      <div class="p-stat" style="cursor:pointer" onclick="openModal('exportModal')"><span class="p-stat-lbl">📥 Exportar histórico</span><span class="p-stat-val" style="color:var(--acc)">→</span></div>
+      <div class="p-stat" style="cursor:pointer" onclick="loadDemo()"><span class="p-stat-lbl">🎲 Ver com dados de exemplo</span><span class="p-stat-val" style="color:var(--acc)">→</span></div>
+      <div class="p-stat" style="cursor:pointer" onclick="resetAll()"><span class="p-stat-lbl" style="color:var(--err)">🗑️ Apagar tudo</span><span class="p-stat-val" style="color:var(--err)">→</span></div>
+      <div class="p-stat" style="cursor:pointer" onclick="doLogout()"><span class="p-stat-lbl">🚪 Sair</span><span class="p-stat-val" style="color:var(--txt2)">→</span></div>
+    </div>
+    <div style="text-align:center;padding:20px;color:var(--txt3);font-size:11px;font-weight:500">NoCorre v1.0 · Feito com 💜 para quem está no corre</div>
+  </div>
+
+  <!-- FAB -->
+  <div class="widget-wrap" id="widgetWrap">
+    <div class="w-panel" id="wPanel">
+      <div class="w-title">Registrar agora</div>
+      <div class="w-type-row">
+        <button class="w-type-btn income" id="wBtnInc" onclick="setWidgetType('income')">💰 Ganho</button>
+        <button class="w-type-btn" id="wBtnExp" onclick="setWidgetType('expense')">💸 Gasto</button>
+      </div>
+      <input class="w-input" id="wAmount" type="number" placeholder="R$ 0,00" inputmode="decimal" step="0.01" onkeypress="if(event.key==='Enter')submitWidget()">
+      <select class="w-sel" id="wCategory"></select>
+      <button class="btn sm acc" onclick="submitWidget()">Registrar</button>
+    </div>
+    <button class="fab" id="fabBtn" onclick="toggleWidget()">+</button>
+  </div>
+
+  <!-- Bottom nav -->
+  <nav class="bottom-nav">
+    <button class="nav-btn active" onclick="showPage('dashboard',this)"><div class="ni">🏠</div><div>Início</div></button>
+    <button class="nav-btn" onclick="showPage('rides',this)"><div class="ni">🚗</div><div>Corridas</div></button>
+    <button class="nav-btn" onclick="showPage('transactions',this)"><div class="ni">📋</div><div>Histórico</div></button>
+    <button class="nav-btn" onclick="showPage('stats',this)"><div class="ni">📊</div><div>Análises</div></button>
+    <button class="nav-btn" onclick="showPage('news',this)"><div class="ni">📰</div><div>Novidades</div></button>
+  </nav>
+</div>
+
+<!-- Vehicle modal -->
+<div id="vehicleModal" class="modal">
+  <div class="modal-box">
+    <div class="modal-hdr"><span class="modal-title">🚗 Meu veículo</span><button class="modal-close" onclick="closeModal('vehicleModal')">×</button></div>
+    <p style="font-size:12px;color:var(--txt2);margin-bottom:14px">Usado para calcular o custo de combustível por km rodado</p>
+    <div class="form-grp">
+      <label class="form-lbl">Tipo de veículo</label>
+      <div class="period-grid" style="grid-template-columns:1fr 1fr;gap:8px;margin-bottom:0">
+        <button class="per-btn active" id="vTypeCar" onclick="setVehicleType('car')"><span>🚗</span>Carro</button>
+        <button class="per-btn" id="vTypeMoto" onclick="setVehicleType('moto')"><span>🏍️</span>Moto</button>
+      </div>
+    </div>
+    <div class="form-grp">
+      <label class="form-lbl">Montadora</label>
+      <select class="f-sel" id="vMake" onchange="updateVehicleModels()">
+        <option value="">Selecione...</option>
+      </select>
+    </div>
+    <div class="form-grp">
+      <label class="form-lbl">Modelo</label>
+      <select class="f-sel" id="vModel" onchange="updateVehicleConsumption()">
+        <option value="">Selecione a montadora primeiro</option>
+      </select>
+    </div>
+    <div class="form-grp" id="vConsumptionBox" style="display:none">
+      <div style="background:var(--ok-lt);border-radius:10px;padding:12px">
+        <div style="font-size:11px;color:var(--ok);font-weight:600;margin-bottom:4px">Consumo médio estimado</div>
+        <div style="font-size:16px;font-weight:800;color:var(--ok)" id="vConsumptionVal">—</div>
+        <div style="font-size:11px;color:var(--txt2);margin-top:3px" id="vCostPerKm">—</div>
+      </div>
+    </div>
+    <button class="btn acc" onclick="saveVehicle()">Salvar veículo</button>
+  </div>
+</div>
+
+<!-- Export modal -->
+<div id="exportModal" class="modal">
+  <div class="modal-box">
+    <div class="modal-hdr"><span class="modal-title">📥 Exportar histórico</span><button class="modal-close" onclick="closeModal('exportModal')">×</button></div>
+    <p style="font-size:12px;color:var(--txt2);margin-bottom:14px">Escolha o período que deseja exportar em CSV</p>
+    <div class="form-grp">
+      <label class="form-lbl">Período</label>
+      <div class="period-grid">
+        <button class="per-btn active" data-ep="7" onclick="setExportPeriod('7',this)"><span>📅</span>7 dias</button>
+        <button class="per-btn" data-ep="15" onclick="setExportPeriod('15',this)"><span>📆</span>15 dias</button>
+        <button class="per-btn" data-ep="30" onclick="setExportPeriod('30',this)"><span>🗓️</span>30 dias</button>
+        <button class="per-btn" data-ep="month1" onclick="setExportPeriod('month1',this)"><span>📊</span>Mês ant.</button>
+        <button class="per-btn" data-ep="month2" onclick="setExportPeriod('month2',this)"><span>📋</span>2 meses</button>
+        <button class="per-btn" data-ep="all" onclick="setExportPeriod('all',this)"><span>💾</span>Tudo</button>
+      </div>
+    </div>
+    <div style="background:var(--bg2);border-radius:10px;padding:12px;margin-bottom:14px;font-size:12px;color:var(--txt2)" id="exportPreview">
+      Selecione um período para ver quantos registros serão exportados.
+    </div>
+    <button class="btn acc" onclick="doExport()">⬇️ Baixar CSV</button>
+  </div>
+</div>
+
+<!-- Trip edit/delete modal -->
+<div id="tripModal" class="modal">
+  <div class="modal-box">
+    <div class="modal-hdr"><span class="modal-title" id="tripModalTitle">Editar registro</span><button class="modal-close" onclick="closeModal('tripModal')">×</button></div>
+    <div class="form-grp"><label class="form-lbl">Categoria</label><div class="cat-grid" id="tripCatGrid"></div></div>
+    <div class="form-grp"><label class="form-lbl">Valor (R$)</label><input class="f-input" id="tripAmount" type="number" step="0.01" inputmode="decimal"></div>
+    <div class="form-grp"><label class="form-lbl">Descrição</label><input class="f-input" id="tripDesc" placeholder="Descrição"></div>
+    <div class="form-grp"><label class="form-lbl">Data</label><input class="f-input" id="tripDate" type="date"></div>
+    <button class="btn" onclick="saveTripEdit()">Salvar alterações</button>
+    <button class="btn" style="margin-top:8px;background:var(--err)" onclick="deleteTripEdit()">🗑️ Apagar este registro</button>
+  </div>
+</div>
+
+<!-- MODALS -->
+
+<!-- Add transaction -->
+<div id="txnModal" class="modal">
+  <div class="modal-box">
+    <div class="modal-hdr"><span class="modal-title">Novo registro</span><button class="modal-close" onclick="closeModal('txnModal')">×</button></div>
+    <div class="tabs">
+      <button class="tab active" id="mTabInc" onclick="setTxnType('income')">💰 Ganho</button>
+      <button class="tab" id="mTabExp" onclick="setTxnType('expense')">💸 Gasto</button>
+    </div>
+    <div class="form-grp"><label class="form-lbl">O que foi?</label><div class="cat-grid" id="mCatGrid"></div></div>
+    <div class="form-grp"><label class="form-lbl">Qual foi o valor?</label><input class="f-input" id="mAmount" type="number" placeholder="0,00" step="0.01" inputmode="decimal"></div>
+    <div class="form-grp"><label class="form-lbl">Alguma observação? (opcional)</label><input class="f-input" id="mDesc" placeholder="Ex: corridas da manhã"></div>
+    <div class="form-grp"><label class="form-lbl">Quando foi?</label><input class="f-input" id="mDate" type="date"></div>
+    <button class="btn" onclick="saveTxn()">Salvar este registro</button>
+  </div>
+</div>
+
+<!-- Period select -->
+<div id="periodModal" class="modal">
+  <div class="modal-box">
+    <div class="modal-hdr"><span class="modal-title">Ver qual período?</span><button class="modal-close" onclick="closeModal('periodModal')">×</button></div>
+    <p style="font-size:12px;color:var(--txt2);margin-bottom:12px">Escolha o recorte de tempo na tela de início:</p>
+    <div class="period-grid">
+      <button class="per-btn" data-p="day" onclick="setDisplayPeriod('day')"><span>📅</span>Diário</button>
+      <button class="per-btn" data-p="week" onclick="setDisplayPeriod('week')"><span>📆</span>Semanal</button>
+      <button class="per-btn" data-p="biweekly" onclick="setDisplayPeriod('biweekly')"><span>🗓️</span>Quinzenal</button>
+      <button class="per-btn active" data-p="month" onclick="setDisplayPeriod('month')"><span>📊</span>Mensal</button>
+    </div>
+  </div>
+</div>
+
+<!-- Goal -->
+<div id="goalModal" class="modal">
+  <div class="modal-box">
+    <div class="modal-hdr"><span class="modal-title">🎯 Qual é a sua meta?</span><button class="modal-close" onclick="closeModal('goalModal')">×</button></div>
+    <p style="font-size:12px;color:var(--txt2);margin-bottom:14px">Diga quanto quer ter no bolso, já descontando os gastos do dia a dia:</p>
+    <div class="form-grp"><label class="form-lbl">Em quanto tempo?</label>
+      <div class="period-grid" id="goalPeriodGrid">
+        <button class="per-btn" data-gp="day" onclick="setGoalPeriod('day')"><span>📅</span>Diária</button>
+        <button class="per-btn" data-gp="week" onclick="setGoalPeriod('week')"><span>📆</span>Semanal</button>
+        <button class="per-btn" data-gp="biweekly" onclick="setGoalPeriod('biweekly')"><span>🗓️</span>Quinzenal</button>
+        <button class="per-btn active" data-gp="month" onclick="setGoalPeriod('month')"><span>📊</span>Mensal</button>
+      </div>
+    </div>
+    <div class="form-grp"><label class="form-lbl">Quanto você quer ter no bolso?</label><input class="f-input" id="goalAmt" type="number" placeholder="Ex: 3.000" step="50" inputmode="decimal"></div>
+    <button class="btn" onclick="saveGoal()">Definir essa meta</button>
+    <button class="btn sec" style="margin-top:8px" onclick="removeGoal()">Tirar a meta</button>
+  </div>
+</div>
+
+<!-- State change -->
+<div id="stateModal" class="modal">
+  <div class="modal-box">
+    <div class="modal-hdr"><span class="modal-title">📍 Onde você está?</span><button class="modal-close" onclick="closeModal('stateModal')">×</button></div>
+    <div class="form-grp"><label class="form-lbl">Seu estado atual</label><select class="f-sel" id="stateSelect"></select></div>
+    <button class="btn" onclick="saveState_change()">Atualizar</button>
+  </div>
+</div>
+
+<!-- Post -->
+<div id="postModal" class="modal">
+  <div class="modal-box">
+    <div class="modal-hdr"><span class="modal-title">Falar com a galera</span><button class="modal-close" onclick="closeModal('postModal')">×</button></div>
+    <div class="form-grp"><label class="form-lbl">É sobre qual plataforma?</label>
+      <select class="f-sel" id="postCat">
+        <option value="dicas">💡 Dica geral</option>
+        <option value="uber">🚗 Uber/99</option>
+        <option value="ifood">🍔 iFood</option>
+        <option value="loggi">📦 Loggi</option>
+        <option value="rappi">🛵 Rappi</option>
+      </select>
+    </div>
+    <div class="form-grp"><label class="form-lbl">O que você quer compartilhar?</label><textarea class="f-area" id="postTxt" placeholder="Uma dica, um alerta, uma dúvida — tudo vale aqui."></textarea></div>
+    <button class="btn" onclick="savePost()">Mandar para a galera</button>
+  </div>
+</div>
+
+<!-- Feedback -->
+<div id="feedbackModal" class="modal">
+  <div class="modal-box">
+    <div class="modal-hdr"><span class="modal-title">💬 Fala com a gente</span><button class="modal-close" onclick="closeModal('feedbackModal')">×</button></div>
+    <p style="font-size:13px;color:var(--txt2);margin-bottom:14px">Cada feedback chega direto pra quem faz o NoCorre.</p>
+    <div class="form-grp"><label class="form-lbl">O que você quer falar?</label>
+      <select class="f-sel" id="fbType">
+        <option value="sugestao">💡 Sugestão</option>
+        <option value="bug">🐛 Problema</option>
+        <option value="feature">✨ Nova funcionalidade</option>
+        <option value="elogio">❤️ Elogio</option>
+        <option value="outro">💭 Outro</option>
+      </select>
+    </div>
+    <div class="form-grp"><label class="form-lbl">Conta o que está pensando</label><textarea class="f-area" id="fbMsg" placeholder="Quanto mais detalhe, melhor. A gente lê tudo." style="min-height:120px"></textarea></div>
+    <div class="form-grp"><label class="form-lbl">Quer que a gente responda? Deixa seu email</label><input class="f-input" id="fbEmail" type="email" placeholder="seu@email.com"></div>
+    <button class="btn" onclick="saveFeedback()">Mandar agora</button>
+    <div id="fbHistory" style="margin-top:16px"></div>
+  </div>
+</div>
+
+
+<!-- Fuel regions modal -->
+<div id="fuelModal" class="modal">
+  <div class="modal-box" style="max-height:92dvh">
+    <div class="modal-hdr">
+      <span class="modal-title">⛽ Preços por região</span>
+      <button class="modal-close" onclick="closeModal('fuelModal')">×</button>
+    </div>
+    <p style="font-size:12px;color:var(--txt2);margin-bottom:12px" id="fuelModalDate">ANP — Levantamento de Preços de Combustíveis</p>
+    <div class="chips" id="fuelModalChips">
+      <button class="chip active" onclick="setFuelModalFilter('all',this)">Todas</button>
+      <button class="chip" onclick="setFuelModalFilter('Norte',this)">Norte</button>
+      <button class="chip" onclick="setFuelModalFilter('Nordeste',this)">Nordeste</button>
+      <button class="chip" onclick="setFuelModalFilter('Centro-Oeste',this)">C. Oeste</button>
+      <button class="chip" onclick="setFuelModalFilter('Sudeste',this)">Sudeste</button>
+      <button class="chip" onclick="setFuelModalFilter('Sul',this)">Sul</button>
+    </div>
+    <div id="fuelModalBody"></div>
+  </div>
+</div>
+
+<!-- Article / News detail -->
+<div id="articleModal" class="modal">
+  <div class="modal-box">
+    <div class="modal-hdr"><span class="modal-title" id="artTitle"></span><button class="modal-close" onclick="closeModal('articleModal')">×</button></div>
+    <div id="artBody" style="line-height:1.7;font-size:14px"></div>
+  </div>
+</div>
+
+<script>
+// ================================================================
+// CONSTANTS
+// ================================================================
+
+// ── Vehicle database (km/l médio estimado) ──────────────────────
+const VEHICLE_DB = {
+  car: {
+    'Chevrolet': {
+      'Onix 1.0': 13.5, 'Onix Plus 1.0': 13.2, 'Celta 1.0': 12.8,
+      'Classic 1.0': 12.5, 'Cobalt 1.4': 11.8, 'Spin 1.8': 10.5,
+      'Cruze 1.4 Turbo': 11.2, 'S10 2.8 Diesel': 9.8
+    },
+    'Volkswagen': {
+      'Gol 1.0': 13.0, 'Gol 1.6': 12.2, 'Voyage 1.6': 12.0,
+      'Fox 1.6': 11.8, 'Polo 1.0 TSI': 13.8, 'Virtus 1.0 TSI': 13.5,
+      'T-Cross 1.0 TSI': 12.5
+    },
+    'Fiat': {
+      'Palio 1.0': 13.2, 'Siena 1.6': 12.0, 'Uno 1.0': 13.5,
+      'Argo 1.0': 13.8, 'Cronos 1.3': 13.0, 'Grand Siena 1.6': 11.8,
+      'Strada 1.3': 12.5, 'Toro 1.8': 10.8
+    },
+    'Hyundai': {
+      'HB20 1.0': 14.0, 'HB20S 1.0': 13.8, 'HB20 1.6': 12.5,
+      'Creta 1.6': 11.5, 'i30 1.8': 11.0
+    },
+    'Toyota': {
+      'Corolla 2.0': 11.5, 'Etios 1.5': 12.8, 'Yaris 1.5': 13.2,
+      'Hilux 2.8 Diesel': 9.2, 'RAV4 Híbrido': 16.5
+    },
+    'Honda': {
+      'Fit 1.5': 13.0, 'City 1.5': 13.2, 'Civic 2.0': 11.8,
+      'HR-V 1.8': 11.5, 'WR-V 1.5': 12.5
+    },
+    'Nissan': {
+      'March 1.0': 13.8, 'Versa 1.6': 12.5, 'Kicks 1.6': 12.0
+    },
+    'Renault': {
+      'Kwid 1.0': 14.5, 'Sandero 1.0': 13.5, 'Logan 1.6': 12.2,
+      'Duster 1.6': 11.5
+    },
+    'Ford': {
+      'Ka 1.0': 14.2, 'Ka Sedan 1.5': 13.0, 'EcoSport 1.5': 12.0,
+      'Ranger 2.2 Diesel': 9.5
+    }
+  },
+  moto: {
+    'Honda': {
+      'CG 160 Start': 41.0, 'CG 160 Titan': 40.0, 'CG 160 Fan': 42.5,
+      'Biz 110i': 48.0, 'Pop 110i': 50.0, 'XRE 300': 28.0,
+      'CB 300R': 26.0, 'CB 500F': 22.0, 'PCX 150': 38.0,
+      'Elite 125': 45.0, 'NXR 160 Bros': 35.0
+    },
+    'Yamaha': {
+      'Factor 150': 40.0, 'Factor 125': 42.0, 'YBR 150': 38.0,
+      'Fazer 250': 28.0, 'MT-03': 22.0, 'NMAX 160': 35.0,
+      'Lander 250': 26.0, 'XTZ 150 Crosser': 36.0
+    },
+    'Suzuki': {
+      'Yes 125': 44.0, 'Intruder 125': 40.0,
+      'GS 120': 46.0, 'Burgman 125': 38.0
+    },
+    'Kawasaki': {
+      'Rouser NS 200': 32.0, 'Z 300': 24.0, 'Ninja 300': 22.0,
+      'Versys 300': 26.0
+    },
+    'Dafra': {
+      'Riva 150': 36.0, 'Speed 150': 37.0, 'Kansas 150': 38.0,
+      'Apache RTR 160': 32.0
+    },
+    'Haojue': {
+      'DR 160 S': 38.0, 'DK 150': 40.0, 'NK 150': 36.0
+    }
+  }
+};
+
+let exportPeriod = '7';
+let editingTripId = null;
+let editingTripType = null; // 'txn' | 'ride'
+const STATES = [
+  {code:'AC',name:'Acre'},{code:'AL',name:'Alagoas'},{code:'AP',name:'Amapá'},
+  {code:'AM',name:'Amazonas'},{code:'BA',name:'Bahia'},{code:'CE',name:'Ceará'},
+  {code:'DF',name:'Distrito Federal'},{code:'ES',name:'Espírito Santo'},{code:'GO',name:'Goiás'},
+  {code:'MA',name:'Maranhão'},{code:'MT',name:'Mato Grosso'},{code:'MS',name:'Mato Grosso do Sul'},
+  {code:'MG',name:'Minas Gerais'},{code:'PA',name:'Pará'},{code:'PB',name:'Paraíba'},
+  {code:'PR',name:'Paraná'},{code:'PE',name:'Pernambuco'},{code:'PI',name:'Piauí'},
+  {code:'RJ',name:'Rio de Janeiro'},{code:'RN',name:'Rio Grande do Norte'},
+  {code:'RS',name:'Rio Grande do Sul'},{code:'RO',name:'Rondônia'},{code:'RR',name:'Roraima'},
+  {code:'SC',name:'Santa Catarina'},{code:'SP',name:'São Paulo'},
+  {code:'SE',name:'Sergipe'},{code:'TO',name:'Tocantins'}
+];
+
+const PLATFORM_LABELS = {uber:'🚗 Uber/99',ifood:'🍔 iFood/Rappi',loggi:'📦 Loggi/Bluefy',freelancer:'💻 Freelancer',outro:'🔄 Outro'};
+const PERIOD_LABELS = {day:'Diário',week:'Semanal',biweekly:'Quinzenal',month:'Mensal'};
+const GOAL_LABELS = {day:'Meta diária',week:'Meta semanal',biweekly:'Meta quinzenal',month:'Meta mensal'};
+const PERIOD_HLABELS = {day:'O que ficou hoje',week:'O que ficou esta semana',biweekly:'O que ficou na quinzena',month:'O que ficou para você (Mês)'};
+
+const CATS = {
+  income:[
+    {id:'uber',e:'🚗',l:'Uber/99'},{id:'ifood',e:'🍔',l:'iFood'},
+    {id:'loggi',e:'📦',l:'Loggi'},{id:'rappi',e:'🛵',l:'Rappi'},
+    {id:'freela',e:'💻',l:'Freela'},{id:'outro_in',e:'💵',l:'Outro'}
+  ],
+  expense:[
+    {id:'combustivel',e:'⛽',l:'Combustível'},{id:'manutencao',e:'🔧',l:'Manutenção'},
+    {id:'taxa',e:'📊',l:'Taxa app'},{id:'alimentacao',e:'🍽️',l:'Alimentação'},
+    {id:'pedagio',e:'🛣️',l:'Pedágio'},{id:'equipamento',e:'🎒',l:'Equipamento'},
+    {id:'internet',e:'📶',l:'Internet'},{id:'outro_ex',e:'💳',l:'Outro'}
+  ]
+};
+
+const MONTH_PT = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
+const MONTH_SHORT = ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
+const DAY_SHORT = ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'];
+
+// ================================================================
+// FUEL DATA (ANP — 2026-04-25)
+// ================================================================
+const FUEL_DATA = {
+  ultima_coleta_anp:'2026-04-25',
+  regioes:[
+    {nome:'Norte',media_gasolina:6.21,media_etanol:4.11,media_diesel:5.78,estados:[
+      {id_estado:'AM',media_gasolina:6.34,tendencia_gasolina:'subida',media_etanol:4.20,tendencia_etanol:'estavel',media_diesel:5.91,tendencia_diesel:'subida',ultima_coleta_anp:'2026-04-25'},
+      {id_estado:'PA',media_gasolina:6.08,tendencia_gasolina:'estavel',media_etanol:4.02,tendencia_etanol:'descida',media_diesel:5.65,tendencia_diesel:'estavel',ultima_coleta_anp:'2026-04-25'},
+      {id_estado:'AC',media_gasolina:6.45,tendencia_gasolina:'subida',media_etanol:4.30,tendencia_etanol:'estavel',media_diesel:5.99,tendencia_diesel:'subida',ultima_coleta_anp:'2026-04-25'},
+      {id_estado:'RO',media_gasolina:6.10,tendencia_gasolina:'estavel',media_etanol:4.05,tendencia_etanol:'estavel',media_diesel:5.72,tendencia_diesel:'estavel',ultima_coleta_anp:'2026-04-25'},
+      {id_estado:'RR',media_gasolina:6.38,tendencia_gasolina:'subida',media_etanol:4.22,tendencia_etanol:'estavel',media_diesel:5.95,tendencia_diesel:'subida',ultima_coleta_anp:'2026-04-25'},
+      {id_estado:'AP',media_gasolina:6.28,tendencia_gasolina:'estavel',media_etanol:4.15,tendencia_etanol:'estavel',media_diesel:5.80,tendencia_diesel:'estavel',ultima_coleta_anp:'2026-04-25'},
+      {id_estado:'TO',media_gasolina:5.98,tendencia_gasolina:'descida',media_etanol:3.95,tendencia_etanol:'descida',media_diesel:5.60,tendencia_diesel:'estavel',ultima_coleta_anp:'2026-04-25'}
+    ]},
+    {nome:'Nordeste',media_gasolina:5.98,media_etanol:3.89,media_diesel:5.54,estados:[
+      {id_estado:'BA',media_gasolina:6.01,tendencia_gasolina:'subida',media_etanol:3.95,tendencia_etanol:'estavel',media_diesel:5.58,tendencia_diesel:'estavel',ultima_coleta_anp:'2026-04-25'},
+      {id_estado:'CE',media_gasolina:5.92,tendencia_gasolina:'estavel',media_etanol:3.80,tendencia_etanol:'descida',media_diesel:5.49,tendencia_diesel:'estavel',ultima_coleta_anp:'2026-04-25'},
+      {id_estado:'PE',media_gasolina:5.95,tendencia_gasolina:'estavel',media_etanol:3.85,tendencia_etanol:'estavel',media_diesel:5.52,tendencia_diesel:'estavel',ultima_coleta_anp:'2026-04-25'},
+      {id_estado:'MA',media_gasolina:6.05,tendencia_gasolina:'subida',media_etanol:3.98,tendencia_etanol:'estavel',media_diesel:5.65,tendencia_diesel:'subida',ultima_coleta_anp:'2026-04-25'},
+      {id_estado:'PB',media_gasolina:5.88,tendencia_gasolina:'estavel',media_etanol:3.75,tendencia_etanol:'estavel',media_diesel:5.44,tendencia_diesel:'estavel',ultima_coleta_anp:'2026-04-25'},
+      {id_estado:'RN',media_gasolina:5.90,tendencia_gasolina:'estavel',media_etanol:3.78,tendencia_etanol:'estavel',media_diesel:5.47,tendencia_diesel:'estavel',ultima_coleta_anp:'2026-04-25'},
+      {id_estado:'AL',media_gasolina:5.97,tendencia_gasolina:'subida',media_etanol:3.88,tendencia_etanol:'estavel',media_diesel:5.55,tendencia_diesel:'estavel',ultima_coleta_anp:'2026-04-25'},
+      {id_estado:'PI',media_gasolina:6.02,tendencia_gasolina:'estavel',media_etanol:3.92,tendencia_etanol:'estavel',media_diesel:5.62,tendencia_diesel:'estavel',ultima_coleta_anp:'2026-04-25'},
+      {id_estado:'SE',media_gasolina:5.94,tendencia_gasolina:'estavel',media_etanol:3.82,tendencia_etanol:'estavel',media_diesel:5.50,tendencia_diesel:'estavel',ultima_coleta_anp:'2026-04-25'}
+    ]},
+    {nome:'Centro-Oeste',media_gasolina:5.77,media_etanol:3.72,media_diesel:5.42,estados:[
+      {id_estado:'DF',media_gasolina:5.81,tendencia_gasolina:'estavel',media_etanol:3.78,tendencia_etanol:'estavel',media_diesel:5.45,tendencia_diesel:'estavel',ultima_coleta_anp:'2026-04-25'},
+      {id_estado:'GO',media_gasolina:5.73,tendencia_gasolina:'descida',media_etanol:3.66,tendencia_etanol:'estavel',media_diesel:5.39,tendencia_diesel:'estavel',ultima_coleta_anp:'2026-04-25'},
+      {id_estado:'MT',media_gasolina:5.79,tendencia_gasolina:'estavel',media_etanol:3.72,tendencia_etanol:'descida',media_diesel:5.44,tendencia_diesel:'estavel',ultima_coleta_anp:'2026-04-25'},
+      {id_estado:'MS',media_gasolina:5.75,tendencia_gasolina:'estavel',media_etanol:3.72,tendencia_etanol:'estavel',media_diesel:5.40,tendencia_diesel:'estavel',ultima_coleta_anp:'2026-04-25'}
+    ]},
+    {nome:'Sudeste',media_gasolina:5.89,media_etanol:3.68,media_diesel:5.41,estados:[
+      {id_estado:'RJ',media_gasolina:6.05,tendencia_gasolina:'estavel',media_etanol:3.81,tendencia_etanol:'estavel',media_diesel:5.62,tendencia_diesel:'subida',ultima_coleta_anp:'2026-04-25'},
+      {id_estado:'SP',media_gasolina:5.74,tendencia_gasolina:'descida',media_etanol:3.55,tendencia_etanol:'descida',media_diesel:5.28,tendencia_diesel:'estavel',ultima_coleta_anp:'2026-04-25'},
+      {id_estado:'MG',media_gasolina:5.88,tendencia_gasolina:'estavel',media_etanol:3.62,tendencia_etanol:'estavel',media_diesel:5.44,tendencia_diesel:'estavel',ultima_coleta_anp:'2026-04-25'},
+      {id_estado:'ES',media_gasolina:5.89,tendencia_gasolina:'subida',media_etanol:3.74,tendencia_etanol:'estavel',media_diesel:5.30,tendencia_diesel:'estavel',ultima_coleta_anp:'2026-04-25'}
+    ]},
+    {nome:'Sul',media_gasolina:5.71,media_etanol:3.61,media_diesel:5.35,estados:[
+      {id_estado:'PR',media_gasolina:5.68,tendencia_gasolina:'estavel',media_etanol:3.57,tendencia_etanol:'descida',media_diesel:5.31,tendencia_diesel:'estavel',ultima_coleta_anp:'2026-04-25'},
+      {id_estado:'RS',media_gasolina:5.75,tendencia_gasolina:'estavel',media_etanol:3.66,tendencia_etanol:'estavel',media_diesel:5.39,tendencia_diesel:'estavel',ultima_coleta_anp:'2026-04-25'},
+      {id_estado:'SC',media_gasolina:5.70,tendencia_gasolina:'estavel',media_etanol:3.60,tendencia_etanol:'estavel',media_diesel:5.35,tendencia_diesel:'estavel',ultima_coleta_anp:'2026-04-25'}
+    ]}
+  ]
+};
+
+// ================================================================
+// FUEL — atualização remota
+// ================================================================
+// Troque pela URL do seu GitHub Pages após criar o repositório:
+const FUEL_JSON_URL = 'https://eucarolinapimenta-crypto.github.io/nocorre-fuel/prices.json';
+
+// FUEL_DATA começa com os dados embutidos (fallback offline).
+// Quando o app carrega, tenta buscar dados mais recentes da URL acima.
+async function atualizarCombustivel() {
+  if (FUEL_JSON_URL.includes('SEU_USUARIO')) return;
+  try {
+    const resp = await fetch(FUEL_JSON_URL, { cache: 'no-cache' });
+    if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+    const dados = await resp.json();
+    if (!dados.regioes || !dados.regioes.length) throw new Error('JSON inválido');
+    Object.assign(FUEL_DATA, dados);
+    // Re-renderiza a tela de novidades se estiver ativa
+    if (document.getElementById('pgNews').classList.contains('active')) {
+      renderNews();
+    }
+    // Atualiza o texto de coleta mesmo que a tela não esteja ativa
+    const coletaEl = document.getElementById('fuelColeta');
+    if (coletaEl && coletaEl.textContent) {
+      coletaEl.textContent = `📌 ANP • Coleta: ${FUEL_DATA.ultima_coleta_anp} • atualizado online`;
+    }
+    console.log(`[NoCorre] Combustível atualizado. Coleta: ${dados.ultima_coleta_anp} | Fonte: ${dados.fonte}`);
+  } catch (e) {
+    console.log('[NoCorre] Usando dados de combustível embutidos (fallback):', e.message);
+  }
+}
+
+// ================================================================
+// NEWS
+// ================================================================
+const NEWS = [
+  {id:1,platform:'uber',title:'Uber anuncia novo bônus de fim de semana',summary:'Motoristas que completarem 30 corridas entre sexta e domingo recebem R$ 150 extras em SP, RJ e BH.',impact:'positive',date:'2 dias atrás',source:'Uber Newsroom',emoji:'🎯',content:'<h3>Detalhes do bônus</h3><p>A Uber anunciou novo programa de bônus para motoristas ativos:</p><ul><li><strong>Meta:</strong> 30 corridas de sexta (00h) a domingo (23h59)</li><li><strong>Bônus:</strong> R$ 150 pagos na semana seguinte</li><li><strong>Cidades:</strong> SP, RJ, BH e Brasília</li></ul>'},
+  {id:2,platform:'ifood',title:'iFood reduz taxa de entregadores em 5 cidades',summary:'A partir de junho, taxa cai de 30% para 25% em SP, RJ, Curitiba, POA e Recife.',impact:'positive',date:'3 dias atrás',source:'iFood News',emoji:'📉',content:'<h3>O que muda</h3><p>iFood anuncia redução de 5 pontos percentuais na taxa cobrada de entregadores em pedidos abaixo de R$ 30.</p><ul><li><strong>Antes:</strong> 30%</li><li><strong>Depois:</strong> 25%</li><li><strong>Início:</strong> Junho/2026</li></ul>'},
+  {id:3,platform:'n99',title:'99 lança nova categoria 99Comfort',summary:'Categoria intermediária com tarifa 30% maior que Pop, exigindo carros 2018+.',impact:'positive',date:'5 dias atrás',source:'99 Brasil',emoji:'🚙',content:'<h3>99Comfort</h3><p>Nova categoria intermediária entre Pop e Top.</p><ul><li><strong>Requisito:</strong> 2018 ou mais novo</li><li><strong>Avaliação:</strong> Mínimo 4.8</li><li><strong>Tarifa:</strong> 30% maior que Pop</li></ul>'},
+  {id:4,platform:'geral',title:'STF mantém autônomos sem vínculo com apps',summary:'Decisão confirma que motoristas e entregadores continuam autônomos, sem CLT.',impact:'neutral',date:'1 semana atrás',source:'STF / Folha',emoji:'⚖️',content:'<h3>Decisão do STF</h3><p>8 votos a 3 mantendo autonomia dos trabalhadores de plataforma. Congresso discute regulamentação específica.</p>'},
+  {id:5,platform:'rappi',title:'Rappi exige novo curso obrigatório',summary:'Treinamento de 2h sobre segurança no trânsito. Prazo até julho.',impact:'neutral',date:'1 semana atrás',source:'Rappi Brasil',emoji:'📚',content:'<h3>Curso obrigatório</h3><p>Treinamento online, gratuito, 2 horas. Prazo: 31 de julho. Disponível no app, aba "Minha Conta" → "Treinamentos".</p>'},
+  {id:6,platform:'loggi',title:'Loggi paga bônus de R$ 200 para novos parceiros',summary:'Quem se cadastrar e fizer 50 entregas no primeiro mês ganha bônus extra.',impact:'positive',date:'2 semanas atrás',source:'Loggi Parceiros',emoji:'💰',content:'<h3>Bônus de boas-vindas</h3><ul><li><strong>Bônus:</strong> R$ 200</li><li><strong>Meta:</strong> 50 entregas em 30 dias</li><li><strong>Validade:</strong> Cadastros até 31/05</li></ul>'},
+  {id:7,platform:'uber',title:'Uber publica guia oficial para economizar combustível',summary:'Dicas que podem economizar até 25%. Calibragem e rotas estratégicas.',impact:'positive',date:'2 semanas atrás',source:'Uber Driver Hub',emoji:'⛽',content:'<h3>5 dicas</h3><p>1. Calibre os pneus semanalmente<br>2. Evite acelerações bruscas<br>3. Manutenção em dia<br>4. Use o mapa de calor<br>5. AC consciente</p>'},
+  {id:8,platform:'ifood',title:'iFood adiciona seguro grátis para entregadores',summary:'A partir de maio, todos entregadores ativos têm seguro de acidentes pessoais.',impact:'positive',date:'3 semanas atrás',source:'iFood News',emoji:'🛡️',content:'<h3>Cobertura</h3><ul><li>Morte acidental: R$ 50.000</li><li>Invalidez: R$ 50.000</li><li>Despesas médicas: R$ 10.000</li><li>Diária por incapacidade: R$ 50/dia</li></ul>'},
+  {id:9,platform:'geral',title:'Combustível: gasolina sobe 4% em abril',summary:'Petrobras anuncia reajuste. Gig workers devem ajustar planejamento de custos.',impact:'negative',date:'3 semanas atrás',source:'Petrobras / G1',emoji:'📈',content:'<h3>Reajuste de 4%</h3><p>Para quem gasta R$ 600/mês com combustível, o aumento é ~R$ 24/mês — R$ 288/ano. Calibre os pneus, planeje as rotas.</p>'},
+  {id:10,platform:'n99',title:'99 lança 99Pay com cashback de 5% em combustível',summary:'Carteira digital integrada paga 5% de volta em postos parceiros.',impact:'positive',date:'1 mês atrás',source:'99 Brasil',emoji:'💳',content:'<h3>99Pay</h3><ul><li>5% cashback em combustível</li><li>3% cashback em manutenção</li><li>Saque imediato sem taxa</li><li>PIX grátis ilimitado</li></ul>'}
+];
+
+// ================================================================
+// DEMO RIDES — dados simulados realistas de GPS
+// ================================================================
+const DEMO_RIDES = [
+  // Hoje
+  {id:'r1',date:'hoje',startTime:'07:12',endTime:'07:38',km:8.4,durationMin:26,waitMin:4,grossEarn:24.50,fuelCost:4.20,platform:'uber',origin:'Centro',dest:'Bairro Novo'},
+  {id:'r2',date:'hoje',startTime:'07:52',endTime:'08:21',km:11.2,durationMin:29,waitMin:8,grossEarn:31.80,fuelCost:5.60,platform:'uber',origin:'Bairro Novo',dest:'Shopping'},
+  {id:'r3',date:'hoje',startTime:'08:35',endTime:'09:04',km:9.7,durationMin:29,waitMin:6,grossEarn:28.40,fuelCost:4.85,platform:'uber',origin:'Shopping',dest:'Aeroporto'},
+  {id:'r4',date:'hoje',startTime:'09:22',endTime:'10:01',km:14.3,durationMin:39,waitMin:12,grossEarn:42.00,fuelCost:7.15,platform:'uber',origin:'Aeroporto',dest:'Zona Sul'},
+  {id:'r5',date:'hoje',startTime:'11:15',endTime:'11:41',km:7.8,durationMin:26,waitMin:5,grossEarn:22.90,fuelCost:3.90,platform:'ifood',origin:'Restaurante X',dest:'Residencial'},
+  {id:'r6',date:'hoje',startTime:'11:52',endTime:'12:08',km:5.2,durationMin:16,waitMin:3,grossEarn:16.50,fuelCost:2.60,platform:'ifood',origin:'Pizzaria',dest:'Condomínio'},
+  {id:'r7',date:'hoje',startTime:'18:10',endTime:'18:44',km:10.5,durationMin:34,waitMin:7,grossEarn:33.20,fuelCost:5.25,platform:'uber',origin:'Centro',dest:'Zona Norte'},
+  {id:'r8',date:'hoje',startTime:'19:02',endTime:'19:31',km:8.9,durationMin:29,waitMin:5,grossEarn:27.60,fuelCost:4.45,platform:'uber',origin:'Zona Norte',dest:'Centro'},
+  // Ontem
+  {id:'r9',date:'ontem',startTime:'08:05',endTime:'08:39',km:12.1,durationMin:34,waitMin:9,grossEarn:36.40,fuelCost:6.05,platform:'uber',origin:'Centro',dest:'Universidade'},
+  {id:'r10',date:'ontem',startTime:'09:01',endTime:'09:28',km:8.3,durationMin:27,waitMin:6,grossEarn:25.10,fuelCost:4.15,platform:'uber',origin:'Universidade',dest:'Hospital'},
+  {id:'r11',date:'ontem',startTime:'11:30',endTime:'11:52',km:6.7,durationMin:22,waitMin:4,grossEarn:19.80,fuelCost:3.35,platform:'ifood',origin:'Burger King',dest:'Escritório'},
+  {id:'r12',date:'ontem',startTime:'17:45',endTime:'18:22',km:13.8,durationMin:37,waitMin:10,grossEarn:41.50,fuelCost:6.90,platform:'uber',origin:'Shopping',dest:'Zona Oeste'},
+  {id:'r13',date:'ontem',startTime:'19:10',endTime:'19:38',km:9.2,durationMin:28,waitMin:5,grossEarn:28.90,fuelCost:4.60,platform:'uber',origin:'Zona Oeste',dest:'Centro'},
+  // 2 dias atrás
+  {id:'r14',date:'2d',startTime:'07:30',endTime:'08:05',km:11.5,durationMin:35,waitMin:8,grossEarn:34.20,fuelCost:5.75,platform:'uber',origin:'Centro',dest:'Industrial'},
+  {id:'r15',date:'2d',startTime:'08:22',endTime:'08:51',km:9.1,durationMin:29,waitMin:7,grossEarn:27.30,fuelCost:4.55,platform:'uber',origin:'Industrial',dest:'Comercial'},
+  {id:'r16',date:'2d',startTime:'12:05',endTime:'12:19',km:4.8,durationMin:14,waitMin:3,grossEarn:15.20,fuelCost:2.40,platform:'ifood',origin:'Sushi Bar',dest:'Prédio'},
+  {id:'r17',date:'2d',startTime:'18:30',endTime:'19:08',km:14.7,durationMin:38,waitMin:11,grossEarn:44.80,fuelCost:7.35,platform:'uber',origin:'Centro',dest:'Aeroporto'},
+];
+
+// ================================================================
+// DEMO POSTS
+// ================================================================
+const DEMO_POSTS = [
+  {id:1,author:'Carlos Silva',avatar:'CS',category:'uber',state:'SP',content:'🔥 Uber pagando muito bem em Pinheiros (SP) hoje! Tarifa dinâmica em quase toda a zona oeste. Recomendo!',time:'2h atrás',likes:47,comments:12,liked:false},
+  {id:2,author:'Maria Santos',avatar:'MS',category:'ifood',state:'RJ',content:'💡 No Rio: trabalhei 4h hoje (11h-13h e 19h-21h) e ganhei mais que dia inteiro semana passada. Foco nos horários de pico!',time:'4h atrás',likes:89,comments:23,liked:false},
+  {id:3,author:'João Oliveira',avatar:'JO',category:'dicas',state:'SP',content:'⛽ Galera de SP, atenção! Gasolina subiu R$ 0,15 no posto da Marginal. Posto Shell na Av. Paulista ainda tá com preço bom.',time:'6h atrás',likes:34,comments:8,liked:false},
+  {id:4,author:'Diego Costa',avatar:'DC',category:'loggi',state:'MG',content:'📦 BH! Loggi colocou bônus de R$ 80 hoje pra quem fizer 20 entregas. Vale muito a pena!',time:'8h atrás',likes:56,comments:15,liked:false},
+  {id:5,author:'Ana Paula',avatar:'AP',category:'dicas',state:'RS',content:'🎯 Pessoal de Porto Alegre: comecei a usar NoCorre há 2 semanas e descobri que gastava 40% mais com combustível do que pensava. Já economizei R$ 200!',time:'1d atrás',likes:124,comments:31,liked:false},
+  {id:6,author:'Roberto Lima',avatar:'RL',category:'uber',state:'RJ',content:'🚗 Galera do Rio, alguém sabe se tá valendo a pena fazer corridas pra aeroporto Galeão hoje?',time:'1d atrás',likes:12,comments:28,liked:false},
+  {id:7,author:'Fernanda Reis',avatar:'FR',category:'rappi',state:'SP',content:'🛵 Pessoal de SP, Rappi tá pagando 1.5x na zona sul agora! Aproveitem!',time:'1d atrás',likes:67,comments:19,liked:false},
+  {id:8,author:'Pedro Henrique',avatar:'PH',category:'ifood',state:'PR',content:'🍔 Curitiba: choveu ontem e a demanda foi insana. Fiz R$ 380 só na noite. Quando chove é pra ir!',time:'2d atrás',likes:91,comments:22,liked:false},
+  {id:9,author:'Juliana Costa',avatar:'JC',category:'dicas',state:'BA',content:'📊 Galera de Salvador: comecei a calcular meus custos reais e descobri que perdia 35% em combustível.',time:'2d atrás',likes:156,comments:41,liked:false},
+  {id:10,author:'Marcelo Souza',avatar:'MZ',category:'loggi',state:'DF',content:'📦 Brasília: Loggi paga melhor do que iFood pra quem tem moto. Fiz teste por 1 semana e recomendo!',time:'3d atrás',likes:43,comments:17,liked:false}
+];
+
+// ================================================================
+// STATE — single source of truth
+// ================================================================
+let S = {
+  user: null,
+  transactions: [],
+  posts: [],
+  goal: null,
+  feedbacks: [],
+  displayPeriod: 'month',
+  goalPeriodTemp: 'month',
+  txnType: 'income',
+  txnCat: null,
+  txnFilter: 'all',
+  txnPeriod: '7',
+  commFilter: 'all',
+  commState: 'all',
+  newsFilter: 'all',
+  newsImpact: 'all',
+  fuelModalFilter: 'all',
+  statsPeriod: '7',
+  forecastDays: 5,
+  widgetType: 'income',
+  ridesFilter: 'today',
+  rides: [],
+  vehicle: null  // {type:'car'|'moto', make, model, kmPerLiter}
+};
+
+// ================================================================
+// STORAGE — robust load with sanitization
+// ================================================================
+function persist() {
+  try {
+    localStorage.setItem('nc1', JSON.stringify({
+      user: S.user,
+      transactions: S.transactions,
+      posts: S.posts,
+      goal: S.goal,
+      feedbacks: S.feedbacks,
+      displayPeriod: S.displayPeriod,
+      vehicle: S.vehicle
+    }));
+  } catch(e) { console.warn('persist error', e); }
+}
+
+function hydrate() {
+  try {
+    const raw = localStorage.getItem('nc1');
+    if (!raw) return;
+    const d = JSON.parse(raw);
+    S.user = d.user || null;
+    S.posts = d.posts || [];
+    S.goal = d.goal || null;
+    S.feedbacks = d.feedbacks || [];
+    S.displayPeriod = d.displayPeriod || 'month';
+
+    // Sanitize every transaction — this is the critical fix
+    const todayStr = todayISO();
+    S.transactions = (d.transactions || [])
+      .map(t => {
+        const amt = parseFloat(t.amount);
+        if (isNaN(amt) || amt <= 0) return null;
+        const type = t.type === 'income' || t.type === 'expense' ? t.type : null;
+        if (!type) return null;
+        // Resolve date: direct field → createdAt → today
+        let date = t.date;
+        if (!date && t.createdAt) date = t.createdAt.substring(0, 10);
+        if (!date) date = todayStr;
+        // Ensure date is a valid YYYY-MM-DD string
+        if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) {
+          try { date = new Date(date).toISOString().substring(0, 10); }
+          catch(e) { date = todayStr; }
+        }
+        return {
+          id: t.id || Date.now(),
+          type,
+          category: t.category || '',
+          categoryLabel: t.categoryLabel || t.category || '',
+          categoryEmoji: t.categoryEmoji || (type === 'income' ? '💰' : '💸'),
+          amount: amt,
+          description: t.description || t.categoryLabel || t.category || '',
+          date,
+          source: t.source || 'manual',
+          status: t.status || 'confirmed',
+          timestamp: t.timestamp || 0
+        };
+      })
+      .filter(Boolean);
+    S.vehicle = d.vehicle || null;
+  } catch(e) { console.warn('hydrate error', e); S.transactions = []; }
+}
+
+// ================================================================
+// DATE HELPERS
+// ================================================================
+function todayISO() {
+  return new Date().toISOString().substring(0, 10);
+}
+
+function dateISO(d) {
+  return d.toISOString().substring(0, 10);
+}
+
+function daysAgoISO(n) {
+  const d = new Date();
+  d.setDate(d.getDate() - n);
+  return dateISO(d);
+}
+
+function periodRange(period) {
+  const today = todayISO();
+  if (period === 'day') return { start: today, end: today };
+  if (period === 'week') return { start: daysAgoISO(6), end: today };
+  if (period === 'biweekly') return { start: daysAgoISO(14), end: today };
+  // month = current calendar month
+  const now = new Date();
+  const start = dateISO(new Date(now.getFullYear(), now.getMonth(), 1));
+  return { start, end: today };
+}
+
+function fmtDate(ds) {
+  const today = todayISO();
+  const yest = daysAgoISO(1);
+  if (ds === today) return 'Hoje';
+  if (ds === yest) return 'Ontem';
+  const d = new Date(ds + 'T00:00:00');
+  return `${d.getDate()} ${MONTH_SHORT[d.getMonth()]}`;
+}
+
+// ================================================================
+// MONEY HELPERS
+// ================================================================
+function R(v) {
+  const n = parseFloat(v) || 0;
+  const s = n < 0 ? '-' : '';
+  return s + 'R$ ' + Math.abs(n).toLocaleString('pt-BR', {minimumFractionDigits:2, maximumFractionDigits:2});
+}
+
+function Rshort(v) {
+  const n = Math.abs(parseFloat(v) || 0);
+  if (n >= 1000) return 'R$' + (n/1000).toFixed(1) + 'k';
+  return 'R$' + n.toFixed(0);
+}
+
+// Safe sum — always parse to float first
+function sumAmt(arr) {
+  return arr.reduce((s, t) => s + (parseFloat(t.amount) || 0), 0);
+}
+
+// ================================================================
+// TRANSACTIONS — filtered and summed
+// ================================================================
+function txnsInRange(start, end) {
+  return S.transactions.filter(t => t.date >= start && t.date <= end);
+}
+
+function income(arr) { return sumAmt(arr.filter(t => t.type === 'income')); }
+function expense(arr) { return sumAmt(arr.filter(t => t.type === 'expense')); }
+function net(arr) { return income(arr) - expense(arr); }
+
+// ================================================================
+// INIT
+// ================================================================
+function init() {
+  hydrate();
+  populateStateDropdowns();
+
+  if (S.user && S.user.name) {
+    bootApp();
+  } else {
+    show('loginPage');
+    hide('app');
+  }
+}
+
+function populateStateDropdowns() {
+  const opts = STATES.map(s => `<option value="${s.code}">${s.name} (${s.code})</option>`).join('');
+  el('lState').innerHTML = '<option value="">Selecione...</option>' + opts;
+  el('stateSelect').innerHTML = opts;
+}
+
+// ================================================================
+// LOGIN / LOGOUT
+// ================================================================
+function doLogin() {
+  const name = el('lName').value.trim();
+  const platform = el('lPlatform').value;
+  const state = el('lState').value;
+  if (!name) { toast('Como te chamam? 😊', 'err'); return; }
+  if (!state) { toast('Escolhe o teu estado para continuar', 'err'); return; }
+
+  S.user = { name, platform, state, createdAt: new Date().toISOString() };
+  if (!S.posts || S.posts.length === 0) S.posts = DEMO_POSTS.map(p => ({...p}));
+  persist();
+  bootApp();
+  toast(`Olá, ${name.split(' ')[0]}! Tudo pronto para você. 🎉`, 'ok');
+}
+
+function doLogout() {
+  if (!confirm('Sair? Seus dados ficam salvos por aqui.')) return;
+  S.user = null;
+  persist();
+  hide('app');
+  show('loginPage');
+}
+
+function bootApp() {
+  hide('loginPage');
+  show('app');
+
+  const firstName = S.user.name.split(' ')[0];
+  el('greetTxt').textContent = `Olá, ${firstName}! 👋`;
+  el('avatarBtn').textContent = firstName[0].toUpperCase();
+  el('profAvatar').textContent = firstName[0].toUpperCase();
+  el('profName').textContent = S.user.name;
+  el('profPlatform').textContent = PLATFORM_LABELS[S.user.platform] || S.user.platform;
+
+  const stInfo = STATES.find(s => s.code === S.user.state);
+  const now = new Date();
+  const stLabel = stInfo ? ` • ${stInfo.code}` : '';
+  el('greetDate').textContent = `${DAY_SHORT[now.getDay()]}, ${now.getDate()} ${MONTH_SHORT[now.getMonth()]}${stLabel}`;
+  if (stInfo) el('profLocation').textContent = `📍 ${stInfo.name}`;
+
+  el('mDate').value = todayISO();
+
+  // Inject DEMO_RIDES as real transactions (one-time, if not already injected)
+  injectDemoRides();
+
+  renderWidgetCats();
+  renderStateChips();
+  renderDashboard();
+  renderGpsCard();
+  atualizarCombustivel();
+}
+
+// Convert DEMO_RIDES to S.transactions entries (source:'gps')
+function injectDemoRides() {
+  const alreadyInjected = S.transactions.some(t => t.source === 'gps');
+  if (alreadyInjected) return;
+
+  const today = new Date(); today.setHours(0,0,0,0);
+  const platMap = {uber:{id:'uber',l:'Uber/99',e:'🚗'},ifood:{id:'ifood',l:'iFood',e:'🍔'},loggi:{id:'loggi',l:'Loggi',e:'📦'},rappi:{id:'rappi',l:'Rappi',e:'🛵'}};
+
+  const rideDate = (label) => {
+    const d = new Date(today);
+    if (label === 'ontem') d.setDate(d.getDate() - 1);
+    else if (label === '2d') d.setDate(d.getDate() - 2);
+    return dateISO(d);
+  };
+
+  const newTxns = [];
+  DEMO_RIDES.forEach((r, i) => {
+    const plat = platMap[r.platform] || platMap.uber;
+    const ds = rideDate(r.date);
+    const baseTs = new Date(ds + 'T' + r.startTime + ':00').getTime();
+
+    // Income entry (the ride earnings)
+    newTxns.push({
+      id: 'gps_inc_' + r.id,
+      type: 'income',
+      category: plat.id,
+      categoryLabel: plat.l,
+      categoryEmoji: plat.e,
+      amount: r.grossEarn,
+      description: `${plat.l} · ${r.origin} → ${r.dest}`,
+      date: ds,
+      source: 'gps',
+      status: 'confirmed',
+      timestamp: baseTs,
+      // Extra GPS metadata for the Rides page
+      _ride: { startTime: r.startTime, endTime: r.endTime, km: r.km, waitMin: r.waitMin, fuelCost: r.fuelCost, platform: r.platform, origin: r.origin, dest: r.dest }
+    });
+
+    // Fuel cost entry (linked to the ride)
+    newTxns.push({
+      id: 'gps_fuel_' + r.id,
+      type: 'expense',
+      category: 'combustivel',
+      categoryLabel: 'Combustível',
+      categoryEmoji: '⛽',
+      amount: r.fuelCost,
+      description: `⛽ Combustível · ${r.origin} → ${r.dest}`,
+      date: ds,
+      source: 'gps',
+      status: 'confirmed',
+      timestamp: baseTs + 1,
+      _rideRef: 'gps_inc_' + r.id // links to the income entry
+    });
+  });
+
+  S.transactions = [...newTxns, ...S.transactions].sort((a,b) => {
+    if (b.date !== a.date) return b.date.localeCompare(a.date);
+    return (b.timestamp||0) - (a.timestamp||0);
+  });
+  persist();
+}
+
+// ================================================================
+// NAVIGATION
+// ================================================================
+function showPage(name, navEl) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  el('pg' + name.charAt(0).toUpperCase() + name.slice(1)).classList.add('active');
+
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  if (navEl) navEl.classList.add('active');
+  else {
+    const map = {dashboard:0, rides:1, transactions:2, stats:3, news:4};
+    const btns = document.querySelectorAll('.nav-btn');
+    if (map[name] !== undefined) btns[map[name]].classList.add('active');
+  }
+
+  closeWidget();
+  window.scrollTo(0, 0);
+
+  if (name === 'transactions') renderTransactions();
+  else if (name === 'stats') renderStats();
+  else if (name === 'community') renderCommunity();
+  else if (name === 'news') renderNews();
+  else if (name === 'profile') renderProfile();
+  else if (name === 'dashboard') renderDashboard();
+  else if (name === 'rides') renderRides();
+}
+
+// ================================================================
+// DASHBOARD
+// ================================================================
+function renderDashboard() {
+  const r = periodRange(S.displayPeriod);
+  const txns = txnsInRange(r.start, r.end);
+  const inc = income(txns);
+  const exp = expense(txns);
+  const n = inc - exp;
+
+  // Main card
+  el('incomeLbl').textContent = PERIOD_HLABELS[S.displayPeriod] || 'O que ficou para você';
+  el('periodLbl').textContent = PERIOD_LABELS[S.displayPeriod];
+  const valEl = el('incomeVal');
+  valEl.textContent = R(n);
+  valEl.className = 'income-val' + (n < 0 ? ' neg' : '');
+  el('incomeGross').textContent = R(inc);
+  el('incomeExp').textContent = R(exp);
+
+  // Today
+  const todayTxns = S.transactions.filter(t => t.date === todayISO());
+  const todayNet = net(todayTxns);
+  const tEl = el('statToday');
+  tEl.textContent = R(todayNet);
+  tEl.style.color = todayNet >= 0 ? 'var(--ok)' : 'var(--err)';
+
+  // Month projection
+  const now = new Date();
+  const monthStart = dateISO(new Date(now.getFullYear(), now.getMonth(), 1));
+  const monthTxns = S.transactions.filter(t => t.date >= monthStart);
+  const monthNet = net(monthTxns);
+  const dom = now.getDate();
+  const dim = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
+  const proj = dom > 0 ? (monthNet / dom) * dim : 0;
+  el('statProj').textContent = R(proj); if(el('statProjCard')) el('statProjCard').textContent = R(proj);
+  el('projDetailCard') && (el('projDetailCard').textContent = `${dim-dom} dias restantes no mês`); el('projDetail').textContent = `Baseado nos ${dom} dias do mês • Faltam ${dim - dom}`;
+
+  // Highlight period button
+  document.querySelectorAll('#periodModal .per-btn').forEach(b => {
+    b.classList.toggle('active', b.dataset.p === S.displayPeriod);
+  });
+
+  renderGoalCard();
+  renderInsights(income(monthTxns), expense(monthTxns), monthNet);
+  renderRecent();
+  renderOnboarding();
+}
+
+function renderGoalCard() {
+  if (!S.goal) {
+    el('goalCard').style.display = 'block';
+    el('goalPeriodLbl').textContent = 'Sua Meta';
+    el('goalEditBtn').style.display = 'none';
+    el('goalContent').style.display = 'none';
+    el('goalEmpty').style.display = 'block';
+    return;
+  }
+  el('goalCard').style.display = 'block';
+  el('goalEditBtn').style.display = 'block';
+  el('goalContent').style.display = 'block';
+  el('goalEmpty').style.display = 'none';
+  const r = periodRange(S.goal.period);
+  const n = net(txnsInRange(r.start, r.end));
+  const pct = Math.min(Math.max((n / S.goal.amount) * 100, 0), 100);
+  el('goalPeriodLbl').textContent = GOAL_LABELS[S.goal.period];
+  el('goalCur').textContent = R(Math.max(n, 0));
+  el('goalTgt').textContent = 'de ' + R(S.goal.amount);
+  el('goalFill').style.width = pct + '%';
+  el('goalFill').className = 'goal-bar-fill' + (n < 0 ? ' neg' : '');
+  el('goalPct').textContent = `${pct.toFixed(0)}% atingido`;
+}
+
+function renderInsights(mInc, mExp, mNet) {
+  const c = el('insightsBox');
+  if (S.transactions.length === 0) {
+    c.innerHTML = insCard('', '👋', 'Pronto para começar!', 'Registre seu primeiro ganho ou gasto e o NoCorre começa a mostrar o que realmente fica para você no fim do dia.');
+    return;
+  }
+  const items = [];
+  const costPct = mInc > 0 ? (mExp / mInc * 100) : 0;
+  if (costPct > 60) items.push({t:'err',i:'⚠️',h:'Os gastos estão pesados este mês',b:`${costPct.toFixed(0)}% do que você ganhou vai para custos. O ideal é abaixo de 50%.`});
+  else if (costPct > 0 && costPct < 40) items.push({t:'ok',i:'🎯',h:'Você está no controle dos gastos',b:`Só ${costPct.toFixed(0)}% do que entrou foi para custos. Continue assim.`});
+
+  const comb = sumAmt(S.transactions.filter(t => t.category === 'combustivel'));
+  if (comb > 500 && mInc > 0) items.push({t:'warn',i:'⛽',h:'Combustível comendo uma fatia grande',b:`${R(comb)} só com gasolina este mês — e o preço ainda subiu.`});
+
+  const workDays = new Set(S.transactions.filter(t => t.type === 'income').map(t => t.date));
+  if (workDays.size >= 7) items.push({t:'ok',i:'💪',h:`${workDays.size} dias na ativa este mês`,b:`Média de ${R(mInc / workDays.size)} por dia trabalhado.`});
+
+  const byPlatform = {};
+  S.transactions.filter(t => t.type === 'income').forEach(t => { byPlatform[t.categoryLabel] = (byPlatform[t.categoryLabel] || 0) + parseFloat(t.amount); });
+  const best = Object.entries(byPlatform).sort((a,b) => b[1]-a[1])[0];
+  if (best) items.push({t:'',i:'🏆',h:`${best[0]} está sendo sua melhor fonte`,b:`${R(best[1])} gerados no período.`});
+
+  if (!items.length) items.push({t:'',i:'📈',h:'Continue registrando tudo',b:'Quanto mais dados, mais preciso o retrato do que fica para você.'});
+
+  c.innerHTML = items.map(it => insCard(it.t, it.i, it.h, it.b)).join('');
+}
+
+function insCard(type, icon, title, text) {
+  return `<div class="ins ${type}"><div class="ins-icon">${icon}</div><div class="ins-title">${title}</div><div class="ins-text">${text}</div></div>`;
+}
+
+function renderRecent() {
+  const c = el('recentBox');
+  const recent = S.transactions.slice(0, 5);
+  if (!recent.length) { c.innerHTML = emptyHTML('📊', 'Tudo quieto por aqui', 'Toque no + para anotar o primeiro ganho ou gasto do dia'); return; }
+  c.innerHTML = recent.map(txnHTML).join('');
+}
+
+function renderOnboarding() {
+  if (S.transactions.length >= 3) { el('obSection').style.display = 'none'; return; }
+  el('obSection').style.display = 'block';
+  const steps = [
+    {h:'Anote o que entrou hoje', b:'Registre seu primeiro ganho', done: S.transactions.some(t=>t.type==='income'), fn:'openModal("txnModal")'},
+    {h:'Anote o que saiu', b:'Combustível, alimentação, taxa de app', done: S.transactions.some(t=>t.type==='expense'), fn:'openModal("txnModal")'},
+    {h:'Diga qual é a sua meta', b:'Com meta, o NoCorre calcula quanto você precisa por dia', done: !!S.goal, fn:'openModal("goalModal")'}
+  ];
+  el('obSteps').innerHTML = steps.map((s,i) => `
+    <div class="ob-step ${s.done?'done':''}" onclick="${s.fn}">
+      <div class="ob-num">${s.done ? '✓' : i+1}</div>
+      <div><h4>${s.h}</h4><p>${s.b}</p></div>
+    </div>`).join('');
+}
+
+// ================================================================
+// TRANSACTION HTML
+// ================================================================
+function txnHTML(t) {
+  const pending = t.status === 'pending';
+  const badge = pending ? '<span class="pend-badge">AGUARDANDO OK</span>' : '';
+  const autoBadge = (t.source === 'auto' && !pending) ? '<span class="auto-badge">AUTO</span>' : '';
+  const title = pending ? `Toque para dar o ok · ${t.description}` : t.description;
+  const click = pending ? `confirmTxn(${t.id})` : `openTripEdit(${t.id})`;
+  const sub = pending
+    ? `${fmtDate(t.date)} · vi que entrou, aguardando seu ok`
+    : `${fmtDate(t.date)} · toque para editar ou apagar`;
+  return `<div class="txn ${pending?'pending':''}" onclick="${click}">
+    <div class="txn-icon ${t.type}">${t.categoryEmoji}</div>
+    <div class="txn-info"><div class="txn-title">${title}${badge}${autoBadge}</div><div class="txn-date">${sub}</div></div>
+    <div class="txn-amt ${t.type}">${t.type==='income'?'+':'-'}${R(t.amount)}</div>
+  </div>`;
+}
+
+function emptyHTML(em, h, p) {
+  return `<div class="empty"><div class="em">${em}</div><h3>${h}</h3><p>${p}</p></div>`;
+}
+
+// ================================================================
+// ADD / CONFIRM / DELETE TRANSACTION
+// ================================================================
+function addSmartTransaction(data) {
+  const FIVE_MIN = 5 * 60 * 1000;
+  const idx = S.transactions.findIndex(t =>
+    Math.abs((parseFloat(t.amount)||0) - (parseFloat(data.amount)||0)) < 0.05 &&
+    Math.abs((t.timestamp||0) - (data.timestamp||0)) < FIVE_MIN &&
+    t.type === data.type
+  );
+  if (idx !== -1) {
+    S.transactions[idx].status = 'confirmed';
+    if (data.source === 'manual') S.transactions[idx].source = 'manual';
+    toast('Tudo certo — era o mesmo valor. Confirmado e sem duplicata. ✓', 'ok');
+  } else {
+    S.transactions.unshift(data);
+    if (data.source === 'auto') {
+      toast(`Vi que entrou ${R(data.amount)} da ${data.categoryLabel}. Toque para dar o ok. ⏳`, 'warn');
+    } else {
+      const msg = data.type === 'income'
+        ? `Pronto! ${R(data.amount)} já está no seu resumo. 💰`
+        : `Gasto do dia a dia anotado. ${R(data.amount)} descontado do seu saldo.`;
+      toast(msg, 'ok');
+    }
+  }
+  persist();
+  renderDashboard();
+  renderGpsCard();
+  if (el('pgTransactions').classList.contains('active')) renderTransactions();
+}
+
+function confirmTxn(id) {
+  const t = S.transactions.find(t => t.id === id);
+  if (!t) return;
+  if (t.status === 'pending') {
+    t.status = 'confirmed'; t.source = 'manual';
+    persist(); renderDashboard();
+    if (el('pgTransactions').classList.contains('active')) renderTransactions();
+    toast('Ok dado! Esse ganho está confirmado no seu resumo. ✓', 'ok');
+  } else { deleteTxn(id); }
+}
+
+function deleteTxn(id) {
+  if (!confirm('Remover esse registro? Não tem como desfazer.')) return;
+  S.transactions = S.transactions.filter(t => t.id !== id);
+  persist(); renderDashboard();
+  if (el('pgTransactions').classList.contains('active')) renderTransactions();
+  toast('Pronto, esse registro foi removido.', 'ok');
+}
+
+// ================================================================
+// TRANSACTION FORM (modal)
+// ================================================================
+function setTxnType(type) {
+  S.txnType = type; S.txnCat = null;
+  el('mTabInc').classList.toggle('active', type === 'income');
+  el('mTabExp').classList.toggle('active', type === 'expense');
+  renderModalCats();
+}
+
+function renderModalCats() {
+  el('mCatGrid').innerHTML = CATS[S.txnType].map(c =>
+    `<button class="cat-chip ${S.txnCat===c.id?'active':''}" onclick="pickCat('${c.id}')"><span>${c.e}</span>${c.l}</button>`
+  ).join('');
+}
+
+function pickCat(id) { S.txnCat = id; renderModalCats(); }
+
+function saveTxn() {
+  const amt = parseFloat(el('mAmount').value);
+  const desc = el('mDesc').value.trim();
+  const date = el('mDate').value;
+  if (!S.txnCat) { toast('Escolhe uma categoria antes de continuar', 'err'); return; }
+  if (!amt || amt <= 0) { toast('Insere um valor maior que zero', 'err'); return; }
+  const cat = CATS[S.txnType].find(c => c.id === S.txnCat);
+  addSmartTransaction({
+    id: Date.now(), type: S.txnType,
+    category: cat.id, categoryLabel: cat.l, categoryEmoji: cat.e,
+    amount: amt, description: desc || cat.l, date,
+    source: 'manual', status: 'confirmed', timestamp: Date.now()
+  });
+  closeModal('txnModal');
+  el('mAmount').value = ''; el('mDesc').value = '';
+  S.txnCat = null;
+}
+
+// ================================================================
+// WIDGET (quick action FAB)
+// ================================================================
+function toggleWidget() {
+  const p = el('wPanel'), f = el('fabBtn');
+  const open = p.classList.toggle('open');
+  f.classList.toggle('open', open);
+  if (open) { renderWidgetCats(); setTimeout(() => el('wAmount').focus(), 120); }
+}
+
+function closeWidget() {
+  el('wPanel').classList.remove('open');
+  el('fabBtn').classList.remove('open');
+}
+
+function setWidgetType(type) {
+  S.widgetType = type;
+  el('wBtnInc').className = 'w-type-btn' + (type==='income' ? ' income' : '');
+  el('wBtnExp').className = 'w-type-btn' + (type==='expense' ? ' expense' : '');
+  renderWidgetCats();
+}
+
+function renderWidgetCats() {
+  el('wCategory').innerHTML = CATS[S.widgetType].map(c => `<option value="${c.id}">${c.e} ${c.l}</option>`).join('');
+}
+
+function submitWidget() {
+  const amt = parseFloat(el('wAmount').value);
+  if (!amt || amt <= 0) { toast('Insere um valor maior que zero', 'err'); return; }
+  const catId = el('wCategory').value;
+  const cat = CATS[S.widgetType].find(c => c.id === catId) || CATS[S.widgetType][0];
+  addSmartTransaction({
+    id: Date.now(), type: S.widgetType,
+    category: cat.id, categoryLabel: cat.l, categoryEmoji: cat.e,
+    amount: amt, description: cat.l,
+    date: todayISO(), source: 'manual', status: 'confirmed', timestamp: Date.now()
+  });
+  el('wAmount').value = '';
+  closeWidget();
+}
+
+// Close widget on outside click
+document.addEventListener('click', e => {
+  if (!el('widgetWrap').contains(e.target)) closeWidget();
+});
+
+// ================================================================
+// SIMULATE AUTO CAPTURE
+// ================================================================
+function simulateCapture() {
+  const platforms = [
+    {id:'uber',e:'🚗',l:'Uber'},{id:'ifood',e:'🍔',l:'iFood'},
+    {id:'rappi',e:'🛵',l:'Rappi'},{id:'loggi',e:'📦',l:'Loggi'}
+  ];
+  const p = platforms[Math.floor(Math.random() * platforms.length)];
+  const amt = parseFloat((Math.random() * 50 + 10).toFixed(2));
+  addSmartTransaction({
+    id: Date.now(), type: 'income',
+    category: p.id, categoryLabel: p.l, categoryEmoji: p.e,
+    amount: amt, description: `Corrida ${p.l}`,
+    date: todayISO(), source: 'auto', status: 'pending', timestamp: Date.now()
+  });
+}
+
+// ================================================================
+// PERIOD SELECTOR
+// ================================================================
+function setDisplayPeriod(p) {
+  S.displayPeriod = p;
+  persist();
+  renderDashboard();
+  closeModal('periodModal');
+  toast(`Mostrando: ${PERIOD_LABELS[p]}`, 'ok');
+}
+
+// ================================================================
+// GOAL
+// ================================================================
+function setGoalPeriod(p) {
+  S.goalPeriodTemp = p;
+  document.querySelectorAll('#goalPeriodGrid .per-btn').forEach(b => b.classList.toggle('active', b.dataset.gp === p));
+}
+
+function saveGoal() {
+  const amt = parseFloat(el('goalAmt').value);
+  if (!amt || amt <= 0) { toast('Insere um valor maior que zero', 'err'); return; }
+  S.goal = { period: S.goalPeriodTemp, amount: amt };
+  persist(); renderDashboard(); closeModal('goalModal');
+  toast('Meta definida. Agora vamos acompanhar juntos. 🎯', 'ok');
+}
+
+function removeGoal() {
+  if (!confirm('Tirar a meta? Você pode definir uma nova quando quiser.')) return;
+  S.goal = null; persist(); renderDashboard(); closeModal('goalModal');
+  toast('Meta removida. Pode definir uma nova quando quiser.', 'ok');
+}
+
+function openGoalModal() {
+  const p = S.goal ? S.goal.period : 'month';
+  S.goalPeriodTemp = p;
+  document.querySelectorAll('#goalPeriodGrid .per-btn').forEach(b => b.classList.toggle('active', b.dataset.gp === p));
+  el('goalAmt').value = S.goal ? S.goal.amount : '';
+  openModal('goalModal');
+}
+
+// ================================================================
+// TRANSACTIONS PAGE
+// ================================================================
+function setTxnFilter(f, btn) {
+  S.txnFilter = f;
+  document.querySelectorAll('#pgTransactions .tab').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderTransactions();
+}
+
+function setTxnPeriod(p, btn) {
+  S.txnPeriod = p;
+  document.querySelectorAll('#pgTransactions .chip').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderTransactions();
+}
+
+function renderTransactions() {
+  let list = [...S.transactions];
+  if (S.txnFilter !== 'all') list = list.filter(t => t.type === S.txnFilter);
+  if (S.txnPeriod !== '0') {
+    const cutoff = daysAgoISO(parseInt(S.txnPeriod));
+    list = list.filter(t => t.date >= cutoff);
+  }
+  const c = el('txnBox');
+  if (!list.length) { c.innerHTML = emptyHTML('📭', 'Nada aqui nesse período', 'Toque no + para registrar um ganho ou gasto'); return; }
+  c.innerHTML = list.map(txnHTML).join('');
+}
+
+// ================================================================
+// STATS PAGE
+// ================================================================
+function setStatsPeriod(p, btn) {
+  S.statsPeriod = p;
+  document.querySelectorAll('#statsChips .chip').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderStats();
+}
+
+function getStatsRange() {
+  const today = todayISO();
+  const now = new Date();
+  if (S.statsPeriod === '7') return { start: daysAgoISO(6), end: today, label: 'Últimos 7 dias', days: 7 };
+  if (S.statsPeriod === '15') return { start: daysAgoISO(14), end: today, label: 'Últimos 15 dias', days: 15 };
+  if (S.statsPeriod === 'month') {
+    const start = dateISO(new Date(now.getFullYear(), now.getMonth(), 1));
+    return { start, end: today, label: `${MONTH_PT[now.getMonth()]} (atual)`, days: now.getDate() };
+  }
+  // previous month: 'prev_YYYY_M'
+  if (S.statsPeriod.startsWith('prev_')) {
+    const [,y,m] = S.statsPeriod.split('_');
+    const yr = parseInt(y), mo = parseInt(m);
+    const start = dateISO(new Date(yr, mo, 1));
+    const end = dateISO(new Date(yr, mo + 1, 0));
+    return { start, end, label: `${MONTH_PT[mo]} ${yr}`, days: new Date(yr, mo + 1, 0).getDate() };
+  }
+  return { start: daysAgoISO(6), end: today, label: 'Últimos 7 dias', days: 7 };
+}
+
+function buildStatsChips() {
+  const now = new Date();
+  const existing = Array.from(el('statsChips').querySelectorAll('[data-p]')).map(b => b.dataset.p);
+  for (let i = 1; i <= 6; i++) {
+    const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
+    const key = `prev_${d.getFullYear()}_${d.getMonth()}`;
+    if (existing.includes(key)) continue;
+    const lbl = MONTH_SHORT[d.getMonth()] + (d.getFullYear() !== now.getFullYear() ? '/' + String(d.getFullYear()).slice(-2) : '');
+    const b = document.createElement('button');
+    b.className = 'chip';
+    b.dataset.p = key;
+    b.textContent = lbl;
+    b.onclick = function() { setStatsPeriod(key, this); };
+    const hasTxns = S.transactions.some(t => {
+      const td = new Date(t.date + 'T00:00:00');
+      return td.getFullYear() === d.getFullYear() && td.getMonth() === d.getMonth();
+    });
+    if (!hasTxns) b.style.opacity = '0.5';
+    el('statsChips').appendChild(b);
+  }
+}
+
+function renderStats() {
+  buildStatsChips();
+  const r = getStatsRange();
+  const txns = txnsInRange(r.start, r.end);
+  const inc = income(txns), exp = expense(txns), n = inc - exp;
+
+  el('chartTitle').textContent = `Seus ganhos — ${r.label}`;
+  el('sGross').textContent = R(inc);
+  el('sExp').textContent = R(exp);
+  el('sNet').textContent = R(n);
+  el('sCostPct').textContent = inc > 0 ? (exp/inc*100).toFixed(1)+'%' : '0%';
+
+  const days = [...new Set(txns.map(t => t.date))];
+  el('sAvg').textContent = days.length > 0 ? R(n / days.length) : R(0);
+
+  const daily = {};
+  txns.forEach(t => { daily[t.date] = (daily[t.date]||0) + (t.type==='income'?1:-1) * parseFloat(t.amount); });
+  const best = Object.entries(daily).sort((a,b) => b[1]-a[1])[0];
+  el('sBest').textContent = best ? `${fmtDate(best[0])} (${R(best[1])})` : '-';
+
+  renderChart(r);
+  renderExpByCat(r);
+  renderPatterns();
+  renderHourlyStats();
+  renderForecast();
+}
+
+function renderChart(r) {
+  const c = el('chartBox');
+  const start = new Date(r.start + 'T00:00:00');
+  const end = new Date(r.end + 'T00:00:00');
+  const days = [];
+  const cur = new Date(start);
+  while (cur <= end) {
+    const ds = dateISO(cur);
+    const dt = S.transactions.filter(t => t.date === ds);
+    days.push({ lbl: DAY_SHORT[cur.getDay()], num: cur.getDate(), val: net(dt), ds });
+    cur.setDate(cur.getDate() + 1);
+  }
+  const maxV = Math.max(...days.map(d => Math.abs(d.val)), 1);
+  const bw = 100 / days.length;
+  const long = days.length > 10;
+  c.innerHTML = days.map((d, i) => {
+    const h = Math.max((Math.abs(d.val) / maxV) * 70, 2);
+    const left = i * bw + bw * 0.15;
+    const w = bw * 0.7;
+    const showV = !long && d.val !== 0;
+    return `
+      <div class="bar ${d.val<0?'neg':''}" style="left:${left}%;width:${w}%;height:${h}%">
+        ${showV ? `<span class="bar-val">${Rshort(d.val)}</span>` : ''}
+      </div>
+      <div class="bar-lbl" style="left:${left}%;width:${w}%;font-size:${long?'8px':'10px'}">${long?d.num:d.lbl}</div>`;
+  }).join('');
+}
+
+function renderExpByCat(r) {
+  const c = el('sByCat');
+  const exps = S.transactions.filter(t => t.type==='expense' && t.date>=r.start && t.date<=r.end);
+  if (!exps.length) { c.innerHTML = emptyHTML('📊', '', 'Adicione seus gastos para ver para onde o dinheiro está indo'); return; }
+  const byCat = {};
+  exps.forEach(t => {
+    if (!byCat[t.categoryLabel]) byCat[t.categoryLabel] = { total:0, e:t.categoryEmoji };
+    byCat[t.categoryLabel].total += parseFloat(t.amount);
+  });
+  const total = Object.values(byCat).reduce((s,v) => s+v.total, 0);
+  c.innerHTML = Object.entries(byCat).sort((a,b) => b[1].total-a[1].total).map(([cat,d]) => {
+    const pct = (d.total/total*100).toFixed(1);
+    return `<div style="margin-bottom:12px">
+      <div style="display:flex;justify-content:space-between;margin-bottom:3px"><span>${d.e} ${cat}</span><strong>${R(d.total)}</strong></div>
+      <div style="height:7px;background:var(--bg);border-radius:4px;overflow:hidden"><div style="height:100%;width:${pct}%;background:var(--grad)"></div></div>
+      <div style="font-size:10px;color:var(--txt2);margin-top:2px">${pct}% do total</div>
+    </div>`;
+  }).join('');
+}
+
+function renderPatterns() {
+  const c = el('patternsBox');
+  const allInc = S.transactions.filter(t => t.type==='income');
+  if (allInc.length < 3) {
+    c.innerHTML = insCard('', '📊', 'Ainda reunindo informações', 'Com mais alguns registros, o NoCorre vai mostrar em quais dias você rende mais.');
+    return;
+  }
+  const dayInc = {};
+  allInc.forEach(t => { dayInc[t.date] = (dayInc[t.date]||0) + parseFloat(t.amount); });
+  const dow = Array(7).fill(null).map(() => ({total:0,count:0}));
+  Object.entries(dayInc).forEach(([ds, v]) => {
+    const d = new Date(ds + 'T00:00:00').getDay();
+    dow[d].total += v; dow[d].count++;
+  });
+  const dayNames = ['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado'];
+  const avgs = dow.map((s,i) => ({ day:dayNames[i], short:DAY_SHORT[i], avg:s.count>0?s.total/s.count:0, count:s.count })).filter(d => d.count>0);
+  if (avgs.length < 2) { c.innerHTML = insCard('','📊','Trabalhe em dias diferentes','Quando você registrar ganhos em vários dias, o NoCorre mostra quais valem mais a pena sair de casa.'); return; }
+  const sorted = [...avgs].sort((a,b) => b.avg-a.avg);
+  const best = sorted[0], worst = sorted[sorted.length-1];
+  const maxAvg = Math.max(...avgs.map(d => d.avg), 1);
+  const bars = [...avgs].sort((a,b)=>b.avg-a.avg).map(d => {
+    const pct = (d.avg/maxAvg*100).toFixed(0);
+    return `<div style="margin-bottom:10px">
+      <div style="display:flex;justify-content:space-between;margin-bottom:3px"><span style="font-size:13px;font-weight:500">${d.day}</span><span style="font-size:13px;font-weight:600">${R(d.avg)}</span></div>
+      <div style="height:8px;background:var(--bg);border-radius:4px;overflow:hidden"><div style="height:100%;width:${pct}%;background:var(--grad)"></div></div>
+      <div style="font-size:10px;color:var(--txt2);margin-top:2px">${d.count} ${d.count===1?'dia trabalhado':'dias trabalhados'}</div>
+    </div>`;
+  }).join('');
+  let html = insCard('ok','🏆',`${best.day} é seu melhor dia`,`Em média ${R(best.avg)} nas ${best.short}s. Vale colocar o pé na rua com tudo nesse dia.`);
+  if (best.day !== worst.day && worst.avg > 0 && best.avg/worst.avg > 1.3)
+    html += insCard('warn','😴',`${worst.day} não costuma compensar`,`Média de ${R(worst.avg)} nas ${worst.short}s. Pode ser um bom dia para descansar.`);
+  html += `<div class="card"><div style="font-size:13px;font-weight:600;margin-bottom:12px">📅 O que cada dia rende, na média</div>${bars}</div>`;
+  c.innerHTML = html;
+}
+
+function renderForecast() {
+  const c = el('forecastBox');
+  if (!S.goal) {
+    c.innerHTML = `<div class="ins warn"><div class="ins-icon">🎯</div><div class="ins-title">Sem meta, sem bússola</div><div class="ins-text">Defina quanto você quer ter no bolso e o NoCorre calcula quanto você precisa fazer por dia.</div><button class="btn sm" style="margin-top:12px" onclick="openGoalModal()">Definir minha meta agora</button></div>`;
+    return;
+  }
+
+  // Quanto já está no bolso no período da meta
+  const r = periodRange(S.goal.period);
+  const txns  = txnsInRange(r.start, r.end);
+  const earned = net(txns);
+
+  if (earned >= S.goal.amount) {
+    c.innerHTML = insCard('ok','🎉','Meta batida. Missão cumprida!',`Você chegou lá — ${R(S.goal.amount)} no bolso. Tudo que vier agora é extra. Merece!`);
+    return;
+  }
+
+  const falta = S.goal.amount - earned;
+
+  // Dias trabalhados por semana (configurável pelo usuário)
+  const wd = S.forecastDays || 5;
+
+  // Calcular dias úteis restantes no período
+  const now = new Date(); now.setHours(0,0,0,0);
+  let totalDaysInPeriod, daysElapsed;
+  if (S.goal.period === 'day') {
+    totalDaysInPeriod = 1; daysElapsed = 0;
+  } else if (S.goal.period === 'week') {
+    const start = new Date(r.start + 'T00:00:00');
+    totalDaysInPeriod = 7;
+    daysElapsed = Math.max(0, Math.ceil((now - start) / 86400000));
+  } else if (S.goal.period === 'biweekly') {
+    const start = new Date(r.start + 'T00:00:00');
+    totalDaysInPeriod = 15;
+    daysElapsed = Math.max(0, Math.ceil((now - start) / 86400000));
+  } else {
+    // mês
+    const monthEnd = new Date(now.getFullYear(), now.getMonth() + 1, 0);
+    totalDaysInPeriod = monthEnd.getDate();
+    daysElapsed = now.getDate() - 1;
+  }
+
+  // Proporção de dias trabalhados sobre os dias totais do período
+  const weeksInPeriod    = totalDaysInPeriod / 7;
+  const totalWorkDays    = Math.round(weeksInPeriod * wd);          // ex: 4.3 semanas × 5d = ~22 dias
+  const workDaysElapsed  = Math.round((daysElapsed / totalDaysInPeriod) * totalWorkDays);
+  const workDaysLeft     = Math.max(1, totalWorkDays - workDaysElapsed);
+
+  // Quanto precisa por dia = (meta - já ganhou) ÷ dias úteis restantes
+  const perDay = falta / workDaysLeft;
+
+  // Chips de dias por semana
+  const chips = [1,2,3,4,5,6,7].map(n =>
+    `<button class="chip ${wd===n?'active':''}" onclick="setForecastDays(${n})">${n}d/sem</button>`
+  ).join('');
+
+  const acimaDaMeta = perDay <= 0;
+
+  c.innerHTML = `<div class="card">
+    <div style="font-size:13px;font-weight:700;margin-bottom:12px">${GOAL_LABELS[S.goal.period]}: ${R(S.goal.amount)}</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px">
+      <div style="background:var(--ok-lt);padding:12px;border-radius:10px">
+        <div style="font-size:10px;color:var(--ok);font-weight:600;margin-bottom:4px">Já no bolso</div>
+        <div style="font-size:18px;font-weight:800;color:var(--ok)">${R(Math.max(earned,0))}</div>
+      </div>
+      <div style="background:var(--pri-lt);padding:12px;border-radius:10px">
+        <div style="font-size:10px;color:var(--pri);font-weight:600;margin-bottom:4px">Ainda falta</div>
+        <div style="font-size:18px;font-weight:800;color:var(--pri)">${R(falta)}</div>
+      </div>
+    </div>
+    <div class="form-lbl" style="margin-bottom:8px">📅 Quantos dias por semana você trabalha?</div>
+    <div class="chips" style="margin-bottom:16px">${chips}</div>
+    <div class="ins ${acimaDaMeta?'ok':'warn'}" style="margin-bottom:0">
+      <div class="ins-icon">${acimaDaMeta?'🎉':'💪'}</div>
+      <div class="ins-title">${acimaDaMeta ? 'Você está acima da meta!' : `Precisa de ${R(perDay)} por dia de trabalho`}</div>
+      <div class="ins-text">Trabalhando ${wd} dia${wd!==1?'s':''} por semana, o mês tem cerca de ${totalWorkDays} dias de trabalho. Você já trabalhou ~${workDaysElapsed} deles — restam ${workDaysLeft} dia${workDaysLeft!==1?'s':''} para bater a meta.</div>
+    </div>
+  </div>`;
+}
+
+function setForecastDays(n) { S.forecastDays = n; renderForecast(); }
+
+// ================================================================
+// COMMUNITY
+// ================================================================
+function renderStateChips() {
+  const used = [...new Set(S.posts.map(p=>p.state).filter(Boolean))];
+  const userSt = S.user && S.user.state;
+  let html = `<button class="st-chip ${S.commState==='all'?'active':''}" onclick="setCommState('all',this)">🌎 Todos</button>`;
+  if (userSt && used.includes(userSt))
+    html += `<button class="st-chip ${S.commState===userSt?'active':''}" onclick="setCommState('${userSt}',this)">📍 Meu estado (${userSt})</button>`;
+  used.filter(s => s !== userSt).forEach(s => {
+    html += `<button class="st-chip ${S.commState===s?'active':''}" onclick="setCommState('${s}',this)">${s}</button>`;
+  });
+  el('stateChips').innerHTML = html;
+}
+
+function setCommState(s, btn) {
+  S.commState = s;
+  document.querySelectorAll('#stateChips .st-chip').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderCommunity();
+}
+
+function setCommunityFilter(f, btn) {
+  S.commFilter = f;
+  document.querySelectorAll('#pgCommunity .chips .chip').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderCommunity();
+}
+
+function renderCommunity() {
+  let posts = [...S.posts];
+  if (S.commFilter !== 'all') posts = posts.filter(p => p.category === S.commFilter);
+  if (S.commState !== 'all') posts = posts.filter(p => p.state === S.commState);
+  const c = el('communityFeed');
+  if (!posts.length) { c.innerHTML = emptyHTML('💬','Ninguém por aqui ainda nesse filtro','Muda o filtro ou seja o primeiro a compartilhar!'); return; }
+  const catE = {uber:'🚗',ifood:'🍔',loggi:'📦',rappi:'🛵',dicas:'💡'};
+  const catL = {uber:'Uber/99',ifood:'iFood',loggi:'Loggi',rappi:'Rappi',dicas:'Dica'};
+  c.innerHTML = posts.map(p => `
+    <div class="post">
+      <div class="post-hdr">
+        <div class="post-av">${p.avatar}</div>
+        <div style="flex:1;min-width:0">
+          <div class="post-author">${p.author}</div>
+          <div class="post-meta">${p.time}</div>
+          <div class="post-tags"><span class="p-tag">${catE[p.category]||'💡'} ${catL[p.category]||'Dica'}</span>${p.state?`<span class="p-tag loc">📍 ${p.state}</span>`:''}</div>
+        </div>
+      </div>
+      <div class="post-body">${p.content}</div>
+      <div class="post-acts">
+        <button class="post-act ${p.liked?'liked':''}" onclick="toggleLike(${p.id})">${p.liked?'❤️':'🤍'} ${p.likes}</button>
+        <button class="post-act">💬 ${p.comments}</button>
+        <button class="post-act">🔗</button>
+      </div>
+    </div>`).join('');
+}
+
+function toggleLike(id) {
+  const p = S.posts.find(p => p.id===id);
+  if (!p) return;
+  p.liked = !p.liked; p.likes += p.liked ? 1 : -1;
+  persist(); renderCommunity();
+}
+
+function savePost() {
+  const txt = el('postTxt').value.trim();
+  if (!txt) { toast('Escreve algo primeiro — a galera quer te ouvir!','err'); return; }
+  const cat = el('postCat').value;
+  const initials = S.user.name.split(' ').map(n=>n[0].toUpperCase()).slice(0,2).join('');
+  S.posts.unshift({id:Date.now(),author:S.user.name,avatar:initials,category:cat,state:S.user.state,content:txt,time:'agora',likes:0,comments:0,liked:false});
+  persist(); renderStateChips(); renderCommunity();
+  closeModal('postModal'); el('postTxt').value='';
+  toast('Compartilhado! A galera já pode ver. 🎉','ok');
+}
+
+// ================================================================
+// NEWS + FUEL
+// ================================================================
+let fuelModalFilter = 'all';
+
+function trendBadge(t) {
+  if (t==='subida') return '<span class="trend-up">▲</span>';
+  if (t==='descida') return '<span class="trend-dn">▼</span>';
+  return '<span class="trend-eq">→</span>';
+}
+
+function fuelRegionsHTML(filterName) {
+  const userSt = S.user && S.user.state;
+  const regs = filterName === 'all'
+    ? FUEL_DATA.regioes
+    : FUEL_DATA.regioes.filter(r => r.nome === filterName);
+
+  return regs.map(reg => `
+    <div class="fuel-reg-hdr">
+      <span>${reg.nome}</span>
+      <span style="font-size:11px;opacity:.9">Gasolina média: R$ ${reg.media_gasolina.toFixed(2)}</span>
+    </div>
+    <div class="fuel-st-grid">
+      ${reg.estados.map(e => `
+        <div class="fuel-st ${e.id_estado === userSt ? 'mine' : ''}">
+          <div class="fuel-st-name">${e.id_estado === userSt ? '📍 ' : ''}${e.id_estado}</div>
+          <div class="f-row"><span class="f-lbl">⛽ Gasolina</span><span class="f-price">R$ ${e.media_gasolina.toFixed(2)} ${trendBadge(e.tendencia_gasolina)}</span></div>
+          <div class="f-row"><span class="f-lbl">🌿 Etanol</span><span class="f-price">R$ ${e.media_etanol.toFixed(2)} ${trendBadge(e.tendencia_etanol)}</span></div>
+          <div class="f-row"><span class="f-lbl">🚚 Diesel</span><span class="f-price">R$ ${e.media_diesel.toFixed(2)} ${trendBadge(e.tendencia_diesel)}</span></div>
+          <div class="f-coleta">ANP • ${FUEL_DATA.ultima_coleta_anp}</div>
+        </div>`).join('')}
+    </div>`).join('');
+}
+
+function setFuelModalFilter(f, btn) {
+  fuelModalFilter = f;
+  el('fuelModalChips').querySelectorAll('.chip').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  el('fuelModalBody').innerHTML = fuelRegionsHTML(fuelModalFilter);
+}
+
+function renderNews() {
+  // Card do estado do usuário
+  const myState = S.user && S.user.state;
+  let stateData = null;
+  for (const reg of FUEL_DATA.regioes) {
+    stateData = reg.estados.find(e => e.id_estado === myState);
+    if (stateData) break;
+  }
+  if (stateData) {
+    el('fuelMyState').innerHTML = `
+      <div class="fuel-item"><div class="fi-em">⛽</div><div class="fi-name">Gasolina</div><div class="fi-price">R$ ${stateData.media_gasolina.toFixed(2)}</div><div class="fi-trend">${trendBadge(stateData.tendencia_gasolina)}</div></div>
+      <div class="fuel-item"><div class="fi-em">🌿</div><div class="fi-name">Etanol</div><div class="fi-price">R$ ${stateData.media_etanol.toFixed(2)}</div><div class="fi-trend">${trendBadge(stateData.tendencia_etanol)}</div></div>
+      <div class="fuel-item"><div class="fi-em">🚚</div><div class="fi-name">Diesel</div><div class="fi-price">R$ ${stateData.media_diesel.toFixed(2)}</div><div class="fi-trend">${trendBadge(stateData.tendencia_diesel)}</div></div>`;
+    el('fuelColeta').textContent = `📌 ANP • Coleta: ${FUEL_DATA.ultima_coleta_anp}${FUEL_DATA.fonte === 'fallback_embutido' ? ' • dados embutidos' : ' • atualizado online'}`;
+  } else {
+    el('fuelMyState').innerHTML = '<p style="font-size:12px;color:#9a3412;grid-column:1/-1">Defina seu estado no Perfil para ver os preços da sua região.</p>';
+    el('fuelColeta').textContent = '';
+  }
+  renderNewsList();
+}
+
+function setNewsFilter(f, btn) {
+  S.newsFilter = f;
+  btn.closest('.chips').querySelectorAll('.chip').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderNewsList();
+}
+
+function setNewsImpact(f, btn) {
+  S.newsImpact = f;
+  btn.closest('.chips').querySelectorAll('.chip').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderNewsList();
+}
+
+function renderNewsList() {
+  let list = [...NEWS];
+  if (S.newsFilter !== 'all') list = list.filter(n => n.platform === S.newsFilter);
+  if (S.newsImpact !== 'all') list = list.filter(n => n.impact === S.newsImpact);
+  const platL = {uber:'UBER',n99:'99',ifood:'IFOOD',rappi:'RAPPI',loggi:'LOGGI',geral:'GERAL'};
+  const impL = {positive:'📈 Positivo',negative:'📉 Negativo',neutral:'📊 Neutro'};
+  const c = el('newsFeed');
+  if (!list.length) { c.innerHTML = emptyHTML('📰','Nada nesse filtro no momento','Tenta outro filtro para ver mais novidades'); return; }
+  c.innerHTML = list.map(n => `
+    <div class="news-card" onclick="openArticle(${n.id})">
+      <div class="news-thumb ${n.platform}"><span class="news-plat">${platL[n.platform]||n.platform.toUpperCase()}</span><span class="news-impact ${n.impact}">${impL[n.impact]}</span>${n.emoji}</div>
+      <div class="news-body"><div class="news-title">${n.title}</div><div class="news-sum">${n.summary}</div><div class="news-foot"><span>📅 ${n.date}</span><span>📌 ${n.source}</span></div></div>
+    </div>`).join('');
+}
+
+function openArticle(id) {
+  const n = NEWS.find(n => n.id === id);
+  if (!n) return;
+  el('artTitle').textContent = n.title;
+  el('artBody').innerHTML = `<div style="background:var(--bg);padding:10px;border-radius:8px;margin-bottom:14px;font-size:12px;color:var(--txt2)">📌 Fonte: <strong>${n.source}</strong> • 📅 ${n.date}</div>${n.content}`;
+  openModal('articleModal');
+}
+
+// ================================================================
+// PROFILE
+// ================================================================
+function renderProfile() {
+  el('pSince').textContent = new Date(S.user.createdAt).toLocaleDateString('pt-BR');
+  el('pCount').textContent = S.transactions.length;
+  const allInc = income(S.transactions), allExp = expense(S.transactions);
+  el('pGross').textContent = R(allInc);
+  el('pExp').textContent = R(allExp);
+  el('pNet').textContent = R(allInc - allExp);
+  const stInfo = STATES.find(s => s.code === S.user.state);
+  el('pStateLbl').textContent = stInfo ? stInfo.code : '→';
+  renderVehicleDisplay();
+}
+
+function saveState_change() {
+  const v = el('stateSelect').value;
+  if (!v) { toast('Escolhe o teu estado para continuar','err'); return; }
+  S.user.state = v;
+  persist(); bootApp(); closeModal('stateModal');
+  toast('Localização atualizada! 📍','ok');
+}
+
+function saveFeedback() {
+  const msg = el('fbMsg').value.trim();
+  if (!msg) { toast('Conta o que está pensando antes de mandar 😊','err'); return; }
+  const typeLabels = {sugestao:'💡 Sugestão',bug:'🐛 Problema',feature:'✨ Nova funcionalidade',elogio:'❤️ Elogio',outro:'💭 Outro'};
+  S.feedbacks.unshift({id:Date.now(),type:el('fbType').value,typeLabel:typeLabels[el('fbType').value],message:msg,email:el('fbEmail').value.trim()||null,sentAt:new Date().toISOString()});
+  persist(); el('fbMsg').value=''; el('fbEmail').value='';
+  renderFbHistory(); toast('Chegou aqui! Valeu pela confiança. 💜','ok');
+}
+
+function renderFbHistory() {
+  const c = el('fbHistory');
+  if (!S.feedbacks.length) { c.innerHTML=''; return; }
+  c.innerHTML = '<div style="font-size:12px;font-weight:600;margin-bottom:8px;color:var(--txt2)">Seus feedbacks anteriores:</div>'
+    + S.feedbacks.slice(0,3).map(f => `<div style="background:var(--bg);padding:10px;border-radius:8px;margin-bottom:6px;font-size:12px"><div style="font-weight:600;color:var(--pri);margin-bottom:3px">${f.typeLabel}</div><div>${f.message}</div><div style="color:var(--txt2);font-size:10px;margin-top:4px">${new Date(f.sentAt).toLocaleDateString('pt-BR')}</div></div>`).join('');
+}
+
+function exportCSV() {
+  if (!S.transactions.length) { toast('Nenhum registro para baixar ainda.','err'); return; }
+  const rows = ['Data,Tipo,Categoria,Descrição,Valor'];
+  S.transactions.forEach(t => rows.push(`${t.date},${t.type==='income'?'Ganho':'Gasto'},${t.categoryLabel},"${t.description}",${t.amount}`));
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([rows.join('\n')], {type:'text/csv'}));
+  a.download = `nocorre_${todayISO()}.csv`;
+  a.click();
+  toast('Seus dados foram baixados. Guarda bem! 📁','ok');
+}
+
+function loadDemo() {
+  if (S.transactions.length && !confirm('Adicionar dados de exemplo junto com os seus?')) return;
+  const today = new Date();
+  const demo = [];
+  const plat = CATS.income.find(c => c.id === S.user.platform) || CATS.income[0];
+  for (let i = 13; i >= 0; i--) {
+    const d = new Date(today); d.setDate(d.getDate() - i);
+    const ds = dateISO(d);
+    if (Math.random() > 0.2) {
+      demo.push({id:Date.now()+Math.random(),type:'income',category:plat.id,categoryLabel:plat.l,categoryEmoji:plat.e,amount:Math.round((150+Math.random()*200)*100)/100,description:`${plat.l} - dia ${d.getDate()}`,date:ds,source:'manual',status:'confirmed',timestamp:Date.now()});
+    }
+    if (Math.random() > 0.3) {
+      demo.push({id:Date.now()+Math.random()+1,type:'expense',category:'combustivel',categoryLabel:'Combustível',categoryEmoji:'⛽',amount:Math.round((40+Math.random()*60)*100)/100,description:'Combustível',date:ds,source:'manual',status:'confirmed',timestamp:Date.now()});
+    }
+    if (Math.random() > 0.7) {
+      demo.push({id:Date.now()+Math.random()+2,type:'expense',category:'alimentacao',categoryLabel:'Alimentação',categoryEmoji:'🍽️',amount:Math.round((15+Math.random()*35)*100)/100,description:'Refeição',date:ds,source:'manual',status:'confirmed',timestamp:Date.now()});
+    }
+  }
+  S.transactions = [...demo, ...S.transactions].sort((a,b) => b.date.localeCompare(a.date));
+  persist(); renderDashboard();
+  toast('Dados de exemplo carregados. Explore à vontade! 🎉','ok');
+}
+
+function resetAll() {
+  if (!confirm('Atenção: todos os seus registros serão apagados. Tem certeza?')) return;
+  if (!confirm('Última chance — isso não tem volta. Apagar tudo mesmo?')) return;
+  S.transactions = []; S.goal = null;
+  persist(); renderDashboard(); renderProfile();
+  toast('Tudo apagado. Página virada, novo começo.','ok');
+}
+
+// ================================================================
+// MODALS
+// ================================================================
+function openModal(id) {
+  if (id === 'txnModal') {
+    S.txnType = 'income'; S.txnCat = null;
+    el('mTabInc').classList.add('active'); el('mTabExp').classList.remove('active');
+    renderModalCats();
+    el('mDate').value = todayISO();
+  }
+  if (id === 'goalModal') {
+    const p = S.goal ? S.goal.period : 'month';
+    S.goalPeriodTemp = p;
+    document.querySelectorAll('#goalPeriodGrid .per-btn').forEach(b => b.classList.toggle('active', b.dataset.gp === p));
+    el('goalAmt').value = S.goal ? S.goal.amount : '';
+  }
+  if (id === 'feedbackModal') renderFbHistory();
+  if (id === 'vehicleModal') openVehicleModal();
+  if (id === 'exportModal') { exportPeriod = '7'; updateExportPreview(); }
+  if (id === 'fuelModal') {
+    fuelModalFilter = 'all';
+    el('fuelModalChips').querySelectorAll('.chip').forEach(b => b.classList.remove('active'));
+    el('fuelModalChips').querySelector('.chip').classList.add('active');
+    el('fuelModalBody').innerHTML = fuelRegionsHTML('all');
+    el('fuelModalDate').textContent = `ANP — Preços de Combustíveis • Coleta ${FUEL_DATA.ultima_coleta_anp}`;
+  }
+  el(id).classList.add('active');
+}
+
+function closeModal(id) { el(id).classList.remove('active'); }
+
+// Close modal on backdrop click
+document.querySelectorAll('.modal').forEach(m => {
+  m.addEventListener('click', e => { if (e.target === m) m.classList.remove('active'); });
+});
+
+// ================================================================
+// HELPERS
+// ================================================================
+function el(id) { return document.getElementById(id); }
+function show(id) { el(id).style.display = 'block'; }
+function hide(id) { el(id).style.display = 'none'; }
+function toast(msg, type='') {
+  const old = document.querySelector('.toast');
+  if (old) old.remove();
+  const t = document.createElement('div');
+  t.className = 'toast ' + type;
+  t.textContent = msg;
+  document.body.appendChild(t);
+  setTimeout(() => { t.style.opacity='0'; t.style.transform='translate(-50%,-100%)'; setTimeout(()=>t.remove(),300); }, 2800);
+}
+
+// ================================================================
+// GPS CARD
+// ================================================================
+function renderGpsCard() {
+  const today = todayISO();
+
+  // GPS income transactions for today
+  const gpsInc = S.transactions.filter(t => t.source==='gps' && t.type==='income' && t.date===today);
+  const gpsFuel = S.transactions.filter(t => t.source==='gps' && t.type==='expense' && t.date===today);
+
+  // Also include manual transactions of today
+  const manInc  = S.transactions.filter(t => t.source!=='gps' && t.type==='income' && t.date===today);
+  const manExp  = S.transactions.filter(t => t.source!=='gps' && t.type==='expense' && t.date===today);
+
+  const totalGross = [...gpsInc, ...manInc].reduce((s,t) => s+(parseFloat(t.amount)||0), 0);
+  const totalCost  = [...gpsFuel, ...manExp].reduce((s,t) => s+(parseFloat(t.amount)||0), 0);
+  const netToday   = totalGross - totalCost;
+
+  // km, time and wait from _ride metadata
+  let km = 0, totalMin = 0, waitMin = 0;
+  gpsInc.forEach(t => {
+    if (t._ride) {
+      km       += t._ride.km || 0;
+      totalMin += (t._ride.durationMin || 0) + (t._ride.waitMin || 0);
+      waitMin  += t._ride.waitMin || 0;
+    }
+  });
+
+  const waitPct = totalMin > 0 ? Math.round(waitMin / totalMin * 100) : 0;
+  const hOnline = Math.floor(totalMin / 60);
+  const mOnline = totalMin % 60;
+  const onlineTxt = totalMin > 0
+    ? (hOnline > 0 ? `${hOnline}h${mOnline > 0 ? mOnline+'m' : ''}` : `${mOnline}m`)
+    : '—';
+  const perKm = km > 0 ? netToday / km : 0;
+  const totalRides = gpsInc.length + manInc.length;
+
+  el('gpsKm').textContent     = km > 0 ? km.toFixed(1) : '0';
+  el('gpsTrips').textContent  = totalRides;
+  el('gpsOnline').textContent = onlineTxt;
+  el('gpsWait').textContent   = waitPct + '%';
+  el('gpsNet').textContent    = R(netToday);
+  el('gpsCombust').textContent = R(totalCost);
+  el('gpsPerKm').textContent   = km > 0 ? `${R(perKm)}/km` : '—';
+}
+
+// ================================================================
+// RIDES PAGE
+// ================================================================
+function setRidesFilter(f, btn) {
+  S.ridesFilter = f;
+  document.querySelectorAll('#ridesChips .chip').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderRides();
+}
+
+// Returns the date range for a rides filter
+function ridesDateRange(f) {
+  const today = new Date(); today.setHours(0,0,0,0);
+  const iso = d => dateISO(d);
+  const sub = n => { const d = new Date(today); d.setDate(d.getDate()-n); return d; };
+  if (f === 'today')  return { start: iso(today),    end: iso(today) };
+  if (f === '7d')     return { start: iso(sub(6)),   end: iso(today) };
+  if (f === '15d')    return { start: iso(sub(14)),  end: iso(today) };
+  if (f === '30d')    return { start: iso(sub(29)),  end: iso(today) };
+  if (f === 'month1') {
+    const s = new Date(today.getFullYear(), today.getMonth()-1, 1);
+    const e = new Date(today.getFullYear(), today.getMonth(), 0);
+    return { start: iso(s), end: iso(e) };
+  }
+  if (f === 'month2') {
+    const s = new Date(today.getFullYear(), today.getMonth()-2, 1);
+    const e = new Date(today.getFullYear(), today.getMonth()-1, 0);
+    return { start: iso(s), end: iso(e) };
+  }
+  return { start: iso(sub(29)), end: iso(today) };
+}
+
+function renderRides() {
+  const f = S.ridesFilter;
+  const range = ridesDateRange(f);
+
+  // GPS income transactions in range (source='gps', type='income')
+  const gpsTxns = S.transactions.filter(t =>
+    t.source === 'gps' && t.type === 'income' &&
+    t.date >= range.start && t.date <= range.end
+  );
+
+  // For each GPS income, find the linked fuel expense
+  const fuelTxns = S.transactions.filter(t =>
+    t.source === 'gps' && t.type === 'expense' &&
+    t.date >= range.start && t.date <= range.end
+  );
+  const fuelByRef = {};
+  fuelTxns.forEach(t => { if (t._rideRef) fuelByRef[t._rideRef] = t; });
+
+  // Build unified ride objects from transactions
+  const rides = gpsTxns.map(t => {
+    const fuel = fuelByRef[t.id];
+    const ride = t._ride || {};
+    return {
+      id: t.id,
+      txnId: t.id,
+      date: t.date,
+      startTime: ride.startTime || '—',
+      endTime: ride.endTime || '—',
+      km: ride.km || 0,
+      waitMin: ride.waitMin || 0,
+      grossEarn: parseFloat(t.amount) || 0,
+      fuelCost: fuel ? parseFloat(fuel.amount) || 0 : (ride.fuelCost || 0),
+      platform: ride.platform || t.category,
+      origin: ride.origin || t.description,
+      dest: ride.dest || ''
+    };
+  }).sort((a,b) => {
+    if (b.date !== a.date) return b.date.localeCompare(a.date);
+    return (b.startTime||'').localeCompare(a.startTime||'');
+  });
+
+  // Summary
+  const filtKm    = rides.reduce((s,r) => s + r.km, 0);
+  const filtGross = rides.reduce((s,r) => s + r.grossEarn, 0);
+  const filtFuel  = rides.reduce((s,r) => s + r.fuelCost, 0);
+  const filtNet   = filtGross - filtFuel;
+  const filterLabel = {today:'hoje','7d':'7 dias','15d':'15 dias','30d':'30 dias',month1:'mês ant.',month2:'2 meses'}[f] || '';
+
+  el('rTotalTrips').textContent = rides.length;
+  el('rTotalTripsLbl').textContent = `corridas (${filterLabel})`;
+  el('rTotalKm').textContent    = filtKm.toFixed(1) + ' km';
+  el('rPerKm').textContent      = filtKm > 0 ? R(filtNet / filtKm) : 'R$ 0';
+
+  // Efficiency
+  const uniqueDays = [...new Set(rides.map(r => r.date))].length;
+  const daysLabel  = uniqueDays === 1 ? '1 dia' : `${uniqueDays} dias`;
+  const avgEarn = rides.length ? filtNet / rides.length : 0;
+  const avgKm   = rides.length ? filtKm / rides.length  : 0;
+  const avgWait = rides.length ? rides.reduce((s,r) => s + r.waitMin, 0) / rides.length : 0;
+  el('rAvgEarn').textContent = R(avgEarn);
+  el('rAvgKm').textContent   = avgKm.toFixed(1) + ' km';
+  el('rAvgWait').textContent = Math.round(avgWait) + ' min';
+
+  // Efficiency header with days analyzed
+  const effSection = document.querySelector('#pgRides .sec-hdr h3');
+  if (effSection) effSection.innerHTML = `⚡ Eficiência <small style="font-size:10px;font-weight:400;color:var(--txt3);margin-left:6px">${daysLabel} analisados</small>`;
+
+  // Hourly heatmap
+  const hours = Array(9).fill(0);
+  rides.forEach(r => {
+    if (!r.startTime || r.startTime === '—') return;
+    const h = parseInt(r.startTime.split(':')[0]);
+    const bucket = Math.max(0, Math.min(8, Math.floor((h - 6) / 2)));
+    hours[bucket] += r.grossEarn - r.fuelCost;
+  });
+  const maxH = Math.max(...hours, 1);
+  const hLabels = ['6h','8h','10h','12h','14h','16h','18h','20h','22h'];
+  el('hourlyBars').innerHTML = hours.map((v,i) => {
+    const h = Math.max(4, Math.round(v / maxH * 56));
+    const isPeak = v === maxH && v > 0;
+    const cnt = rides.filter(r => {
+      if (!r.startTime || r.startTime === '—') return false;
+      return Math.floor((parseInt(r.startTime.split(':')[0]) - 6) / 2) === i;
+    }).length;
+    return `<div class="h-bar ${v>0?'has-data':''} ${isPeak?'peak':''}" style="height:${h}px"
+      onclick="el('hourlyTip').textContent='${hLabels[i]}: ${R(v)} líquido • ${cnt} corrida${cnt!==1?'s':''}'"></div>`;
+  }).join('');
+
+  // Trip list grouped by date
+  el('rCount').textContent = `(${rides.length})`;
+  const platEmoji = {uber:'🚗',ifood:'🍔',loggi:'📦',rappi:'🛵',n99:'🟡'};
+  const grouped = {};
+  rides.forEach(r => {
+    if (!grouped[r.date]) grouped[r.date] = [];
+    grouped[r.date].push(r);
+  });
+
+  let html = '';
+  Object.keys(grouped).sort((a,b) => b.localeCompare(a)).forEach(date => {
+    const dayRides = grouped[date];
+    const dNet = dayRides.reduce((s,r) => s + r.grossEarn - r.fuelCost, 0);
+    const dLabel = fmtDate(date);
+    html += `<div style="font-size:11px;font-weight:700;color:var(--txt2);padding:10px 0 6px;text-transform:uppercase;letter-spacing:.5px;display:flex;justify-content:space-between">
+      <span>${dLabel} · ${dayRides.length} corrida${dayRides.length!==1?'s':''}</span>
+      <span style="color:var(--ok)">${R(dNet)} líquido</span>
+    </div>`;
+    dayRides.forEach(r => {
+      const n = r.grossEarn - r.fuelCost;
+      const dest = r.dest ? ` → ${r.dest}` : '';
+      html += `<div class="trip-item" onclick="openTripEdit('${r.txnId}')" style="cursor:pointer">
+        <div class="trip-line"></div>
+        <div class="trip-body">
+          <div class="trip-row">
+            <span class="trip-desc">${platEmoji[r.platform]||'🚗'} ${r.origin}${dest}</span>
+            <span class="trip-earn">${R(r.grossEarn)}</span>
+          </div>
+          <div class="trip-meta">
+            ${r.startTime !== '—' ? `<span class="trip-tag">🕐 ${r.startTime}–${r.endTime}</span>` : ''}
+            ${r.km > 0 ? `<span class="trip-tag">📍 ${r.km} km</span>` : ''}
+            ${r.waitMin > 0 ? `<span class="trip-tag wait">⏳ ${r.waitMin}min</span>` : ''}
+            <span class="trip-tag cost">⛽ -${R(r.fuelCost)}</span>
+            <span class="trip-tag net">✓ ${R(n)}</span>
+          </div>
+        </div>
+      </div>`;
+    });
+  });
+
+  if (!html) html = `<div class="empty"><div class="em">🚗</div><h3>Sem corridas nesse período</h3><p>Os dados aparecem aqui assim que forem registrados</p></div>`;
+  el('tripsBox').innerHTML = html;
+}
+
+// ================================================================
+// VEHICLE
+// ================================================================
+let vehicleType = 'car';
+
+function setVehicleType(type) {
+  vehicleType = type;
+  el('vTypeCar').classList.toggle('active', type === 'car');
+  el('vTypeMoto').classList.toggle('active', type === 'moto');
+  populateVehicleMakes();
+  el('vModel').innerHTML = '<option value="">Selecione a montadora primeiro</option>';
+  el('vConsumptionBox').style.display = 'none';
+}
+
+function populateVehicleMakes() {
+  const makes = Object.keys(VEHICLE_DB[vehicleType]).sort();
+  el('vMake').innerHTML = '<option value="">Selecione...</option>' +
+    makes.map(m => `<option value="${m}">${m}</option>`).join('');
+}
+
+function updateVehicleModels() {
+  const make = el('vMake').value;
+  if (!make) { el('vModel').innerHTML = '<option value="">Selecione a montadora primeiro</option>'; return; }
+  const models = Object.keys(VEHICLE_DB[vehicleType][make]).sort();
+  el('vModel').innerHTML = '<option value="">Selecione o modelo...</option>' +
+    models.map(m => `<option value="${m}">${m}</option>`).join('');
+  el('vConsumptionBox').style.display = 'none';
+}
+
+function updateVehicleConsumption() {
+  const make = el('vMake').value;
+  const model = el('vModel').value;
+  if (!make || !model) { el('vConsumptionBox').style.display = 'none'; return; }
+  const kml = VEHICLE_DB[vehicleType][make][model];
+  if (!kml) return;
+  // Use fuel price from user's state
+  const stateData = FUEL_DATA.regioes.flatMap(r => r.estados).find(e => e.id_estado === (S.user && S.user.state));
+  const fuelPrice = stateData ? stateData.media_gasolina : 5.89;
+  const costPerKm = fuelPrice / kml;
+  el('vConsumptionBox').style.display = 'block';
+  el('vConsumptionVal').textContent = `${kml} km/l em média`;
+  el('vCostPerKm').textContent = `≈ ${R(costPerKm)}/km com gasolina a ${R(fuelPrice)}/l no seu estado`;
+}
+
+function saveVehicle() {
+  const make = el('vMake').value;
+  const model = el('vModel').value;
+  if (!make || !model) { toast('Selecione a montadora e o modelo', 'err'); return; }
+  const kml = VEHICLE_DB[vehicleType][make][model];
+  S.vehicle = { type: vehicleType, make, model, kmPerLiter: kml };
+  persist();
+  renderProfile();
+  closeModal('vehicleModal');
+  toast(`${make} ${model} salvo! Consumo: ${kml} km/l ⛽`, 'ok');
+}
+
+function renderVehicleDisplay() {
+  const box = el('vehicleDisplay');
+  if (!S.vehicle) {
+    box.innerHTML = `<p style="font-size:13px;color:var(--txt2);margin-bottom:4px">Nenhum veículo cadastrado.</p>
+      <p style="font-size:11px;color:var(--txt3)">Cadastre seu veículo para calcular o custo de combustível por km com precisão.</p>`;
+    return;
+  }
+  const v = S.vehicle;
+  const stateData = FUEL_DATA.regioes.flatMap(r => r.estados).find(e => e.id_estado === (S.user && S.user.state));
+  const fuelPrice = stateData ? stateData.media_gasolina : 5.89;
+  const costPerKm = fuelPrice / v.kmPerLiter;
+  box.innerHTML = `
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:10px">
+      <div style="font-size:28px">${v.type === 'car' ? '🚗' : '🏍️'}</div>
+      <div>
+        <div style="font-size:15px;font-weight:800">${v.make} ${v.model}</div>
+        <div style="font-size:12px;color:var(--txt2)">${v.type === 'car' ? 'Carro' : 'Moto'} · ${v.kmPerLiter} km/l</div>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+      <div style="background:var(--ok-lt);padding:10px;border-radius:10px">
+        <div style="font-size:10px;color:var(--ok);font-weight:600">Consumo médio</div>
+        <div style="font-size:16px;font-weight:800;color:var(--ok)">${v.kmPerLiter} km/l</div>
+      </div>
+      <div style="background:var(--acc-lt);padding:10px;border-radius:10px">
+        <div style="font-size:10px;color:var(--acc);font-weight:600">Custo por km</div>
+        <div style="font-size:16px;font-weight:800;color:var(--acc)">${R(costPerKm)}</div>
+      </div>
+    </div>`;
+}
+
+function openVehicleModal() {
+  vehicleType = S.vehicle ? S.vehicle.type : 'car';
+  el('vTypeCar').classList.toggle('active', vehicleType === 'car');
+  el('vTypeMoto').classList.toggle('active', vehicleType === 'moto');
+  populateVehicleMakes();
+  if (S.vehicle) {
+    el('vMake').value = S.vehicle.make;
+    updateVehicleModels();
+    setTimeout(() => {
+      el('vModel').value = S.vehicle.model;
+      updateVehicleConsumption();
+    }, 50);
+  }
+}
+
+// ================================================================
+// EXPORT WITH PERIOD
+// ================================================================
+function setExportPeriod(p, btn) {
+  exportPeriod = p;
+  document.querySelectorAll('#exportModal .per-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  updateExportPreview();
+}
+
+function getExportTxns() {
+  const today = new Date(); today.setHours(0,0,0,0);
+  let start;
+  if (exportPeriod === '7')  { start = new Date(today); start.setDate(start.getDate()-6); }
+  else if (exportPeriod === '15') { start = new Date(today); start.setDate(start.getDate()-14); }
+  else if (exportPeriod === '30') { start = new Date(today); start.setDate(start.getDate()-29); }
+  else if (exportPeriod === 'month1') {
+    start = new Date(today.getFullYear(), today.getMonth()-1, 1);
+    const end = new Date(today.getFullYear(), today.getMonth(), 0);
+    const s = dateISO(start), e = dateISO(end);
+    return S.transactions.filter(t => t.date >= s && t.date <= e);
+  } else if (exportPeriod === 'month2') {
+    start = new Date(today.getFullYear(), today.getMonth()-2, 1);
+    const end = new Date(today.getFullYear(), today.getMonth(), 0);
+    const s = dateISO(start), e = dateISO(end);
+    return S.transactions.filter(t => t.date >= s && t.date <= e);
+  } else {
+    return S.transactions;
+  }
+  const s = dateISO(start), e = dateISO(today);
+  return S.transactions.filter(t => t.date >= s && t.date <= e);
+}
+
+function updateExportPreview() {
+  const txns = getExportTxns();
+  const inc = txns.filter(t => t.type==='income').reduce((s,t) => s+(parseFloat(t.amount)||0), 0);
+  const exp = txns.filter(t => t.type==='expense').reduce((s,t) => s+(parseFloat(t.amount)||0), 0);
+  el('exportPreview').innerHTML = txns.length
+    ? `<strong>${txns.length} registros</strong> · Ganhos: ${R(inc)} · Gastos: ${R(exp)} · Líquido: <strong style="color:var(--ok)">${R(inc-exp)}</strong>`
+    : 'Nenhum registro nesse período.';
+}
+
+function doExport() {
+  const txns = getExportTxns();
+  if (!txns.length) { toast('Nenhum registro nesse período.', 'err'); return; }
+  const rows = ['Data,Tipo,Categoria,Descrição,Valor'];
+  txns.forEach(t => rows.push(`${t.date},${t.type==='income'?'Ganho':'Gasto'},${t.categoryLabel},"${t.description}",${t.amount}`));
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([rows.join('\n')], {type:'text/csv'}));
+  a.download = `nocorre_${exportPeriod}_${todayISO()}.csv`;
+  a.click();
+  toast('Arquivo baixado com sucesso! 📁', 'ok');
+  closeModal('exportModal');
+}
+
+// ================================================================
+// TRIP EDIT / DELETE
+// ================================================================
+function openTripEdit(id) {
+  const txn = S.transactions.find(t => t.id == id);
+  if (!txn) return;
+  editingTripId = id;
+  editingTripType = 'txn';
+  el('tripModalTitle').textContent = txn.type === 'income' ? 'Editar ganho' : 'Editar gasto';
+  S.txnCat = txn.category;
+  S.txnType = txn.type;
+  const grid = el('tripCatGrid');
+  grid.innerHTML = CATS[txn.type].map(c =>
+    `<button class="cat-chip ${S.txnCat===c.id?'active':''}" onclick="pickTripCat('${c.id}')">`+
+    `<span>${c.e}</span>${c.l}</button>`
+  ).join('');
+  el('tripAmount').value = txn.amount;
+  el('tripDesc').value = txn.description;
+  el('tripDate').value = txn.date;
+  openModal('tripModal');
+}
+
+function pickTripCat(id) {
+  S.txnCat = id;
+  el('tripCatGrid').querySelectorAll('.cat-chip').forEach(b => b.classList.toggle('active', b.textContent.trim().includes(CATS[S.txnType].find(c=>c.id===id)?.l||'')));
+  renderTripCatGrid();
+}
+
+function renderTripCatGrid() {
+  el('tripCatGrid').innerHTML = CATS[S.txnType].map(c =>
+    `<button class="cat-chip ${S.txnCat===c.id?'active':''}" onclick="pickTripCat('${c.id}')">`+
+    `<span>${c.e}</span>${c.l}</button>`
+  ).join('');
+}
+
+function saveTripEdit() {
+  const amt = parseFloat(el('tripAmount').value);
+  if (!amt || amt <= 0) { toast('Insere um valor válido', 'err'); return; }
+  const idx = S.transactions.findIndex(t => t.id == editingTripId);
+  if (idx === -1) { toast('Registro não encontrado', 'err'); return; }
+  const cat = CATS[S.transactions[idx].type].find(c => c.id === S.txnCat) || CATS[S.transactions[idx].type][0];
+  S.transactions[idx] = {
+    ...S.transactions[idx],
+    category: cat.id, categoryLabel: cat.l, categoryEmoji: cat.e,
+    amount: amt, description: el('tripDesc').value.trim() || cat.l,
+    date: el('tripDate').value
+  };
+  persist(); renderDashboard(); renderGpsCard();
+  if (el('pgTransactions').classList.contains('active')) renderTransactions();
+  if (el('pgRides').classList.contains('active')) renderRides();
+  closeModal('tripModal');
+  toast('Registro atualizado ✓', 'ok');
+}
+
+function deleteTripEdit() {
+  if (!confirm('Apagar este registro? Não tem volta.')) return;
+  S.transactions = S.transactions.filter(t => t.id != editingTripId);
+  persist(); renderDashboard(); renderGpsCard();
+  if (el('pgTransactions').classList.contains('active')) renderTransactions();
+  if (el('pgRides').classList.contains('active')) renderRides();
+  closeModal('tripModal');
+  toast('Registro apagado.', 'ok');
+}
+
+// ================================================================
+// HOURLY STATS (Análises)
+// ================================================================
+function renderHourlyStats() {
+  const c = el('hourlyStatsBox');
+  if (!c) return;
+
+  // Use DEMO_RIDES for hourly data (all days)
+  const allRides = DEMO_RIDES;
+  const slots = Array(9).fill(null).map((_, i) => ({
+    label: `${6 + i*2}h–${8 + i*2}h`, h: 6 + i*2,
+    gross: 0, net: 0, count: 0
+  }));
+
+  allRides.forEach(r => {
+    const h = parseInt(r.startTime.split(':')[0]);
+    const i = Math.max(0, Math.min(8, Math.floor((h - 6) / 2)));
+    slots[i].gross += r.grossEarn;
+    slots[i].net   += r.grossEarn - r.fuelCost;
+    slots[i].count += 1;
+  });
+
+  const withData = slots.filter(s => s.count > 0);
+  if (!withData.length) {
+    c.innerHTML = emptyHTML('🕐', 'Sem dados por horário', 'Com mais corridas registradas, o NoCorre mostra seus melhores horários');
+    return;
+  }
+
+  const maxNet = Math.max(...withData.map(s => s.net), 1);
+  const avgNet = withData.reduce((s,x) => s + s.net/withData.length, 0);
+  const best   = withData.reduce((a,b) => a.net > b.net ? a : b);
+  const worst  = withData.reduce((a,b) => a.net < b.net ? a : b);
+
+  const bars = slots.map(s => {
+    const h = s.count > 0 ? Math.max(6, Math.round(s.net / maxNet * 56)) : 4;
+    const isBest  = s.count > 0 && s.h === best.h;
+    const isWorst = s.count > 0 && s.h === worst.h && withData.length > 1;
+    const col = isBest ? 'var(--ok)' : isWorst ? 'var(--err)' : s.count > 0 ? 'var(--pri)' : 'var(--brd)';
+    const opacity = s.count > 0 ? (isBest || isWorst ? 1 : 0.6) : 0.3;
+    return `<div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:3px">
+      <div style="font-size:9px;font-weight:700;color:${col};height:14px;display:flex;align-items:center">
+        ${isBest ? '🔥' : isWorst ? '❄️' : s.count > 0 ? Rshort(s.net) : ''}
+      </div>
+      <div style="width:100%;height:${h}px;background:${col};opacity:${opacity};border-radius:4px 4px 0 0;transition:height .3s"></div>
+      <div style="font-size:9px;color:var(--txt3);font-weight:500;text-align:center;line-height:1.2">${s.h}h</div>
+    </div>`;
+  }).join('');
+
+  c.innerHTML = `
+    <div style="display:flex;align-items:flex-end;gap:4px;height:90px;margin-bottom:8px">${bars}</div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px">
+      <div style="background:var(--ok-lt);border-radius:8px;padding:8px 12px;flex:1;min-width:120px">
+        <div style="font-size:10px;color:var(--ok);font-weight:700;margin-bottom:2px">🔥 Melhor horário</div>
+        <div style="font-size:14px;font-weight:800;color:var(--ok)">${best.label}</div>
+        <div style="font-size:11px;color:var(--txt2)">${R(best.net)} líquido · ${best.count} corrida${best.count!==1?'s':''}</div>
+      </div>
+      ${withData.length > 1 ? `<div style="background:var(--err-lt);border-radius:8px;padding:8px 12px;flex:1;min-width:120px">
+        <div style="font-size:10px;color:var(--err);font-weight:700;margin-bottom:2px">❄️ Horário mais fraco</div>
+        <div style="font-size:14px;font-weight:800;color:var(--err)">${worst.label}</div>
+        <div style="font-size:11px;color:var(--txt2)">${R(worst.net)} líquido · ${worst.count} corrida${worst.count!==1?'s':''}</div>
+      </div>` : ''}
+    </div>
+    <div style="font-size:10px;color:var(--txt3);margin-top:8px">Baseado em ${allRides.length} corridas registradas</div>`;
+}
+
+// ================================================================
+// BOOT
+// ================================================================
+if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
+else init();
+</script>
+</body>
+</html>
