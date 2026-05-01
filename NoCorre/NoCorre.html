@@ -5,9 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="theme-color" content="#112D4E">
 <meta name="description" content="NoCorre — Veja exatamente o que fica no seu bolso depois de cada dia na rua">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="NoCorre">
 <title>NoCorre</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 :root{
@@ -39,7 +41,7 @@
   --shadow-lg:0 8px 32px rgba(17,45,78,.12);
 }
 html,body{width:100%;overflow-x:hidden}
-body{font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;background:var(--bg);color:var(--txt);min-height:100dvh;font-size:14px;-webkit-font-smoothing:antialiased}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Helvetica Neue',Arial,sans-serif;background:var(--bg);color:var(--txt);min-height:100dvh;font-size:14px;-webkit-font-smoothing:antialiased}
 
 /* ── App shell ── */
 .app{width:100%;max-width:100%;margin:0 auto;min-height:100dvh;background:var(--bg);padding-bottom:calc(72px + var(--sb))}
@@ -348,7 +350,7 @@ body{font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;background:
 .trip-tag.wait{background:var(--warn-lt);color:var(--warn)}
 
 /* ── Login ── */
-.login-pg{min-height:100dvh;background:var(--pri);display:flex;flex-direction:column;justify-content:center;align-items:center;padding:24px;color:#fff;text-align:center;width:100%;position:fixed;top:0;left:0}
+.login-pg{min-height:100vh;min-height:100dvh;background:var(--pri);display:flex;flex-direction:column;justify-content:center;align-items:center;padding:24px;color:#fff;text-align:center;width:100%;box-sizing:border-box}
 .login-logo{margin-bottom:16px;display:flex;justify-content:center}
 .login-pg h1{font-size:34px;font-weight:800;margin-bottom:6px;letter-spacing:-.5px}
 .login-pg h1 span{color:var(--acc)}
@@ -359,9 +361,43 @@ body{font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;background:
 /* ── Toast ── */
 .toast{position:fixed;top:calc(20px + var(--st));left:50%;transform:translateX(-50%);background:var(--txt);color:#fff;padding:12px 18px;border-radius:var(--r);font-size:13px;font-weight:500;z-index:1000;box-shadow:var(--shadow-lg);animation:toastIn .3s ease;max-width:calc(100vw - 40px)}
 @keyframes toastIn{from{transform:translate(-50%,-100%);opacity:0}to{transform:translate(-50%,0);opacity:1}}
-.toast.ok{background:var(--ok)}
-.toast.err{background:var(--err)}
-.toast.warn{background:var(--acc)}
+/* ── Animação de registro ── */
+@keyframes balanceUp{0%{transform:scale(1)}30%{transform:scale(1.06)}60%{transform:scale(.97)}100%{transform:scale(1)}}
+@keyframes checkPop{0%{transform:scale(0) rotate(-20deg);opacity:0}60%{transform:scale(1.2) rotate(5deg);opacity:1}100%{transform:scale(1) rotate(0deg);opacity:1}}
+@keyframes slideInRight{from{transform:translateX(60px);opacity:0}to{transform:translateX(0);opacity:1}}
+.balance-amount.pulse{animation:balanceUp .45s ease}
+.txn-new{animation:slideInRight .3s ease}
+
+/* ── Empty state home ── */
+.home-empty{text-align:center;padding:28px 20px 20px}
+.home-empty-icon{font-size:48px;margin-bottom:12px;display:block}
+.home-empty-title{font-size:17px;font-weight:800;color:var(--txt);margin-bottom:6px}
+.home-empty-sub{font-size:13px;color:var(--txt2);line-height:1.6;margin-bottom:20px;max-width:260px;margin-left:auto;margin-right:auto}
+.home-empty-actions{display:flex;flex-direction:column;gap:8px}
+.home-empty-tip{background:var(--pri-lt);border-radius:var(--r);padding:12px 14px;display:flex;gap:10px;align-items:flex-start;margin-top:8px}
+.home-empty-tip-icon{font-size:18px;flex-shrink:0}
+.home-empty-tip-txt{font-size:12px;color:var(--pri);line-height:1.5;font-weight:500}
+
+/* ── Login steps ── */
+.login-steps{display:flex;gap:12px;justify-content:center;margin-bottom:24px;max-width:340px}
+.login-step{display:flex;flex-direction:column;align-items:center;gap:6px;flex:1}
+.login-step-icon{width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;font-size:18px;border:2px solid rgba(255,255,255,.25)}
+.login-step-txt{font-size:10px;opacity:.8;text-align:center;line-height:1.3;font-weight:500}
+.login-divider{width:1px;height:40px;background:rgba(255,255,255,.2);margin-top:0;align-self:center;flex-shrink:0}
+
+/* ── Onboarding melhorado ── */
+.ob-step{display:flex;gap:12px;margin-bottom:8px;padding:14px;background:var(--card);border-radius:var(--r);cursor:pointer;border:2px solid var(--brd);transition:all .2s;box-shadow:var(--shadow)}
+.ob-step:hover{border-color:var(--pri-lt);transform:translateY(-1px)}
+.ob-step.done{border-color:var(--ok);background:var(--ok-lt)}
+.ob-step.done:hover{border-color:var(--ok)}
+.ob-num{width:32px;height:32px;border-radius:50%;background:var(--bg2);display:flex;align-items:center;justify-content:center;font-weight:700;color:var(--txt2);flex-shrink:0;font-size:13px;transition:all .2s}
+.ob-step.done .ob-num{background:var(--ok);color:#fff;font-size:16px}
+.ob-step h4{font-size:13px;margin-bottom:3px;font-weight:700;color:var(--txt)}
+.ob-step p{font-size:11px;color:var(--txt2);line-height:1.4}
+.ob-step.done h4{color:var(--ok)}
+.ob-progress{display:flex;gap:6px;align-items:center;margin-bottom:10px;font-size:12px;color:var(--txt2);font-weight:500}
+.ob-progress-bar{flex:1;height:5px;background:var(--brd);border-radius:3px;overflow:hidden}
+.ob-progress-fill{height:100%;background:var(--ok);border-radius:3px;transition:width .4s ease}
 </style>
 </head>
 <body>
@@ -378,7 +414,25 @@ body{font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;background:
     </svg>
   </div>
   <h1>No<span>Corre</span></h1>
-  <p>Veja exatamente <strong>o que fica no seu bolso</strong> depois de cada dia na rua</p>
+  <p>O app que mostra <strong>quanto realmente fica no seu bolso</strong> depois de pagar combustível, alimentação e taxas</p>
+
+  <div class="login-steps">
+    <div class="login-step">
+      <div class="login-step-icon">📡</div>
+      <div class="login-step-txt">GPS capta suas corridas</div>
+    </div>
+    <div class="login-divider"></div>
+    <div class="login-step">
+      <div class="login-step-icon">⚡</div>
+      <div class="login-step-txt">Calcula custos em tempo real</div>
+    </div>
+    <div class="login-divider"></div>
+    <div class="login-step">
+      <div class="login-step-icon">💰</div>
+      <div class="login-step-txt">Você vê o que sobrou de verdade</div>
+    </div>
+  </div>
+
   <div class="login-form">
     <h2>Vamos começar?</h2>
     <div class="form-grp">
@@ -400,6 +454,7 @@ body{font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;background:
       <select class="f-sel" id="lState"><option value="">Selecione...</option></select>
     </div>
     <button class="btn acc" onclick="doLogin()">Entrar no corre →</button>
+    <p style="font-size:11px;color:var(--txt2);text-align:center;margin-top:12px">Seus dados ficam só no seu celular. Sem cadastro, sem senha.</p>
   </div>
 </div>
 
@@ -507,9 +562,9 @@ body{font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;background:
     <!-- Quick stats -->
     <div class="qs-grid">
       <div class="qs-card">
-        <div class="qs-lbl">Hoje</div>
-        <div class="qs-val" id="statToday">R$ 0</div>
-        <div class="qs-sub" id="projDetail"></div>
+        <div class="qs-lbl">⚡ Ritmo hoje</div>
+        <div class="qs-val" id="statToday">R$ 0/h</div>
+        <div class="qs-sub" id="projDetail">ganho por hora online</div>
       </div>
       <div class="qs-card accent">
         <div class="qs-lbl">📈 Projeção do mês</div>
@@ -1209,9 +1264,23 @@ let S = {
 // ================================================================
 // STORAGE — robust load with sanitization
 // ================================================================
+
+// Safe storage — funciona mesmo quando localStorage está bloqueado
+// (content://, file:// no Android, modo privado, etc.)
+const _store = (() => {
+  try {
+    localStorage.setItem('_t', '1');
+    localStorage.removeItem('_t');
+    return localStorage;
+  } catch(e) {
+    const m = {};
+    return { getItem: k => m[k]??null, setItem: (k,v) => { m[k]=String(v); }, removeItem: k => { delete m[k]; } };
+  }
+})();
+
 function persist() {
   try {
-    localStorage.setItem('nc1', JSON.stringify({
+    _store.setItem('nc1', JSON.stringify({
       user: S.user,
       transactions: S.transactions,
       posts: S.posts,
@@ -1225,7 +1294,7 @@ function persist() {
 
 function hydrate() {
   try {
-    const raw = localStorage.getItem('nc1');
+    const raw = _store.getItem('nc1');
     if (!raw) return;
     const d = JSON.parse(raw);
     S.user = d.user || null;
@@ -1262,7 +1331,10 @@ function hydrate() {
           date,
           source: t.source || 'manual',
           status: t.status || 'confirmed',
-          timestamp: t.timestamp || 0
+          timestamp: t.timestamp || 0,
+          // Preserva metadados GPS
+          ...(t._ride    ? { _ride:    t._ride    } : {}),
+          ...(t._rideRef ? { _rideRef: t._rideRef } : {})
         };
       })
       .filter(Boolean);
@@ -1377,15 +1449,34 @@ function doLogin() {
 }
 
 function doLogout() {
-  if (!confirm('Sair? Seus dados ficam salvos por aqui.')) return;
-  S.user = null;
-  persist();
-  hide('app');
-  show('loginPage');
+  // Cria modal de confirmação inline (confirm() pode ser bloqueado em WebView)
+  const overlay = document.createElement('div');
+  overlay.style.cssText = 'position:fixed;inset:0;background:rgba(13,27,42,.6);z-index:999;display:flex;align-items:flex-end;justify-content:center;backdrop-filter:blur(2px)';
+  overlay.innerHTML = `
+    <div style="background:#fff;border-radius:20px 20px 0 0;width:100%;max-width:480px;padding:24px 20px 32px;text-align:center">
+      <div style="font-size:28px;margin-bottom:12px">🚪</div>
+      <div style="font-size:17px;font-weight:800;color:#0D1B2A;margin-bottom:6px">Sair do NoCorre?</div>
+      <div style="font-size:13px;color:#5A6472;margin-bottom:24px;line-height:1.5">Seus dados ficam salvos aqui. Na próxima vez que entrar, tudo continua do mesmo jeito.</div>
+      <button id="logoutConfirm" style="width:100%;padding:14px;background:#C0392B;color:#fff;border:none;border-radius:12px;font-size:14px;font-weight:700;cursor:pointer;margin-bottom:10px;font-family:inherit">Sair</button>
+      <button id="logoutCancel" style="width:100%;padding:14px;background:#F0EEF0;color:#0D1B2A;border:none;border-radius:12px;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit">Cancelar</button>
+    </div>`;
+  document.body.appendChild(overlay);
+  document.getElementById('logoutConfirm').onclick = () => {
+    document.body.removeChild(overlay);
+    S.user = null;
+    persist();
+    hide('app');
+    el('loginPage').style.display = 'flex';
+    el('lName').value = '';
+    el('lState').value = '';
+    window.scrollTo(0, 0);
+  };
+  document.getElementById('logoutCancel').onclick = () => document.body.removeChild(overlay);
+  overlay.addEventListener('click', e => { if (e.target === overlay) document.body.removeChild(overlay); });
 }
 
 function bootApp() {
-  hide('loginPage');
+  el('loginPage').style.display = 'none';
   show('app');
 
   const firstName = S.user.name.split(' ')[0];
@@ -1415,8 +1506,9 @@ function bootApp() {
 
 // Convert DEMO_RIDES to S.transactions entries (source:'gps')
 function injectDemoRides() {
-  const alreadyInjected = S.transactions.some(t => t.source === 'gps');
-  if (alreadyInjected) return;
+  // Sempre remove e reinjecta as corridas GPS demo para garantir metadados completos.
+  // Transações manuais do usuário (source !== 'gps') são preservadas.
+  S.transactions = S.transactions.filter(t => t.source !== 'gps');
 
   const today = new Date(); today.setHours(0,0,0,0);
   const platMap = {uber:{id:'uber',l:'Uber/99',e:'🚗'},ifood:{id:'ifood',l:'iFood',e:'🍔'},loggi:{id:'loggi',l:'Loggi',e:'📦'},rappi:{id:'rappi',l:'Rappi',e:'🛵'}};
@@ -1448,7 +1540,7 @@ function injectDemoRides() {
       status: 'confirmed',
       timestamp: baseTs,
       // Extra GPS metadata for the Rides page
-      _ride: { startTime: r.startTime, endTime: r.endTime, km: r.km, waitMin: r.waitMin, fuelCost: r.fuelCost, platform: r.platform, origin: r.origin, dest: r.dest }
+      _ride: { startTime: r.startTime, endTime: r.endTime, km: r.km, durationMin: r.durationMin, waitMin: r.waitMin, fuelCost: r.fuelCost, platform: r.platform, origin: r.origin, dest: r.dest }
     });
 
     // Fuel cost entry (linked to the ride)
@@ -1517,27 +1609,65 @@ function renderDashboard() {
   el('periodLbl').textContent = PERIOD_LABELS[S.displayPeriod];
   const valEl = el('incomeVal');
   valEl.textContent = R(n);
-  valEl.className = 'income-val' + (n < 0 ? ' neg' : '');
+  valEl.className = 'balance-amount' + (n < 0 ? ' neg' : '');
   el('incomeGross').textContent = R(inc);
   el('incomeExp').textContent = R(exp);
 
-  // Today
-  const todayTxns = S.transactions.filter(t => t.date === todayISO());
-  const todayNet = net(todayTxns);
-  const tEl = el('statToday');
-  tEl.textContent = R(todayNet);
-  tEl.style.color = todayNet >= 0 ? 'var(--ok)' : 'var(--err)';
+  // Ritmo hoje — ganho líquido por hora online
+  const todayStr = todayISO();
+  const todayNetVal = net(S.transactions.filter(t => t.date === todayStr));
 
-  // Month projection
+  // Horas online: DEMO_RIDES de hoje + capturas automáticas com _ride
+  const todayDemoMin = DEMO_RIDES.filter(r => r.date === 'hoje')
+    .reduce((s,r) => s + (r.durationMin||0) + (r.waitMin||0), 0);
+  const autoCaptures = S.transactions.filter(t => t.source==='auto' && t.type==='income' && t.date===todayStr && t._ride);
+  const autoCaptureMin = autoCaptures.reduce((s,t) => s + (t._ride.durationMin||0) + (t._ride.waitMin||0), 0);
+  const todayMinOnline = todayDemoMin + autoCaptureMin;
+  const todayHrsOnline = todayMinOnline / 60;
+  const rateToday = todayHrsOnline > 0 ? todayNetVal / todayHrsOnline : 0;
+
+  // Média dos últimos 7 dias (excl. hoje) — usa DEMO_RIDES + transações reais
+  const w7start = daysAgoISO(6);
+  const w7txns  = S.transactions.filter(t => t.date >= w7start && t.date < todayStr);
+  const w7DemoMin = DEMO_RIDES.filter(r => r.date !== 'hoje')
+    .reduce((s,r) => s + (r.durationMin||0) + (r.waitMin||0), 0);
+  const w7AutoMin = S.transactions.filter(t => t.source==='auto' && t.type==='income'
+    && t.date >= w7start && t.date < todayStr && t._ride)
+    .reduce((s,t) => s + (t._ride.durationMin||0) + (t._ride.waitMin||0), 0);
+  const w7HrsOnline = (w7DemoMin + w7AutoMin) / 60;
+  const w7Net  = net(w7txns);
+  const rateAvg = w7HrsOnline > 0 ? w7Net / w7HrsOnline : 0;
+
+  const tEl = el('statToday');
+  if (todayHrsOnline > 0) {
+    tEl.textContent = `${R(rateToday)}/h`;
+    tEl.style.color = rateAvg > 0
+      ? (rateToday >= rateAvg ? 'var(--ok)' : 'var(--err)')
+      : 'var(--ok)';
+    const diff = rateAvg > 0 ? Math.round((rateToday - rateAvg) / rateAvg * 100) : null;
+    el('projDetail').textContent = diff !== null
+      ? (diff >= 0 ? `▲ ${diff}% acima da média` : `▼ ${Math.abs(diff)}% abaixo da média`)
+      : 'ganho por hora online';
+  } else {
+    tEl.textContent = '—';
+    tEl.style.color = 'var(--txt2)';
+    el('projDetail').textContent = 'aguardando dados de hoje';
+  }
+
+  // Month projection — usa só transações reais (manuais + auto) se o usuário tiver alguma
+  // Evita que as corridas demo GPS inflacionem a projeção de um usuário novo
   const now = new Date();
   const monthStart = dateISO(new Date(now.getFullYear(), now.getMonth(), 1));
-  const monthTxns = S.transactions.filter(t => t.date >= monthStart);
+  const allMonthTxns  = S.transactions.filter(t => t.date >= monthStart);
+  const realMonthTxns = allMonthTxns.filter(t => t.source !== 'gps');
+  const hasRealData   = realMonthTxns.length > 0;
+  const monthTxns     = hasRealData ? realMonthTxns : allMonthTxns;
   const monthNet = net(monthTxns);
   const dom = now.getDate();
   const dim = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
   const proj = dom > 0 ? (monthNet / dom) * dim : 0;
   el('statProj').textContent = R(proj); if(el('statProjCard')) el('statProjCard').textContent = R(proj);
-  el('projDetailCard') && (el('projDetailCard').textContent = `${dim-dom} dias restantes no mês`); el('projDetail').textContent = `Baseado nos ${dom} dias do mês • Faltam ${dim - dom}`;
+  el('projDetailCard') && (el('projDetailCard').textContent = `${dim-dom} dias restantes no mês`);
 
   // Highlight period button
   document.querySelectorAll('#periodModal .per-btn').forEach(b => {
@@ -1545,7 +1675,7 @@ function renderDashboard() {
   });
 
   renderGoalCard();
-  renderInsights(income(monthTxns), expense(monthTxns), monthNet);
+  renderInsights(income(allMonthTxns), expense(allMonthTxns), monthNet);
   renderRecent();
   renderOnboarding();
 }
@@ -1576,10 +1706,27 @@ function renderGoalCard() {
 
 function renderInsights(mInc, mExp, mNet) {
   const c = el('insightsBox');
-  if (S.transactions.length === 0) {
-    c.innerHTML = insCard('', '👋', 'Pronto para começar!', 'Registre seu primeiro ganho ou gasto e o NoCorre começa a mostrar o que realmente fica para você no fim do dia.');
+  const hasRealTxns = S.transactions.filter(t => t.source !== 'gps').length > 0;
+  const hasAnyTxns  = S.transactions.length > 0;
+
+  if (!hasRealTxns && !hasAnyTxns) {
+    c.innerHTML = `
+      <div class="home-empty">
+        <span class="home-empty-icon">🚀</span>
+        <div class="home-empty-title">Tudo pronto, ${S.user.name.split(' ')[0]}!</div>
+        <div class="home-empty-sub">Registre sua primeira corrida e o NoCorre começa a te mostrar o que realmente fica no bolso depois de pagar tudo.</div>
+        <div class="home-empty-actions">
+          <button class="btn acc" onclick="openModal('txnModal')">+ Registrar agora</button>
+          <button class="btn sec" onclick="loadDemo()">Ver como funciona com dados de exemplo</button>
+        </div>
+        <div class="home-empty-tip">
+          <span class="home-empty-tip-icon">💡</span>
+          <span class="home-empty-tip-txt">Motoristas que usam o NoCorre descobrem que até <strong>35% dos ganhos</strong> vai para custos que eles nem contavam.</span>
+        </div>
+      </div>`;
     return;
   }
+
   const items = [];
   const costPct = mInc > 0 ? (mExp / mInc * 100) : 0;
   if (costPct > 60) items.push({t:'err',i:'⚠️',h:'Os gastos estão pesados este mês',b:`${costPct.toFixed(0)}% do que você ganhou vai para custos. O ideal é abaixo de 50%.`});
@@ -1613,18 +1760,27 @@ function renderRecent() {
 }
 
 function renderOnboarding() {
-  if (S.transactions.length >= 3) { el('obSection').style.display = 'none'; return; }
+  const realTxns = S.transactions.filter(t => t.source !== 'gps');
+  if (realTxns.length >= 3) { el('obSection').style.display = 'none'; return; }
   el('obSection').style.display = 'block';
   const steps = [
-    {h:'Anote o que entrou hoje', b:'Registre seu primeiro ganho', done: S.transactions.some(t=>t.type==='income'), fn:'openModal("txnModal")'},
-    {h:'Anote o que saiu', b:'Combustível, alimentação, taxa de app', done: S.transactions.some(t=>t.type==='expense'), fn:'openModal("txnModal")'},
-    {h:'Diga qual é a sua meta', b:'Com meta, o NoCorre calcula quanto você precisa por dia', done: !!S.goal, fn:'openModal("goalModal")'}
+    {h:'Registre sua primeira corrida', b:'Toque em + e anote o ganho do dia', done: realTxns.some(t=>t.type==='income'), fn:'openModal("txnModal")'},
+    {h:'Anote o que saiu', b:'Combustível, alimentação, taxa — tudo conta', done: realTxns.some(t=>t.type==='expense'), fn:'openModal("txnModal")'},
+    {h:'Defina sua meta do mês', b:'O NoCorre vai te dizer quanto precisa por dia', done: !!S.goal, fn:'openModal("goalModal")'}
   ];
-  el('obSteps').innerHTML = steps.map((s,i) => `
+  const done = steps.filter(s => s.done).length;
+  const pct = Math.round(done / steps.length * 100);
+  el('obSteps').innerHTML = `
+    <div class="ob-progress">
+      <span>${done} de ${steps.length} feitos</span>
+      <div class="ob-progress-bar"><div class="ob-progress-fill" style="width:${pct}%"></div></div>
+      <span>${pct}%</span>
+    </div>
+    ${steps.map((s,i) => `
     <div class="ob-step ${s.done?'done':''}" onclick="${s.fn}">
       <div class="ob-num">${s.done ? '✓' : i+1}</div>
       <div><h4>${s.h}</h4><p>${s.b}</p></div>
-    </div>`).join('');
+    </div>`).join('')}`;
 }
 
 // ================================================================
@@ -1667,17 +1823,24 @@ function addSmartTransaction(data) {
   } else {
     S.transactions.unshift(data);
     if (data.source === 'auto') {
-      toast(`Vi que entrou ${R(data.amount)} da ${data.categoryLabel}. Toque para dar o ok. ⏳`, 'warn');
-    } else {
-      const msg = data.type === 'income'
-        ? `Pronto! ${R(data.amount)} já está no seu resumo. 💰`
-        : `Gasto do dia a dia anotado. ${R(data.amount)} descontado do seu saldo.`;
-      toast(msg, 'ok');
-    }
+        toast(`📡 Captei ${R(data.amount)} da ${data.categoryLabel}. Toque para confirmar. ⏳`, 'warn');
+      } else {
+        const msg = data.type === 'income'
+          ? `💰 +${R(data.amount)} registrado! Já está no seu saldo.`
+          : `📝 -${R(data.amount)} anotado nos custos.`;
+        toast(msg, 'ok');
+      }
   }
   persist();
   renderDashboard();
   renderGpsCard();
+  // Animate balance card to give satisfying feedback
+  const balEl = el('incomeVal');
+  if (balEl) {
+    balEl.classList.remove('pulse');
+    void balEl.offsetWidth;
+    balEl.classList.add('pulse');
+  }
   if (el('pgTransactions').classList.contains('active')) renderTransactions();
 }
 
@@ -1790,14 +1953,26 @@ function simulateCapture() {
     {id:'uber',e:'🚗',l:'Uber'},{id:'ifood',e:'🍔',l:'iFood'},
     {id:'rappi',e:'🛵',l:'Rappi'},{id:'loggi',e:'📦',l:'Loggi'}
   ];
-  const p = platforms[Math.floor(Math.random() * platforms.length)];
+  const p   = platforms[Math.floor(Math.random() * platforms.length)];
   const amt = parseFloat((Math.random() * 50 + 10).toFixed(2));
+
+  // Estimativas GPS baseadas no valor da corrida
+  const kmEst       = parseFloat((amt / 3.2).toFixed(1));   // ~R$3,20/km bruto
+  const durationEst = Math.round(kmEst * 2.5);              // ~2,5 min/km
+  const waitEst     = Math.round(3 + Math.random() * 5);    // 3–8 min esperando
+  const now         = new Date();
+  const startTime   = `${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
+
   addSmartTransaction({
     id: Date.now(), type: 'income',
     category: p.id, categoryLabel: p.l, categoryEmoji: p.e,
     amount: amt, description: `Corrida ${p.l}`,
-    date: todayISO(), source: 'auto', status: 'pending', timestamp: Date.now()
+    date: todayISO(), source: 'auto', status: 'pending', timestamp: Date.now(),
+    _ride: { km: kmEst, durationMin: durationEst, waitMin: waitEst,
+             startTime, endTime: startTime, platform: p.id,
+             origin: 'Captura automática', dest: '' }
   });
+  // Nota: custo de combustível é calculado pelo GPS card via km × custo/km do veículo
 }
 
 // ================================================================
@@ -1991,7 +2166,7 @@ function renderExpByCat(r) {
     const pct = (d.total/total*100).toFixed(1);
     return `<div style="margin-bottom:12px">
       <div style="display:flex;justify-content:space-between;margin-bottom:3px"><span>${d.e} ${cat}</span><strong>${R(d.total)}</strong></div>
-      <div style="height:7px;background:var(--bg);border-radius:4px;overflow:hidden"><div style="height:100%;width:${pct}%;background:var(--grad)"></div></div>
+      <div style="height:7px;background:var(--bg2);border-radius:4px;overflow:hidden"><div style="height:100%;width:${pct}%;background:var(--pri)"></div></div>
       <div style="font-size:10px;color:var(--txt2);margin-top:2px">${pct}% do total</div>
     </div>`;
   }).join('');
@@ -2004,31 +2179,58 @@ function renderPatterns() {
     c.innerHTML = insCard('', '📊', 'Ainda reunindo informações', 'Com mais alguns registros, o NoCorre vai mostrar em quais dias você rende mais.');
     return;
   }
-  const dayInc = {};
-  allInc.forEach(t => { dayInc[t.date] = (dayInc[t.date]||0) + parseFloat(t.amount); });
-  const dow = Array(7).fill(null).map(() => ({total:0,count:0}));
-  Object.entries(dayInc).forEach(([ds, v]) => {
-    const d = new Date(ds + 'T00:00:00').getDay();
-    dow[d].total += v; dow[d].count++;
+
+  // Agrupa por data: ganho líquido (income - expense do mesmo dia)
+  const dayNet = {};
+  S.transactions.forEach(t => {
+    if (!dayNet[t.date]) dayNet[t.date] = 0;
+    dayNet[t.date] += t.type === 'income' ? parseFloat(t.amount)||0 : -(parseFloat(t.amount)||0);
   });
+
+  // Agrupa por dia da semana
+  const dow = Array(7).fill(null).map(() => ({total:0, count:0}));
+  Object.entries(dayNet).forEach(([ds, v]) => {
+    if (v === 0) return; // ignora dias sem movimento
+    const d = new Date(ds + 'T00:00:00').getDay();
+    dow[d].total += v;
+    dow[d].count++;
+  });
+
   const dayNames = ['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado'];
-  const avgs = dow.map((s,i) => ({ day:dayNames[i], short:DAY_SHORT[i], avg:s.count>0?s.total/s.count:0, count:s.count })).filter(d => d.count>0);
-  if (avgs.length < 2) { c.innerHTML = insCard('','📊','Trabalhe em dias diferentes','Quando você registrar ganhos em vários dias, o NoCorre mostra quais valem mais a pena sair de casa.'); return; }
-  const sorted = [...avgs].sort((a,b) => b.avg-a.avg);
-  const best = sorted[0], worst = sorted[sorted.length-1];
-  const maxAvg = Math.max(...avgs.map(d => d.avg), 1);
-  const bars = [...avgs].sort((a,b)=>b.avg-a.avg).map(d => {
-    const pct = (d.avg/maxAvg*100).toFixed(0);
+  const avgs = dow
+    .map((s,i) => ({ day: dayNames[i], short: DAY_SHORT[i], avg: s.count > 0 ? s.total/s.count : 0, count: s.count }))
+    .filter(d => d.count > 0);
+
+  if (avgs.length < 2) {
+    c.innerHTML = insCard('','📊','Trabalhe em dias diferentes','Quando você registrar ganhos em vários dias, o NoCorre mostra quais valem mais a pena sair de casa.');
+    return;
+  }
+
+  const sorted  = [...avgs].sort((a,b) => b.avg - a.avg);
+  const best    = sorted[0];
+  const worst   = sorted[sorted.length - 1];
+  const maxAvg  = Math.max(...avgs.map(d => d.avg), 1);
+
+  const bars = [...avgs].sort((a,b) => b.avg - a.avg).map(d => {
+    const pct  = (d.avg / maxAvg * 100).toFixed(0);
+    const col  = d.day === best.day ? 'var(--ok)' : d.day === worst.day ? 'var(--err)' : 'var(--pri)';
+    const isNeg = d.avg < 0;
     return `<div style="margin-bottom:10px">
-      <div style="display:flex;justify-content:space-between;margin-bottom:3px"><span style="font-size:13px;font-weight:500">${d.day}</span><span style="font-size:13px;font-weight:600">${R(d.avg)}</span></div>
-      <div style="height:8px;background:var(--bg);border-radius:4px;overflow:hidden"><div style="height:100%;width:${pct}%;background:var(--grad)"></div></div>
+      <div style="display:flex;justify-content:space-between;margin-bottom:3px">
+        <span style="font-size:13px;font-weight:500">${d.day}</span>
+        <span style="font-size:13px;font-weight:700;color:${isNeg?'var(--err)':col}">${R(d.avg)} líquido/dia</span>
+      </div>
+      <div style="height:8px;background:var(--bg2);border-radius:4px;overflow:hidden">
+        <div style="height:100%;width:${isNeg?0:pct}%;background:${col};border-radius:4px;transition:width .4s"></div>
+      </div>
       <div style="font-size:10px;color:var(--txt2);margin-top:2px">${d.count} ${d.count===1?'dia trabalhado':'dias trabalhados'}</div>
     </div>`;
   }).join('');
-  let html = insCard('ok','🏆',`${best.day} é seu melhor dia`,`Em média ${R(best.avg)} nas ${best.short}s. Vale colocar o pé na rua com tudo nesse dia.`);
-  if (best.day !== worst.day && worst.avg > 0 && best.avg/worst.avg > 1.3)
-    html += insCard('warn','😴',`${worst.day} não costuma compensar`,`Média de ${R(worst.avg)} nas ${worst.short}s. Pode ser um bom dia para descansar.`);
-  html += `<div class="card"><div style="font-size:13px;font-weight:600;margin-bottom:12px">📅 O que cada dia rende, na média</div>${bars}</div>`;
+
+  let html = insCard('ok','🏆',`${best.day} é seu melhor dia`,`Líquido médio de ${R(best.avg)} nas ${best.short}s. Vale colocar o pé na rua com tudo nesse dia.`);
+  if (best.day !== worst.day && worst.avg >= 0 && best.avg / worst.avg > 1.3)
+    html += insCard('warn','😴',`${worst.day} costuma render menos`,`Média de ${R(worst.avg)} líquido nas ${worst.short}s. Pode ser um bom dia para descansar ou adiantar tarefas.`);
+  html += `<div class="card"><div style="font-size:13px;font-weight:700;margin-bottom:12px">📅 Ganho líquido médio por dia</div>${bars}</div>`;
   c.innerHTML = html;
 }
 
@@ -2040,9 +2242,12 @@ function renderForecast() {
   }
 
   // Quanto já está no bolso no período da meta
+  // Usa transações reais se existirem, caso contrário usa todas (demo)
   const r = periodRange(S.goal.period);
-  const txns  = txnsInRange(r.start, r.end);
-  const earned = net(txns);
+  const allTxns  = txnsInRange(r.start, r.end);
+  const realTxns = allTxns.filter(t => t.source !== 'gps');
+  const txns     = realTxns.length > 0 ? realTxns : allTxns;
+  const earned   = net(txns);
 
   if (earned >= S.goal.amount) {
     c.innerHTML = insCard('ok','🎉','Meta batida. Missão cumprida!',`Você chegou lá — ${R(S.goal.amount)} no bolso. Tudo que vier agora é extra. Merece!`);
@@ -2408,7 +2613,7 @@ document.querySelectorAll('.modal').forEach(m => {
 // HELPERS
 // ================================================================
 function el(id) { return document.getElementById(id); }
-function show(id) { el(id).style.display = 'block'; }
+function show(id) { el(id).style.display = id === 'loginPage' ? 'flex' : 'block'; }
 function hide(id) { el(id).style.display = 'none'; }
 function toast(msg, type='') {
   const old = document.querySelector('.toast');
@@ -2426,43 +2631,56 @@ function toast(msg, type='') {
 function renderGpsCard() {
   const today = todayISO();
 
-  // GPS income transactions for today
-  const gpsInc = S.transactions.filter(t => t.source==='gps' && t.type==='income' && t.date===today);
-  const gpsFuel = S.transactions.filter(t => t.source==='gps' && t.type==='expense' && t.date===today);
+  // Só contabiliza capturas automáticas e manuais de hoje — NÃO usa DEMO_RIDES
+  const incToday = S.transactions.filter(t => t.type==='income' && t.date===today && t.source !== 'gps');
+  const expToday = S.transactions.filter(t => t.type==='expense' && t.date===today && t.source !== 'gps');
 
-  // Also include manual transactions of today
-  const manInc  = S.transactions.filter(t => t.source!=='gps' && t.type==='income' && t.date===today);
-  const manExp  = S.transactions.filter(t => t.source!=='gps' && t.type==='expense' && t.date===today);
+  const totalGross = incToday.reduce((s,t) => s+(parseFloat(t.amount)||0), 0);
+  const totalRides = incToday.length;
 
-  const totalGross = [...gpsInc, ...manInc].reduce((s,t) => s+(parseFloat(t.amount)||0), 0);
-  const totalCost  = [...gpsFuel, ...manExp].reduce((s,t) => s+(parseFloat(t.amount)||0), 0);
-  const netToday   = totalGross - totalCost;
-
-  // km, time and wait from _ride metadata
+  // GPS metrics: só de capturas com _ride
   let km = 0, totalMin = 0, waitMin = 0;
-  gpsInc.forEach(t => {
-    if (t._ride) {
-      km       += t._ride.km || 0;
-      totalMin += (t._ride.durationMin || 0) + (t._ride.waitMin || 0);
-      waitMin  += t._ride.waitMin || 0;
-    }
+  incToday.filter(t => t._ride).forEach(t => {
+    km       += t._ride.km       || 0;
+    totalMin += (t._ride.durationMin||0) + (t._ride.waitMin||0);
+    waitMin  += t._ride.waitMin  || 0;
   });
 
-  const waitPct = totalMin > 0 ? Math.round(waitMin / totalMin * 100) : 0;
-  const hOnline = Math.floor(totalMin / 60);
-  const mOnline = totalMin % 60;
+  // Custo de combustível: recalcula a partir dos km reais e do veículo cadastrado
+  // Se não tem veículo, usa média brasileira: gasolina ~R$5,89/l, consumo 10 km/l → R$0,589/km
+  let costPerKm = 0.59; // padrão sem veículo
+  if (S.vehicle) {
+    const stateData = FUEL_DATA.regioes.flatMap(r => r.estados).find(e => e.id_estado === (S.user && S.user.state));
+    const fuelPrice = stateData ? stateData.media_gasolina : 5.89;
+    costPerKm = fuelPrice / S.vehicle.kmPerLiter;
+  } else if (km > 0) {
+    // Sem veículo: estima pelo combustível que veio nas corridas
+    const fuelFromRides = incToday.filter(t => t._ride).reduce((s,t) => s + (t._ride.fuelCost||0), 0);
+    costPerKm = fuelFromRides > 0 ? fuelFromRides / km : 0.59;
+  }
+  const totalCost = parseFloat((km * costPerKm).toFixed(2));
+
+  // Também soma despesas manuais de combustível do dia
+  const manualFuel = expToday.filter(t => t.category === 'combustivel')
+    .reduce((s,t) => s+(parseFloat(t.amount)||0), 0);
+  const totalCostFinal = totalCost > 0 ? totalCost : manualFuel;
+  const allExp = expToday.reduce((s,t) => s+(parseFloat(t.amount)||0), 0);
+  const netToday = totalGross - (totalCost > 0 ? totalCost + (allExp - manualFuel) : allExp);
+
+  const waitPct   = totalMin > 0 ? Math.round(waitMin / totalMin * 100) : 0;
+  const hOnline   = Math.floor(totalMin / 60);
+  const mOnline   = totalMin % 60;
   const onlineTxt = totalMin > 0
     ? (hOnline > 0 ? `${hOnline}h${mOnline > 0 ? mOnline+'m' : ''}` : `${mOnline}m`)
     : '—';
   const perKm = km > 0 ? netToday / km : 0;
-  const totalRides = gpsInc.length + manInc.length;
 
-  el('gpsKm').textContent     = km > 0 ? km.toFixed(1) : '0';
-  el('gpsTrips').textContent  = totalRides;
-  el('gpsOnline').textContent = onlineTxt;
-  el('gpsWait').textContent   = waitPct + '%';
-  el('gpsNet').textContent    = R(netToday);
-  el('gpsCombust').textContent = R(totalCost);
+  el('gpsKm').textContent      = km > 0 ? km.toFixed(1) : '0';
+  el('gpsTrips').textContent   = totalRides;
+  el('gpsOnline').textContent  = onlineTxt;
+  el('gpsWait').textContent    = waitPct > 0 ? waitPct + '%' : '0%';
+  el('gpsNet').textContent     = R(netToday);
+  el('gpsCombust').textContent = km > 0 ? R(totalCostFinal) : R(0);
   el('gpsPerKm').textContent   = km > 0 ? `${R(perKm)}/km` : '—';
 }
 
@@ -2858,18 +3076,25 @@ function renderHourlyStats() {
   const c = el('hourlyStatsBox');
   if (!c) return;
 
-  // Use DEMO_RIDES for hourly data (all days)
-  const allRides = DEMO_RIDES;
-  const slots = Array(9).fill(null).map((_, i) => ({
-    label: `${6 + i*2}h–${8 + i*2}h`, h: 6 + i*2,
-    gross: 0, net: 0, count: 0
+  const slots = Array(9).fill(null).map((_,i) => ({
+    label: `${6+i*2}h–${8+i*2}h`, h: 6+i*2, net: 0, count: 0
   }));
 
-  allRides.forEach(r => {
-    const h = parseInt(r.startTime.split(':')[0]);
-    const i = Math.max(0, Math.min(8, Math.floor((h - 6) / 2)));
-    slots[i].gross += r.grossEarn;
+  const bucket = h => Math.max(0, Math.min(8, Math.floor((h - 6) / 2)));
+
+  // DEMO_RIDES
+  DEMO_RIDES.forEach(r => {
+    const i = bucket(parseInt(r.startTime.split(':')[0]));
     slots[i].net   += r.grossEarn - r.fuelCost;
+    slots[i].count += 1;
+  });
+
+  // Transações reais com _ride (capturas automáticas)
+  S.transactions.filter(t => t.type==='income' && t._ride && t._ride.startTime && t._ride.startTime !== '—').forEach(t => {
+    const h = parseInt(t._ride.startTime.split(':')[0]);
+    const i = bucket(h);
+    const fuel = t._ride.fuelCost || 0;
+    slots[i].net   += (parseFloat(t.amount)||0) - fuel;
     slots[i].count += 1;
   });
 
@@ -2880,15 +3105,14 @@ function renderHourlyStats() {
   }
 
   const maxNet = Math.max(...withData.map(s => s.net), 1);
-  const avgNet = withData.reduce((s,x) => s + s.net/withData.length, 0);
   const best   = withData.reduce((a,b) => a.net > b.net ? a : b);
   const worst  = withData.reduce((a,b) => a.net < b.net ? a : b);
 
   const bars = slots.map(s => {
-    const h = s.count > 0 ? Math.max(6, Math.round(s.net / maxNet * 56)) : 4;
+    const h       = s.count > 0 ? Math.max(6, Math.round(s.net / maxNet * 56)) : 4;
     const isBest  = s.count > 0 && s.h === best.h;
     const isWorst = s.count > 0 && s.h === worst.h && withData.length > 1;
-    const col = isBest ? 'var(--ok)' : isWorst ? 'var(--err)' : s.count > 0 ? 'var(--pri)' : 'var(--brd)';
+    const col     = isBest ? 'var(--ok)' : isWorst ? 'var(--err)' : s.count > 0 ? 'var(--pri)' : 'var(--brd)';
     const opacity = s.count > 0 ? (isBest || isWorst ? 1 : 0.6) : 0.3;
     return `<div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:3px">
       <div style="font-size:9px;font-weight:700;color:${col};height:14px;display:flex;align-items:center">
@@ -2899,6 +3123,7 @@ function renderHourlyStats() {
     </div>`;
   }).join('');
 
+  const totalRides = withData.reduce((s,x) => s + x.count, 0);
   c.innerHTML = `
     <div style="display:flex;align-items:flex-end;gap:4px;height:90px;margin-bottom:8px">${bars}</div>
     <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px">
@@ -2913,7 +3138,18 @@ function renderHourlyStats() {
         <div style="font-size:11px;color:var(--txt2)">${R(worst.net)} líquido · ${worst.count} corrida${worst.count!==1?'s':''}</div>
       </div>` : ''}
     </div>
-    <div style="font-size:10px;color:var(--txt3);margin-top:8px">Baseado em ${allRides.length} corridas registradas</div>`;
+    <div style="font-size:10px;color:var(--txt3);margin-top:8px">Baseado em ${totalRides} corridas registradas</div>`;
+}
+
+// ================================================================
+// PWA — Service Worker (só registra se sw.js existir no mesmo domínio)
+// ================================================================
+if ('serviceWorker' in navigator && location.protocol !== 'file:') {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js')
+      .then(() => console.log('[NoCorre] PWA ativo'))
+      .catch(() => {}); // silencia erro se sw.js não existir
+  });
 }
 
 // ================================================================
