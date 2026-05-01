@@ -437,7 +437,11 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Helvetica Neue',Ar
     <h2>Vamos começar?</h2>
     <div class="form-grp">
       <label class="form-lbl">Como te chamam?</label>
-      <input class="f-input" id="lName" placeholder="Seu nome" onkeypress="if(event.key==='Enter')doLogin()">
+      <input class="f-input" id="lName" placeholder="Seu nome" onkeypress="if(event.key==='Enter')el('lEmail').focus()">
+    </div>
+    <div class="form-grp">
+      <label class="form-lbl">Seu e-mail <span style="font-weight:400;color:var(--txt2)">(opcional)</span></label>
+      <input class="f-input" id="lEmail" type="email" placeholder="seu@email.com" inputmode="email" onkeypress="if(event.key==='Enter')doLogin()">
     </div>
     <div class="form-grp">
       <label class="form-lbl">Onde você trabalha mais?</label>
@@ -454,7 +458,16 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Helvetica Neue',Ar
       <select class="f-sel" id="lState"><option value="">Selecione...</option></select>
     </div>
     <button class="btn acc" onclick="doLogin()">Entrar no corre →</button>
-    <p style="font-size:11px;color:var(--txt2);text-align:center;margin-top:12px">Seus dados ficam só no seu celular. Sem cadastro, sem senha.</p>
+    <div style="display:flex;align-items:center;gap:10px;margin:14px 0">
+      <div style="flex:1;height:1px;background:var(--brd)"></div>
+      <span style="font-size:11px;color:var(--txt2)">ou</span>
+      <div style="flex:1;height:1px;background:var(--brd)"></div>
+    </div>
+    <button onclick="googleLoginNotice()" style="width:100%;padding:12px;border:1.5px solid var(--brd);border-radius:var(--r-sm);background:var(--card);display:flex;align-items:center;justify-content:center;gap:10px;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit;color:var(--txt)">
+      <svg width="18" height="18" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.18 1.48-4.97 2.31-8.16 2.31-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
+      Entrar com Google
+    </button>
+    <p style="font-size:11px;color:var(--txt2);text-align:center;margin-top:12px">Seus dados ficam só no seu celular. Sem cadastro obrigatório.</p>
   </div>
 </div>
 
@@ -475,6 +488,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Helvetica Neue',Ar
         <span class="logo-txt">No<span class="logo-dot">Corre</span></span>
       </div>
       <div class="header-actions">
+        <button id="gpsToggleBtn" onclick="toggleGPS()" style="background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);color:#fff;padding:5px 10px;border-radius:20px;font-size:11px;cursor:pointer;font-family:inherit;display:flex;align-items:center;gap:5px">
+          <span id="gpsToggleDot" style="width:6px;height:6px;border-radius:50%;background:#9AA3AD;display:inline-block"></span>
+          <span id="gpsToggleTxt">GPS</span>
+        </button>
         <div id="avatarBtn" class="header-avatar" onclick="showPage('profile')">U</div>
       </div>
     </div>
@@ -482,7 +499,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Helvetica Neue',Ar
       <h1 id="greetTxt">Olá! 👋</h1>
       <div class="sub" id="greetDate"></div>
     </div>
-    <button class="sim-btn" onclick="simulateCapture()">🧪 Simular captura automática</button>
+    <div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap">
+      <button class="sim-btn" onclick="simulateCapture()">🧪 Simular captura</button>
+      <button class="sim-btn" onclick="resetTodaySession()" style="border-color:rgba(255,100,100,.5);color:rgba(255,180,180,.9)">🔄 Zerar sessão</button>
+    </div>
   </div>
 
   <!-- ── DASHBOARD ── -->
@@ -502,12 +522,16 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Helvetica Neue',Ar
       </div>
       <div class="gps-bottom">
         <div>
-          <div class="gps-net-lbl">Ganho líquido hoje</div>
-          <div class="gps-net-val" id="gpsNet">R$ 0,00</div>
+          <div class="gps-net-lbl">Bruto / Líquido hoje</div>
+          <div style="display:flex;align-items:baseline;gap:6px">
+            <div style="font-size:13px;opacity:.7;font-weight:500" id="gpsGross">R$ 0,00</div>
+            <div style="font-size:11px;opacity:.5">/</div>
+            <div class="gps-net-val" id="gpsNet">R$ 0,00</div>
+          </div>
         </div>
         <div class="gps-side">
           <div class="gps-side-item">⛽ <span id="gpsCombust">R$ 0,00</span> em custos</div>
-          <div class="gps-side-item"><span id="gpsPerKm">R$ 0,00</span>/km líquido</div>
+          <div class="gps-side-item"><span id="gpsPerKm">—</span></div>
         </div>
       </div>
     </div>
@@ -670,6 +694,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Helvetica Neue',Ar
     </div>
     <div class="sec-hdr"><h3>📊 Para onde foi o que saiu</h3></div>
     <div class="card" id="sByCat"></div>
+    <div class="sec-hdr"><h3>🔧 Saúde do veículo</h3><a onclick="openModal('vehicleModal')">Configurar →</a></div>
+    <div id="vehicleHealthBox"></div>
   </div>
 
   <!-- ── GALERA ── -->
@@ -729,6 +755,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Helvetica Neue',Ar
       <h3 id="profName" style="font-size:18px;margin-bottom:3px;font-weight:800"></h3>
       <p id="profPlatform" style="color:var(--txt2);font-size:13px;font-weight:500"></p>
       <p id="profLocation" style="color:var(--txt2);font-size:12px;margin-top:4px"></p>
+      <p id="profEmail" style="color:var(--txt2);font-size:12px;margin-top:4px"></p>
     </div>
 
     <div class="sec-hdr"><h3>🚗 Meu veículo</h3></div>
@@ -749,8 +776,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Helvetica Neue',Ar
     <div class="card">
       <div class="p-stat" style="cursor:pointer" onclick="openModal('goalModal')"><span class="p-stat-lbl">🎯 Definir minha meta</span><span class="p-stat-val" style="color:var(--acc)">→</span></div>
       <div class="p-stat" style="cursor:pointer" onclick="openModal('stateModal')"><span class="p-stat-lbl">📍 Mudar meu estado</span><span class="p-stat-val" style="color:var(--acc)" id="pStateLbl">→</span></div>
+      <div class="p-stat" style="cursor:pointer" onclick="openModal('emailModal')"><span class="p-stat-lbl">📧 Meu e-mail</span><span class="p-stat-val" style="color:var(--acc)" id="pEmailLbl">→</span></div>
       <div class="p-stat" style="cursor:pointer" onclick="openModal('feedbackModal')"><span class="p-stat-lbl">💬 Dar minha opinião</span><span class="p-stat-val" style="color:var(--acc)">→</span></div>
-      <div class="p-stat" style="cursor:pointer" onclick="openModal('exportModal')"><span class="p-stat-lbl">📥 Exportar histórico</span><span class="p-stat-val" style="color:var(--acc)">→</span></div>
+      <div class="p-stat" style="cursor:pointer" onclick="openModal('exportModal')"><span class="p-stat-lbl">📥 Exportar histórico (CSV)</span><span class="p-stat-val" style="color:var(--acc)">→</span></div>
+      <div class="p-stat" style="cursor:pointer" onclick="openModal('pdfModal')"><span class="p-stat-lbl">📄 Relatório mensal em PDF</span><span class="p-stat-val" style="color:var(--acc)">→</span></div>
       <div class="p-stat" style="cursor:pointer" onclick="loadDemo()"><span class="p-stat-lbl">🎲 Ver com dados de exemplo</span><span class="p-stat-val" style="color:var(--acc)">→</span></div>
       <div class="p-stat" style="cursor:pointer" onclick="resetAll()"><span class="p-stat-lbl" style="color:var(--err)">🗑️ Apagar tudo</span><span class="p-stat-val" style="color:var(--err)">→</span></div>
       <div class="p-stat" style="cursor:pointer" onclick="doLogout()"><span class="p-stat-lbl">🚪 Sair</span><span class="p-stat-val" style="color:var(--txt2)">→</span></div>
@@ -797,15 +826,15 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Helvetica Neue',Ar
     </div>
     <div class="form-grp">
       <label class="form-lbl">Montadora</label>
-      <select class="f-sel" id="vMake" onchange="updateVehicleModels()">
-        <option value="">Selecione...</option>
-      </select>
+      <input class="f-input" id="vMakeInput" placeholder="Digite para buscar (ex: Honda, BYD...)" oninput="filterVehicleMakes(this.value)" autocomplete="off">
+      <div id="vMakeSuggestions" style="display:none;border:1.5px solid var(--brd);border-radius:var(--r-sm);margin-top:4px;max-height:180px;overflow-y:auto;background:var(--card);box-shadow:var(--shadow)"></div>
+      <input type="hidden" id="vMake">
     </div>
     <div class="form-grp">
       <label class="form-lbl">Modelo</label>
-      <select class="f-sel" id="vModel" onchange="updateVehicleConsumption()">
-        <option value="">Selecione a montadora primeiro</option>
-      </select>
+      <input class="f-input" id="vModelInput" placeholder="Digite para buscar o modelo..." oninput="filterVehicleModels(this.value)" autocomplete="off" disabled>
+      <div id="vModelSuggestions" style="display:none;border:1.5px solid var(--brd);border-radius:var(--r-sm);margin-top:4px;max-height:180px;overflow-y:auto;background:var(--card);box-shadow:var(--shadow)"></div>
+      <input type="hidden" id="vModel">
     </div>
     <div class="form-grp" id="vConsumptionBox" style="display:none">
       <div style="background:var(--ok-lt);border-radius:10px;padding:12px">
@@ -813,6 +842,62 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Helvetica Neue',Ar
         <div style="font-size:16px;font-weight:800;color:var(--ok)" id="vConsumptionVal">—</div>
         <div style="font-size:11px;color:var(--txt2);margin-top:3px" id="vCostPerKm">—</div>
       </div>
+    </div>
+    <div class="divider" style="margin:14px 0"></div>
+    <div style="font-size:12px;font-weight:700;color:var(--txt2);margin-bottom:12px;text-transform:uppercase;letter-spacing:.5px">📊 Dados para saúde do veículo</div>
+    <div class="cols-2" style="gap:10px;margin-bottom:10px">
+      <div class="form-grp" style="margin-bottom:0">
+        <label class="form-lbl">Ano do veículo</label>
+        <input class="f-input" id="vYear" type="number" placeholder="Ex: 2019" min="1990" max="2026" inputmode="numeric">
+      </div>
+      <div class="form-grp" style="margin-bottom:0">
+        <label class="form-lbl">Valor FIPE (R$)</label>
+        <input class="f-input" id="vFipe" type="number" placeholder="Ex: 45000" inputmode="numeric">
+      </div>
+    </div>
+    <div class="form-grp">
+      <label class="form-lbl">KM atual do hodômetro</label>
+      <input class="f-input" id="vCurrentKm" type="number" placeholder="Ex: 87500" inputmode="numeric">
+    </div>
+    <div class="form-grp">
+      <label class="form-lbl">KM na última troca de óleo</label>
+      <input class="f-input" id="vKmLastOil" type="number" placeholder="Ex: 85000" inputmode="numeric">
+    </div>
+    <div class="form-grp">
+      <label class="form-lbl">KM na última troca de pneus</label>
+      <input class="f-input" id="vKmLastTire" type="number" placeholder="Ex: 60000" inputmode="numeric">
+    </div>
+    <div class="form-grp">
+      <label class="form-lbl">KM na última revisão geral</label>
+      <input class="f-input" id="vKmLastRevision" type="number" placeholder="Ex: 80000" inputmode="numeric">
+    </div>
+
+    <div style="height:1px;background:var(--brd);margin:16px 0"></div>
+    <div style="font-size:12px;font-weight:700;color:var(--txt2);text-transform:uppercase;letter-spacing:.5px;margin-bottom:12px">📋 Dados para manutenção e saúde</div>
+
+    <div class="form-grp">
+      <label class="form-lbl">Ano do veículo</label>
+      <input class="f-input" id="vYear" type="number" placeholder="Ex: 2020" min="1990" max="2026" inputmode="numeric">
+    </div>
+    <div class="form-grp">
+      <label class="form-lbl">KM atual do veículo</label>
+      <input class="f-input" id="vKmCurrent" type="number" placeholder="Ex: 85000" inputmode="numeric">
+    </div>
+    <div class="form-grp">
+      <label class="form-lbl">KM na última troca de óleo</label>
+      <input class="f-input" id="vKmOil" type="number" placeholder="Ex: 80000" inputmode="numeric">
+    </div>
+    <div class="form-grp">
+      <label class="form-lbl">KM na última troca de pneus</label>
+      <input class="f-input" id="vKmTires" type="number" placeholder="Ex: 50000" inputmode="numeric">
+    </div>
+    <div class="form-grp">
+      <label class="form-lbl">Valor IPVA anual (R$) <span style="color:var(--txt2);font-weight:400">opcional</span></label>
+      <input class="f-input" id="vIPVA" type="number" placeholder="Ex: 1200" inputmode="decimal" step="0.01">
+    </div>
+    <div class="form-grp">
+      <label class="form-lbl">Valor do seguro anual (R$) <span style="color:var(--txt2);font-weight:400">opcional</span></label>
+      <input class="f-input" id="vSeguro" type="number" placeholder="Ex: 2400" inputmode="decimal" step="0.01">
     </div>
     <button class="btn acc" onclick="saveVehicle()">Salvar veículo</button>
   </div>
@@ -851,6 +936,40 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Helvetica Neue',Ar
     <div class="form-grp"><label class="form-lbl">Data</label><input class="f-input" id="tripDate" type="date"></div>
     <button class="btn" onclick="saveTripEdit()">Salvar alterações</button>
     <button class="btn" style="margin-top:8px;background:var(--err)" onclick="deleteTripEdit()">🗑️ Apagar este registro</button>
+  </div>
+</div>
+
+<!-- PDF Modal -->
+<div id="pdfModal" class="modal">
+  <div class="modal-box">
+    <div class="modal-hdr"><span class="modal-title">📄 Relatório Mensal PDF</span><button class="modal-close" onclick="closeModal('pdfModal')">×</button></div>
+    <p style="font-size:12px;color:var(--txt2);margin-bottom:14px">Gera um relatório completo do mês com corridas, ganhos e custos</p>
+    <div class="form-grp">
+      <label class="form-lbl">Mês de referência</label>
+      <select class="f-sel" id="pdfMonth" onchange="updatePdfPreview()">
+        <option value="current">Mês atual</option>
+        <option value="last">Mês anterior</option>
+        <option value="last2">2 meses atrás</option>
+      </select>
+    </div>
+    <div style="background:var(--bg2);border-radius:10px;padding:12px;margin-bottom:14px;font-size:12px;color:var(--txt2)" id="pdfPreview">
+      Selecione o mês para ver o resumo.
+    </div>
+    <button class="btn acc" onclick="generatePDF()">📄 Gerar PDF</button>
+  </div>
+</div>
+
+<!-- Email Modal -->
+<div id="emailModal" class="modal">
+  <div class="modal-box">
+    <div class="modal-hdr"><span class="modal-title">📧 Meu e-mail</span><button class="modal-close" onclick="closeModal('emailModal')">×</button></div>
+    <p style="font-size:12px;color:var(--txt2);margin-bottom:14px">Usado para receber relatórios e novidades do NoCorre</p>
+    <div class="form-grp">
+      <label class="form-lbl">Endereço de e-mail</label>
+      <input class="f-input" id="emailInput" type="email" placeholder="seu@email.com" inputmode="email">
+    </div>
+    <button class="btn acc" onclick="saveEmail()">Salvar e-mail</button>
+    <p style="font-size:11px;color:var(--txt2);text-align:center;margin-top:10px">Seus dados ficam só no seu dispositivo. Não compartilhamos com ninguém.</p>
   </div>
 </div>
 
@@ -990,71 +1109,117 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Helvetica Neue',Ar
 // ── Vehicle database (km/l médio estimado) ──────────────────────
 const VEHICLE_DB = {
   car: {
+    'BYD': {
+      'Dolphin Mini': 8.5, 'Dolphin Plus': 8.0, 'Seal': 7.5,
+      'Song Plus EV': 7.8, 'Song Pro DM-i': 22.0, 'Tan EV': 7.2,
+      'Han EV': 7.0, 'Yuan Plus': 7.8
+    },
+    'Caoa Chery': {
+      'Tiggo 2': 12.5, 'Tiggo 5X': 11.5, 'Tiggo 7': 11.0,
+      'Tiggo 8': 10.8, 'Arrizo 6': 12.0
+    },
     'Chevrolet': {
       'Onix 1.0': 13.5, 'Onix Plus 1.0': 13.2, 'Celta 1.0': 12.8,
       'Classic 1.0': 12.5, 'Cobalt 1.4': 11.8, 'Spin 1.8': 10.5,
-      'Cruze 1.4 Turbo': 11.2, 'S10 2.8 Diesel': 9.8
+      'Cruze 1.4 Turbo': 11.2, 'S10 2.8 Diesel': 9.8, 'Tracker 1.0': 12.8
     },
-    'Volkswagen': {
-      'Gol 1.0': 13.0, 'Gol 1.6': 12.2, 'Voyage 1.6': 12.0,
-      'Fox 1.6': 11.8, 'Polo 1.0 TSI': 13.8, 'Virtus 1.0 TSI': 13.5,
-      'T-Cross 1.0 TSI': 12.5
+    'Citroën': {
+      'C3 1.0': 13.2, 'C3 Aircross 1.0': 12.5, 'C4 Cactus 1.6': 11.8
     },
     'Fiat': {
       'Palio 1.0': 13.2, 'Siena 1.6': 12.0, 'Uno 1.0': 13.5,
       'Argo 1.0': 13.8, 'Cronos 1.3': 13.0, 'Grand Siena 1.6': 11.8,
-      'Strada 1.3': 12.5, 'Toro 1.8': 10.8
-    },
-    'Hyundai': {
-      'HB20 1.0': 14.0, 'HB20S 1.0': 13.8, 'HB20 1.6': 12.5,
-      'Creta 1.6': 11.5, 'i30 1.8': 11.0
-    },
-    'Toyota': {
-      'Corolla 2.0': 11.5, 'Etios 1.5': 12.8, 'Yaris 1.5': 13.2,
-      'Hilux 2.8 Diesel': 9.2, 'RAV4 Híbrido': 16.5
-    },
-    'Honda': {
-      'Fit 1.5': 13.0, 'City 1.5': 13.2, 'Civic 2.0': 11.8,
-      'HR-V 1.8': 11.5, 'WR-V 1.5': 12.5
-    },
-    'Nissan': {
-      'March 1.0': 13.8, 'Versa 1.6': 12.5, 'Kicks 1.6': 12.0
-    },
-    'Renault': {
-      'Kwid 1.0': 14.5, 'Sandero 1.0': 13.5, 'Logan 1.6': 12.2,
-      'Duster 1.6': 11.5
+      'Strada 1.3': 12.5, 'Toro 1.8': 10.8, 'Pulse 1.0': 13.5,
+      'Fastback 1.0': 13.0
     },
     'Ford': {
       'Ka 1.0': 14.2, 'Ka Sedan 1.5': 13.0, 'EcoSport 1.5': 12.0,
-      'Ranger 2.2 Diesel': 9.5
+      'Ranger 2.2 Diesel': 9.5, 'Territory 1.5': 11.8
+    },
+    'GWM': {
+      'Haval H6': 11.5, 'Haval H2': 12.0, 'Ora 03': 8.2,
+      'Poer 2.0 Diesel': 9.5
+    },
+    'Honda': {
+      'Fit 1.5': 13.0, 'City 1.5': 13.2, 'Civic 2.0': 11.8,
+      'HR-V 1.8': 11.5, 'WR-V 1.5': 12.5, 'ZR-V 1.5 Turbo': 12.0
+    },
+    'Hyundai': {
+      'HB20 1.0': 14.0, 'HB20S 1.0': 13.8, 'HB20 1.6': 12.5,
+      'Creta 1.6': 11.5, 'i30 1.8': 11.0, 'Tucson 1.6 Turbo': 11.2
+    },
+    'JAC': {
+      'J3 1.4': 12.5, 'J5 1.5': 12.0, 'T8 2.0 Diesel': 9.8,
+      'E-JS4 EV': 8.0
+    },
+    'Jeep': {
+      'Renegade 1.3 Turbo': 12.0, 'Compass 1.3 Turbo': 11.5,
+      'Commander 1.3 Turbo': 11.0
+    },
+    'Kia': {
+      'Picanto 1.0': 14.0, 'Stonic 1.0 Turbo': 12.8,
+      'Sportage 2.0': 11.2, 'Carnival 3.5': 9.5
+    },
+    'Mitsubishi': {
+      'L200 Triton 2.4 Diesel': 9.2, 'Eclipse Cross 1.5 Turbo': 11.5,
+      'Outlander 2.0': 11.0
+    },
+    'Nissan': {
+      'March 1.0': 13.8, 'Versa 1.6': 12.5, 'Kicks 1.6': 12.0,
+      'Frontier 2.3 Diesel': 9.5
+    },
+    'Peugeot': {
+      '208 1.0': 13.5, '2008 1.0 Turbo': 12.8, '3008 1.6 Turbo': 11.5
+    },
+    'Renault': {
+      'Kwid 1.0': 14.5, 'Sandero 1.0': 13.5, 'Logan 1.6': 12.2,
+      'Duster 1.6': 11.5, 'Captur 1.3 Turbo': 12.0, 'Kardian 1.0 Turbo': 13.0
+    },
+    'Toyota': {
+      'Corolla 2.0': 11.5, 'Etios 1.5': 12.8, 'Yaris 1.5': 13.2,
+      'Corolla Cross 2.0': 11.8, 'Hilux 2.8 Diesel': 9.2, 'RAV4 Híbrido': 16.5
+    },
+    'Volkswagen': {
+      'Gol 1.0': 13.0, 'Gol 1.6': 12.2, 'Voyage 1.6': 12.0,
+      'Fox 1.6': 11.8, 'Polo 1.0 TSI': 13.8, 'Virtus 1.0 TSI': 13.5,
+      'T-Cross 1.0 TSI': 12.5, 'Nivus 1.0 TSI': 13.2, 'Taos 1.4 TSI': 12.0
     }
   },
   moto: {
     'Honda': {
       'CG 160 Start': 41.0, 'CG 160 Titan': 40.0, 'CG 160 Fan': 42.5,
-      'Biz 110i': 48.0, 'Pop 110i': 50.0, 'XRE 300': 28.0,
-      'CB 300R': 26.0, 'CB 500F': 22.0, 'PCX 150': 38.0,
-      'Elite 125': 45.0, 'NXR 160 Bros': 35.0
+      'CG 160 Cargo': 40.0, 'Biz 110i': 48.0, 'Pop 110i': 50.0,
+      'XRE 300': 28.0, 'XRE 190': 35.0, 'CB 300R': 26.0,
+      'CB 500F': 22.0, 'PCX 150': 38.0, 'PCX 160': 37.0,
+      'Elite 125': 45.0, 'NXR 160 Bros': 35.0, 'Tornado 250': 30.0
     },
     'Yamaha': {
       'Factor 150': 40.0, 'Factor 125': 42.0, 'YBR 150': 38.0,
-      'Fazer 250': 28.0, 'MT-03': 22.0, 'NMAX 160': 35.0,
-      'Lander 250': 26.0, 'XTZ 150 Crosser': 36.0
+      'Fazer 250': 28.0, 'Fazer 150': 36.0, 'MT-03': 22.0,
+      'NMAX 160': 35.0, 'Lander 250': 26.0, 'XTZ 150 Crosser': 36.0,
+      'Crypton T 115': 45.0
     },
     'Suzuki': {
       'Yes 125': 44.0, 'Intruder 125': 40.0,
-      'GS 120': 46.0, 'Burgman 125': 38.0
+      'GS 120': 46.0, 'Burgman 125': 38.0, 'Burgman 400': 28.0
     },
     'Kawasaki': {
       'Rouser NS 200': 32.0, 'Z 300': 24.0, 'Ninja 300': 22.0,
-      'Versys 300': 26.0
+      'Versys 300': 26.0, 'Z 400': 21.0
     },
     'Dafra': {
       'Riva 150': 36.0, 'Speed 150': 37.0, 'Kansas 150': 38.0,
-      'Apache RTR 160': 32.0
+      'Apache RTR 160': 32.0, 'Super 50': 55.0
     },
     'Haojue': {
-      'DR 160 S': 38.0, 'DK 150': 40.0, 'NK 150': 36.0
+      'DR 160 S': 38.0, 'DK 150': 40.0, 'NK 150': 36.0,
+      'HJ 150-23': 40.0
+    },
+    'Shineray': {
+      'Phoenix 150': 42.0, 'Jet 150': 40.0, 'Worker 150': 41.0
+    },
+    'Traxx': {
+      'JL 150': 42.0, 'RX 150': 40.0
     }
   }
 };
@@ -1438,14 +1603,19 @@ function doLogin() {
   const name = el('lName').value.trim();
   const platform = el('lPlatform').value;
   const state = el('lState').value;
+  const email = el('lEmail') ? el('lEmail').value.trim() : '';
   if (!name) { toast('Como te chamam? 😊', 'err'); return; }
   if (!state) { toast('Escolhe o teu estado para continuar', 'err'); return; }
 
-  S.user = { name, platform, state, createdAt: new Date().toISOString() };
+  S.user = { name, platform, state, email: email || null, createdAt: new Date().toISOString() };
   if (!S.posts || S.posts.length === 0) S.posts = DEMO_POSTS.map(p => ({...p}));
   persist();
   bootApp();
   toast(`Olá, ${name.split(' ')[0]}! Tudo pronto para você. 🎉`, 'ok');
+}
+
+function googleLoginNotice() {
+  toast('Login com Google chegando em breve! Por enquanto, entre com seu nome 😊', 'warn');
 }
 
 function doLogout() {
@@ -1469,6 +1639,7 @@ function doLogout() {
     el('loginPage').style.display = 'flex';
     el('lName').value = '';
     el('lState').value = '';
+    if (el('lEmail')) el('lEmail').value = '';
     window.scrollTo(0, 0);
   };
   document.getElementById('logoutCancel').onclick = () => document.body.removeChild(overlay);
@@ -2122,6 +2293,7 @@ function renderStats() {
   renderPatterns();
   renderHourlyStats();
   renderForecast();
+  renderVehicleHealth();
 }
 
 function renderChart(r) {
@@ -2504,6 +2676,12 @@ function renderProfile() {
   el('pNet').textContent = R(allInc - allExp);
   const stInfo = STATES.find(s => s.code === S.user.state);
   el('pStateLbl').textContent = stInfo ? stInfo.code : '→';
+  if (el('profEmail')) {
+    el('profEmail').textContent = S.user.email ? `📧 ${S.user.email}` : '';
+  }
+  if (el('pEmailLbl')) {
+    el('pEmailLbl').textContent = S.user.email ? S.user.email.split('@')[0] + '…' : '→';
+  }
   renderVehicleDisplay();
 }
 
@@ -2592,6 +2770,8 @@ function openModal(id) {
   if (id === 'feedbackModal') renderFbHistory();
   if (id === 'vehicleModal') openVehicleModal();
   if (id === 'exportModal') { exportPeriod = '7'; updateExportPreview(); }
+  if (id === 'pdfModal') updatePdfPreview();
+  if (id === 'emailModal') { if(el('emailInput') && S.user) el('emailInput').value = S.user.email || ''; }
   if (id === 'fuelModal') {
     fuelModalFilter = 'all';
     el('fuelModalChips').querySelectorAll('.chip').forEach(b => b.classList.remove('active'));
@@ -2679,9 +2859,19 @@ function renderGpsCard() {
   el('gpsTrips').textContent   = totalRides;
   el('gpsOnline').textContent  = onlineTxt;
   el('gpsWait').textContent    = waitPct > 0 ? waitPct + '%' : '0%';
+  el('gpsGross').textContent   = R(totalGross);
   el('gpsNet').textContent     = R(netToday);
-  el('gpsCombust').textContent = km > 0 ? R(totalCostFinal) : R(0);
-  el('gpsPerKm').textContent   = km > 0 ? `${R(perKm)}/km` : '—';
+
+  if (S.vehicle && km > 0) {
+    el('gpsCombust').textContent = R(totalCostFinal);
+    el('gpsPerKm').textContent   = `${R(perKm)}/km líquido`;
+  } else if (!S.vehicle && km > 0) {
+    el('gpsCombust').textContent = '—';
+    el('gpsPerKm').textContent   = 'Cadastre seu veículo para ver custo/km';
+  } else {
+    el('gpsCombust').textContent = R(0);
+    el('gpsPerKm').textContent   = '—';
+  }
 }
 
 // ================================================================
@@ -2720,22 +2910,19 @@ function renderRides() {
   const f = S.ridesFilter;
   const range = ridesDateRange(f);
 
-  // GPS income transactions in range (source='gps', type='income')
-  const gpsTxns = S.transactions.filter(t =>
-    t.source === 'gps' && t.type === 'income' &&
+  // TODAS as corridas/ganhos no período — mesma fonte que o Histórico
+  const incTxns = S.transactions.filter(t =>
+    t.type === 'income' &&
     t.date >= range.start && t.date <= range.end
   );
 
-  // For each GPS income, find the linked fuel expense
-  const fuelTxns = S.transactions.filter(t =>
-    t.source === 'gps' && t.type === 'expense' &&
-    t.date >= range.start && t.date <= range.end
-  );
+  // Despesas de combustível vinculadas (por _rideRef ou por categoria no mesmo dia)
   const fuelByRef = {};
-  fuelTxns.forEach(t => { if (t._rideRef) fuelByRef[t._rideRef] = t; });
+  S.transactions.filter(t => t.type === 'expense' && t._rideRef)
+    .forEach(t => { fuelByRef[t._rideRef] = t; });
 
-  // Build unified ride objects from transactions
-  const rides = gpsTxns.map(t => {
+  // Monta objetos de corrida unificados
+  const rides = incTxns.map(t => {
     const fuel = fuelByRef[t.id];
     const ride = t._ride || {};
     return {
@@ -2747,10 +2934,11 @@ function renderRides() {
       km: ride.km || 0,
       waitMin: ride.waitMin || 0,
       grossEarn: parseFloat(t.amount) || 0,
-      fuelCost: fuel ? parseFloat(fuel.amount) || 0 : (ride.fuelCost || 0),
+      fuelCost: fuel ? parseFloat(fuel.amount)||0 : (ride.fuelCost || 0),
       platform: ride.platform || t.category,
       origin: ride.origin || t.description,
-      dest: ride.dest || ''
+      dest: ride.dest || '',
+      source: t.source || 'manual'
     };
   }).sort((a,b) => {
     if (b.date !== a.date) return b.date.localeCompare(a.date);
@@ -2783,25 +2971,15 @@ function renderRides() {
   const effSection = document.querySelector('#pgRides .sec-hdr h3');
   if (effSection) effSection.innerHTML = `⚡ Eficiência <small style="font-size:10px;font-weight:400;color:var(--txt3);margin-left:6px">${daysLabel} analisados</small>`;
 
-  // Hourly heatmap
-  const hours = Array(9).fill(0);
-  rides.forEach(r => {
-    if (!r.startTime || r.startTime === '—') return;
-    const h = parseInt(r.startTime.split(':')[0]);
-    const bucket = Math.max(0, Math.min(8, Math.floor((h - 6) / 2)));
-    hours[bucket] += r.grossEarn - r.fuelCost;
-  });
-  const maxH = Math.max(...hours, 1);
+  // Hourly heatmap — usa a mesma fonte unificada que Análises
+  const hourlyData = getHourlyData(rides);
+  const maxH = Math.max(...hourlyData.map(s => s.net), 1);
   const hLabels = ['6h','8h','10h','12h','14h','16h','18h','20h','22h'];
-  el('hourlyBars').innerHTML = hours.map((v,i) => {
-    const h = Math.max(4, Math.round(v / maxH * 56));
-    const isPeak = v === maxH && v > 0;
-    const cnt = rides.filter(r => {
-      if (!r.startTime || r.startTime === '—') return false;
-      return Math.floor((parseInt(r.startTime.split(':')[0]) - 6) / 2) === i;
-    }).length;
-    return `<div class="h-bar ${v>0?'has-data':''} ${isPeak?'peak':''}" style="height:${h}px"
-      onclick="el('hourlyTip').textContent='${hLabels[i]}: ${R(v)} líquido • ${cnt} corrida${cnt!==1?'s':''}'"></div>`;
+  el('hourlyBars').innerHTML = hourlyData.map((s,i) => {
+    const h = Math.max(4, Math.round(s.net / maxH * 56));
+    const isPeak = s.net === Math.max(...hourlyData.map(x=>x.net)) && s.net > 0;
+    return `<div class="h-bar ${s.net>0?'has-data':''} ${isPeak?'peak':''}" style="height:${h}px"
+      onclick="el('hourlyTip').textContent='${hLabels[i]}: ${R(s.net)} líquido • ${s.count} corrida${s.count!==1?'s':''}'"></div>`;
   }).join('');
 
   // Trip list grouped by date
@@ -2857,33 +3035,77 @@ function setVehicleType(type) {
   vehicleType = type;
   el('vTypeCar').classList.toggle('active', type === 'car');
   el('vTypeMoto').classList.toggle('active', type === 'moto');
-  populateVehicleMakes();
-  el('vModel').innerHTML = '<option value="">Selecione a montadora primeiro</option>';
+  el('vMakeInput').value = '';
+  el('vMake').value = '';
+  el('vModelInput').value = '';
+  el('vModel').value = '';
+  el('vModelInput').disabled = true;
+  el('vMakeSuggestions').style.display = 'none';
+  el('vModelSuggestions').style.display = 'none';
   el('vConsumptionBox').style.display = 'none';
 }
 
-function populateVehicleMakes() {
+function filterVehicleMakes(query) {
   const makes = Object.keys(VEHICLE_DB[vehicleType]).sort();
-  el('vMake').innerHTML = '<option value="">Selecione...</option>' +
-    makes.map(m => `<option value="${m}">${m}</option>`).join('');
+  const filtered = query.length >= 1
+    ? makes.filter(m => m.toLowerCase().includes(query.toLowerCase()))
+    : makes;
+  const box = el('vMakeSuggestions');
+  if (!filtered.length) { box.style.display = 'none'; return; }
+  box.style.display = 'block';
+  box.innerHTML = filtered.map(m =>
+    `<div onmousedown="selectVehicleMake('${m.replace(/'/g,"\\'")}'); return false;"
+     style="padding:10px 14px;cursor:pointer;font-size:13px;border-bottom:1px solid var(--brd)"
+     onmouseover="this.style.background='var(--bg2)'" onmouseout="this.style.background=''">${m}</div>`
+  ).join('');
 }
 
-function updateVehicleModels() {
-  const make = el('vMake').value;
-  if (!make) { el('vModel').innerHTML = '<option value="">Selecione a montadora primeiro</option>'; return; }
-  const models = Object.keys(VEHICLE_DB[vehicleType][make]).sort();
-  el('vModel').innerHTML = '<option value="">Selecione o modelo...</option>' +
-    models.map(m => `<option value="${m}">${m}</option>`).join('');
+function selectVehicleMake(make) {
+  el('vMakeInput').value = make;
+  el('vMake').value = make;
+  el('vMakeSuggestions').style.display = 'none';
+  el('vModelInput').value = '';
+  el('vModel').value = '';
+  el('vModelInput').disabled = false;
+  el('vModelInput').placeholder = 'Digite para buscar o modelo...';
+  el('vModelInput').focus();
   el('vConsumptionBox').style.display = 'none';
 }
+
+function filterVehicleModels(query) {
+  const make = el('vMake').value;
+  if (!make) return;
+  const models = Object.keys(VEHICLE_DB[vehicleType][make] || {}).sort();
+  const filtered = query.length >= 1
+    ? models.filter(m => m.toLowerCase().includes(query.toLowerCase()))
+    : models;
+  const box = el('vModelSuggestions');
+  if (!filtered.length) { box.style.display = 'none'; return; }
+  box.style.display = 'block';
+  box.innerHTML = filtered.map(m =>
+    `<div onmousedown="selectVehicleModel('${m.replace(/'/g,"\\'")}'); return false;"
+     style="padding:10px 14px;cursor:pointer;font-size:13px;border-bottom:1px solid var(--brd)"
+     onmouseover="this.style.background='var(--bg2)'" onmouseout="this.style.background=''">${m}</div>`
+  ).join('');
+}
+
+function selectVehicleModel(model) {
+  el('vModelInput').value = model;
+  el('vModel').value = model;
+  el('vModelSuggestions').style.display = 'none';
+  updateVehicleConsumption();
+}
+
+function populateVehicleMakes() {} // legacy no-op
+
+function updateVehicleModels() {} // legacy no-op
 
 function updateVehicleConsumption() {
   const make = el('vMake').value;
   const model = el('vModel').value;
   if (!make || !model) { el('vConsumptionBox').style.display = 'none'; return; }
-  const kml = VEHICLE_DB[vehicleType][make][model];
+  const kml = VEHICLE_DB[vehicleType][make]?.[model];
   if (!kml) return;
-  // Use fuel price from user's state
   const stateData = FUEL_DATA.regioes.flatMap(r => r.estados).find(e => e.id_estado === (S.user && S.user.state));
   const fuelPrice = stateData ? stateData.media_gasolina : 5.89;
   const costPerKm = fuelPrice / kml;
@@ -2896,12 +3118,23 @@ function saveVehicle() {
   const make = el('vMake').value;
   const model = el('vModel').value;
   if (!make || !model) { toast('Selecione a montadora e o modelo', 'err'); return; }
-  const kml = VEHICLE_DB[vehicleType][make][model];
-  S.vehicle = { type: vehicleType, make, model, kmPerLiter: kml };
+  const kml = VEHICLE_DB[vehicleType][make]?.[model];
+  if (!kml) { toast('Modelo não encontrado na base de dados', 'err'); return; }
+
+  S.vehicle = {
+    type: vehicleType, make, model, kmPerLiter: kml,
+    year:            parseInt(el('vYear')?.value)         || null,
+    fipeValue:       parseFloat(el('vFipe')?.value)       || null,
+    currentKm:       parseFloat(el('vCurrentKm')?.value)  || null,
+    kmLastOil:       parseFloat(el('vKmLastOil')?.value)  || null,
+    kmLastTire:      parseFloat(el('vKmLastTire')?.value) || null,
+    kmLastRevision:  parseFloat(el('vKmLastRevision')?.value) || null
+  };
   persist();
   renderProfile();
+  renderGpsCard();
   closeModal('vehicleModal');
-  toast(`${make} ${model} salvo! Consumo: ${kml} km/l ⛽`, 'ok');
+  toast(`${make} ${model} salvo! ${kml} km/l ⛽`, 'ok');
 }
 
 function renderVehicleDisplay() {
@@ -2939,14 +3172,28 @@ function openVehicleModal() {
   vehicleType = S.vehicle ? S.vehicle.type : 'car';
   el('vTypeCar').classList.toggle('active', vehicleType === 'car');
   el('vTypeMoto').classList.toggle('active', vehicleType === 'moto');
-  populateVehicleMakes();
   if (S.vehicle) {
+    el('vMakeInput').value = S.vehicle.make;
     el('vMake').value = S.vehicle.make;
-    updateVehicleModels();
-    setTimeout(() => {
-      el('vModel').value = S.vehicle.model;
-      updateVehicleConsumption();
-    }, 50);
+    el('vModelInput').value = S.vehicle.model;
+    el('vModel').value = S.vehicle.model;
+    el('vModelInput').disabled = false;
+    updateVehicleConsumption();
+    if (el('vYear'))           el('vYear').value           = S.vehicle.year           || '';
+    if (el('vFipe'))           el('vFipe').value           = S.vehicle.fipeValue      || '';
+    if (el('vCurrentKm'))      el('vCurrentKm').value      = S.vehicle.currentKm      || '';
+    if (el('vKmLastOil'))      el('vKmLastOil').value      = S.vehicle.kmLastOil      || '';
+    if (el('vKmLastTire'))     el('vKmLastTire').value     = S.vehicle.kmLastTire     || '';
+    if (el('vKmLastRevision')) el('vKmLastRevision').value = S.vehicle.kmLastRevision || '';
+  } else {
+    el('vMakeInput').value = '';
+    el('vMake').value = '';
+    el('vModelInput').value = '';
+    el('vModel').value = '';
+    el('vModelInput').disabled = true;
+    el('vConsumptionBox').style.display = 'none';
+    ['vYear','vFipe','vCurrentKm','vKmLastOil','vKmLastTire','vKmLastRevision']
+      .forEach(id => { if (el(id)) el(id).value = ''; });
   }
 }
 
@@ -3072,33 +3319,52 @@ function deleteTripEdit() {
 // ================================================================
 // HOURLY STATS (Análises)
 // ================================================================
+// Função unificada: calcula dados por horário a partir de rides (formato renderRides)
+// Garante que Corridas e Análises mostrem os mesmos números
+function getHourlyData(rides) {
+  const slots = Array(9).fill(null).map((_,i) => ({ h: 6+i*2, net: 0, count: 0 }));
+  const bucket = h => Math.max(0, Math.min(8, Math.floor((h - 6) / 2)));
+  rides.forEach(r => {
+    if (!r.startTime || r.startTime === '—') return;
+    const h = parseInt(r.startTime.split(':')[0]);
+    slots[bucket(h)].net   += (r.grossEarn || 0) - (r.fuelCost || 0);
+    slots[bucket(h)].count += 1;
+  });
+  return slots;
+}
+
 function renderHourlyStats() {
   const c = el('hourlyStatsBox');
   if (!c) return;
 
-  const slots = Array(9).fill(null).map((_,i) => ({
-    label: `${6+i*2}h–${8+i*2}h`, h: 6+i*2, net: 0, count: 0
-  }));
+  // Usa TODAS as corridas GPS injetadas nas transações (mesma fonte que Corridas)
+  const gpsTxns = S.transactions.filter(t => t.source === 'gps' && t.type === 'income');
+  const fuelByRef = {};
+  S.transactions.filter(t => t.source === 'gps' && t.type === 'expense')
+    .forEach(t => { if (t._rideRef) fuelByRef[t._rideRef] = t; });
 
-  const bucket = h => Math.max(0, Math.min(8, Math.floor((h - 6) / 2)));
-
-  // DEMO_RIDES
-  DEMO_RIDES.forEach(r => {
-    const i = bucket(parseInt(r.startTime.split(':')[0]));
-    slots[i].net   += r.grossEarn - r.fuelCost;
-    slots[i].count += 1;
+  // Converte para formato de ride para usar getHourlyData
+  const allRides = gpsTxns.map(t => {
+    const ride = t._ride || {};
+    const fuel = fuelByRef[t.id];
+    return {
+      startTime: ride.startTime || '—',
+      grossEarn: parseFloat(t.amount) || 0,
+      fuelCost: fuel ? parseFloat(fuel.amount) || 0 : (ride.fuelCost || 0)
+    };
   });
 
-  // Transações reais com _ride (capturas automáticas)
-  S.transactions.filter(t => t.type==='income' && t._ride && t._ride.startTime && t._ride.startTime !== '—').forEach(t => {
-    const h = parseInt(t._ride.startTime.split(':')[0]);
-    const i = bucket(h);
-    const fuel = t._ride.fuelCost || 0;
-    slots[i].net   += (parseFloat(t.amount)||0) - fuel;
-    slots[i].count += 1;
-  });
+  // Também inclui capturas automáticas
+  S.transactions.filter(t => t.source === 'auto' && t.type === 'income' && t._ride)
+    .forEach(t => allRides.push({
+      startTime: t._ride.startTime || '—',
+      grossEarn: parseFloat(t.amount) || 0,
+      fuelCost: t._ride.fuelCost || 0
+    }));
 
+  const slots = getHourlyData(allRides);
   const withData = slots.filter(s => s.count > 0);
+
   if (!withData.length) {
     c.innerHTML = emptyHTML('🕐', 'Sem dados por horário', 'Com mais corridas registradas, o NoCorre mostra seus melhores horários');
     return;
@@ -3107,8 +3373,9 @@ function renderHourlyStats() {
   const maxNet = Math.max(...withData.map(s => s.net), 1);
   const best   = withData.reduce((a,b) => a.net > b.net ? a : b);
   const worst  = withData.reduce((a,b) => a.net < b.net ? a : b);
+  const hLabels = ['6h–8h','8h–10h','10h–12h','12h–14h','14h–16h','16h–18h','18h–20h','20h–22h','22h–0h'];
 
-  const bars = slots.map(s => {
+  const bars = slots.map((s,i) => {
     const h       = s.count > 0 ? Math.max(6, Math.round(s.net / maxNet * 56)) : 4;
     const isBest  = s.count > 0 && s.h === best.h;
     const isWorst = s.count > 0 && s.h === worst.h && withData.length > 1;
@@ -3129,20 +3396,467 @@ function renderHourlyStats() {
     <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px">
       <div style="background:var(--ok-lt);border-radius:8px;padding:8px 12px;flex:1;min-width:120px">
         <div style="font-size:10px;color:var(--ok);font-weight:700;margin-bottom:2px">🔥 Melhor horário</div>
-        <div style="font-size:14px;font-weight:800;color:var(--ok)">${best.label}</div>
+        <div style="font-size:14px;font-weight:800;color:var(--ok)">${hLabels[slots.indexOf(best)]}</div>
         <div style="font-size:11px;color:var(--txt2)">${R(best.net)} líquido · ${best.count} corrida${best.count!==1?'s':''}</div>
       </div>
       ${withData.length > 1 ? `<div style="background:var(--err-lt);border-radius:8px;padding:8px 12px;flex:1;min-width:120px">
         <div style="font-size:10px;color:var(--err);font-weight:700;margin-bottom:2px">❄️ Horário mais fraco</div>
-        <div style="font-size:14px;font-weight:800;color:var(--err)">${worst.label}</div>
+        <div style="font-size:14px;font-weight:800;color:var(--err)">${hLabels[slots.indexOf(worst)]}</div>
         <div style="font-size:11px;color:var(--txt2)">${R(worst.net)} líquido · ${worst.count} corrida${worst.count!==1?'s':''}</div>
       </div>` : ''}
     </div>
-    <div style="font-size:10px;color:var(--txt3);margin-top:8px">Baseado em ${totalRides} corridas registradas</div>`;
+    <div style="font-size:10px;color:var(--txt3);margin-top:8px">Baseado em ${totalRides} corridas · mesma fonte da página Corridas</div>`;
 }
 
 // ================================================================
-// PWA — Service Worker (só registra se sw.js existir no mesmo domínio)
+// ZERAR SESSÃO DE HOJE
+// ================================================================
+function resetTodaySession() {
+  const today = todayISO();
+  const before = S.transactions.length;
+  // Remove todas as transações de hoje (GPS + auto + manual)
+  S.transactions = S.transactions.filter(t => t.date !== today);
+  // Para que as DEMO_RIDES sejam reinjetadas frescas, remove flag
+  persist();
+  injectDemoRides(); // reinjecta com dados limpos do DEMO_RIDES
+  // Remove corridas de hoje do DEMO_RIDES das transações também
+  S.transactions = S.transactions.filter(t => !(t.source === 'gps' && t.date === today));
+  persist();
+  renderDashboard();
+  renderGpsCard();
+  if (el('pgRides').classList.contains('active')) renderRides();
+  if (el('pgTransactions').classList.contains('active')) renderTransactions();
+  toast('Sessão de hoje zerada. Partiu do zero! 🔄', 'ok');
+}
+
+// ================================================================
+// RESET SESSION
+// ================================================================
+function resetTodaySession() {
+  const overlay = document.createElement('div');
+  overlay.style.cssText = 'position:fixed;inset:0;background:rgba(13,27,42,.6);z-index:999;display:flex;align-items:flex-end;justify-content:center;backdrop-filter:blur(2px)';
+  overlay.innerHTML = `
+    <div style="background:#fff;border-radius:20px 20px 0 0;width:100%;max-width:480px;padding:24px 20px 32px;text-align:center">
+      <div style="font-size:28px;margin-bottom:12px">🔄</div>
+      <div style="font-size:17px;font-weight:800;color:#0D1B2A;margin-bottom:6px">Zerar sessão de hoje?</div>
+      <div style="font-size:13px;color:#5A6472;margin-bottom:24px;line-height:1.5">Remove todos os registros de hoje (GPS e simulados). Útil para testar do zero. Dados de outros dias não são afetados.</div>
+      <button id="resetConfirm" style="width:100%;padding:14px;background:#E87F24;color:#fff;border:none;border-radius:12px;font-size:14px;font-weight:700;cursor:pointer;margin-bottom:10px;font-family:inherit">Zerar agora</button>
+      <button id="resetCancel" style="width:100%;padding:14px;background:#F0EEF0;color:#0D1B2A;border:none;border-radius:12px;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit">Cancelar</button>
+    </div>`;
+  document.body.appendChild(overlay);
+  document.getElementById('resetConfirm').onclick = () => {
+    document.body.removeChild(overlay);
+    const today = todayISO();
+    // Remove todas as transações de hoje (manuais, GPS e auto)
+    S.transactions = S.transactions.filter(t => t.date !== today);
+    // Reinjecta as corridas demo GPS para hoje
+    S.transactions = S.transactions.filter(t => t.source !== 'gps');
+    // Para ter sessão zerada de verdade, não reinjecta demo
+    persist();
+    renderDashboard();
+    renderGpsCard();
+    if (el('pgRides').classList.contains('active')) renderRides();
+    if (el('pgTransactions').classList.contains('active')) renderTransactions();
+    toast('Sessão zerada! Pode começar do zero. 🔄', 'ok');
+  };
+  document.getElementById('resetCancel').onclick = () => document.body.removeChild(overlay);
+  overlay.addEventListener('click', e => { if (e.target === overlay) document.body.removeChild(overlay); });
+}
+
+// ================================================================
+// GPS REAL — navigator.geolocation
+// ================================================================
+let gpsWatchId = null;
+let gpsActive = false;
+let gpsPositions = [];
+let gpsStartTime = null;
+let gpsLastPos = null;
+let gpsTotalKm = 0;
+let gpsStoppedMs = 0;
+let gpsMovingMs = 0;
+let gpsLastTimestamp = null;
+const GPS_SPEED_THRESHOLD = 2.5; // m/s (~9 km/h) para considerar em movimento
+
+function toggleGPS() {
+  if (gpsActive) stopGPS();
+  else startGPS();
+}
+
+function startGPS() {
+  if (!navigator.geolocation) {
+    toast('GPS não disponível neste dispositivo 😔', 'err'); return;
+  }
+  gpsActive = true;
+  gpsPositions = [];
+  gpsTotalKm = 0;
+  gpsStoppedMs = 0;
+  gpsMovingMs = 0;
+  gpsLastPos = null;
+  gpsLastTimestamp = Date.now();
+  gpsStartTime = Date.now();
+
+  el('gpsToggleDot').style.background = '#4ade80';
+  el('gpsToggleTxt').textContent = 'GPS ON';
+  el('gpsDot').style.background = '#4ade80';
+  el('gpsStatusTxt').textContent = 'GPS Ativo';
+  toast('GPS iniciado! 📡 Monitorando sua sessão.', 'ok');
+
+  gpsWatchId = navigator.geolocation.watchPosition(
+    pos => onGPSPosition(pos),
+    err => {
+      if (err.code === 1) toast('Permissão de localização negada. Ative nas configurações.', 'err');
+      else toast('Erro no GPS: ' + err.message, 'err');
+      stopGPS();
+    },
+    { enableHighAccuracy: true, maximumAge: 5000, timeout: 15000 }
+  );
+}
+
+function stopGPS() {
+  if (gpsWatchId !== null) {
+    navigator.geolocation.clearWatch(gpsWatchId);
+    gpsWatchId = null;
+  }
+  gpsActive = false;
+  el('gpsToggleDot').style.background = '#9AA3AD';
+  el('gpsToggleTxt').textContent = 'GPS';
+  el('gpsDot').style.background = 'rgba(255,255,255,.4)';
+  el('gpsStatusTxt').textContent = 'Inativo';
+
+  const totalMin = Math.round((Date.now() - gpsStartTime) / 60000);
+  toast(`GPS encerrado. ${gpsTotalKm.toFixed(1)} km em ${totalMin} min. 📍`, 'ok');
+}
+
+function onGPSPosition(pos) {
+  const now = Date.now();
+  const coords = pos.coords;
+  const speed = coords.speed || 0; // m/s
+
+  if (gpsLastPos) {
+    // Calcula distância pelo haversine
+    const km = haversineKm(
+      gpsLastPos.latitude, gpsLastPos.longitude,
+      coords.latitude, coords.longitude
+    );
+    if (km > 0.005) gpsTotalKm += km; // ignora ruídos < 5m
+
+    // Tempo em movimento vs parado
+    const elapsed = now - gpsLastTimestamp;
+    if (speed > GPS_SPEED_THRESHOLD) gpsMovingMs += elapsed;
+    else gpsStoppedMs += elapsed;
+  }
+
+  gpsLastPos = coords;
+  gpsLastTimestamp = now;
+  gpsPositions.push({ lat: coords.latitude, lng: coords.longitude, ts: now, speed });
+
+  // Atualiza card GPS em tempo real
+  updateGPSCard();
+}
+
+function haversineKm(lat1, lon1, lat2, lon2) {
+  const R = 6371;
+  const dLat = (lat2 - lat1) * Math.PI / 180;
+  const dLon = (lon2 - lon1) * Math.PI / 180;
+  const a = Math.sin(dLat/2)**2 +
+    Math.cos(lat1 * Math.PI/180) * Math.cos(lat2 * Math.PI/180) * Math.sin(dLon/2)**2;
+  return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+}
+
+function updateGPSCard() {
+  if (!gpsActive) return;
+  const totalMs = Date.now() - gpsStartTime;
+  const totalMin = Math.floor(totalMs / 60000);
+  const h = Math.floor(totalMin / 60);
+  const m = totalMin % 60;
+  const onlineTxt = h > 0 ? `${h}h${m > 0 ? m+'m' : ''}` : `${m}m`;
+  const waitPct = totalMs > 0 ? Math.round(gpsStoppedMs / totalMs * 100) : 0;
+
+  el('gpsKm').textContent = gpsTotalKm.toFixed(1);
+  el('gpsOnline').textContent = onlineTxt || '0m';
+  el('gpsWait').textContent = waitPct + '%';
+
+  // Custo de combustível com veículo cadastrado
+  if (S.vehicle && gpsTotalKm > 0) {
+    const stateData = FUEL_DATA.regioes.flatMap(r => r.estados).find(e => e.id_estado === (S.user && S.user.state));
+    const fuelPrice = stateData ? stateData.media_gasolina : 5.89;
+    const costPerKm = fuelPrice / S.vehicle.kmPerLiter;
+    const totalFuelCost = gpsTotalKm * costPerKm;
+    el('gpsCombust').textContent = R(totalFuelCost);
+  }
+}
+
+// ================================================================
+// VEHICLE HEALTH MODULE
+// ================================================================
+const DEPRECIATION_RATES = {
+  car: { // % de desvalorização por ano
+    'BYD': 12, 'Caoa Chery': 18, 'Chevrolet': 15, 'Citroën': 16,
+    'Fiat': 16, 'Ford': 17, 'GWM': 15, 'Honda': 13, 'Hyundai': 14,
+    'JAC': 20, 'Jeep': 15, 'Kia': 14, 'Mitsubishi': 15, 'Nissan': 16,
+    'Peugeot': 17, 'Renault': 17, 'Toyota': 12, 'Volkswagen': 14
+  },
+  moto: { // motos desvalorizam menos
+    'Honda': 10, 'Yamaha': 11, 'Suzuki': 13, 'Kawasaki': 12,
+    'Dafra': 18, 'Haojue': 20, 'Shineray': 22, 'Traxx': 22
+  }
+};
+
+const MAINTENANCE_SCHEDULE = {
+  oilChange: { km: 5000, label: 'Troca de óleo', cost: { car: 180, moto: 80 } },
+  tireRotation: { km: 10000, label: 'Rodízio de pneus', cost: { car: 60, moto: 0 } },
+  tireChange: { km: 40000, label: 'Troca de pneus', cost: { car: 1200, moto: 400 } },
+  brakes: { km: 30000, label: 'Pastilhas de freio', cost: { car: 400, moto: 200 } },
+  filters: { km: 10000, label: 'Filtros (ar, combustível)', cost: { car: 150, moto: 60 } },
+  transmission: { km: 40000, label: 'Fluido de transmissão', cost: { car: 300, moto: 0 } },
+  belt: { km: 80000, label: 'Correia dentada/relação', cost: { car: 600, moto: 200 } },
+  revision: { km: 20000, label: 'Revisão geral', cost: { car: 500, moto: 250 } }
+};
+
+function calcVehicleHealth() {
+  if (!S.vehicle || !S.vehicle.year) return null;
+
+  const v = S.vehicle;
+  const currentYear = new Date().getFullYear();
+  const age = currentYear - v.year;
+  const km = v.currentKm || 0;
+  const type = v.type;
+
+  // Tabela FIPE aproximada — usa valor informado pelo usuário ou estimativa
+  const fipeValue = v.fipeValue || 0;
+  const deprRate = (DEPRECIATION_RATES[type]?.[v.make] || 16) / 100;
+  const yearlyDeprValue = fipeValue * deprRate;
+  const monthlyDeprValue = yearlyDeprValue / 12;
+
+  // Manutenções pendentes
+  const alerts = [];
+  const kmLastOil = v.kmLastOil || 0;
+  const kmLastTire = v.kmLastTire || 0;
+  const kmLastRevision = v.kmLastRevision || 0;
+
+  Object.entries(MAINTENANCE_SCHEDULE).forEach(([key, m]) => {
+    let kmRef = km;
+    if (key === 'oilChange') kmRef = km - kmLastOil;
+    else if (key === 'tireChange' || key === 'tireRotation') kmRef = km - kmLastTire;
+    else if (key === 'revision') kmRef = km - kmLastRevision;
+
+    const kmUntil = m.km - (kmRef % m.km);
+    const pct = (kmRef % m.km) / m.km;
+    const cost = m.cost[type] || 0;
+
+    if (pct >= 0.85) {
+      alerts.push({ label: m.label, kmUntil, pct, cost, urgent: pct >= 0.95 });
+    }
+  });
+
+  // IPVA estimado (1% a 4% do valor FIPE dependendo do estado)
+  const ipvaRates = { SP:0.04, RJ:0.04, MG:0.04, RS:0.03, PR:0.035, SC:0.03, BA:0.035, default:0.03 };
+  const ipvaRate = ipvaRates[v.state || (S.user && S.user.state)] || ipvaRates.default;
+  const ipvaAnual = fipeValue * ipvaRate;
+  const ipvaMensal = ipvaAnual / 12;
+
+  // Seguro estimado (3% a 8% do valor FIPE)
+  const seguroAnual = fipeValue * 0.05;
+  const seguroMensal = seguroAnual / 12;
+
+  // Manutenção mensal média
+  const manutencaoAnual = Object.values(MAINTENANCE_SCHEDULE)
+    .reduce((s, m) => s + (m.cost[type] || 0) / (m.km / (km > 0 ? km / age : 15000)), 0);
+  const manutencaoMensal = Math.max(manutencaoAnual / 12, 80);
+
+  return {
+    age, km, fipeValue, deprRate,
+    monthlyDeprValue, yearlyDeprValue,
+    ipvaAnual, ipvaMensal,
+    seguroMensal, manutencaoMensal,
+    totalMensal: monthlyDeprValue + ipvaMensal + seguroMensal + manutencaoMensal,
+    alerts
+  };
+}
+
+function renderVehicleHealth() {
+  const c = el('vehicleHealthBox');
+  if (!c) return;
+
+  if (!S.vehicle) {
+    c.innerHTML = `<div class="ins warn"><div class="ins-icon">🚗</div><div class="ins-title">Cadastre seu veículo primeiro</div><div class="ins-text">Com o veículo cadastrado, o NoCorre calcula desvalorização, IPVA e alertas de manutenção.</div><button class="btn sm" style="margin-top:10px" onclick="openModal('vehicleModal')">Cadastrar veículo →</button></div>`;
+    return;
+  }
+
+  if (!S.vehicle.year || !S.vehicle.fipeValue) {
+    c.innerHTML = `<div class="ins warn"><div class="ins-icon">📋</div><div class="ins-title">Complete os dados do veículo</div><div class="ins-text">Precisamos do ano e valor FIPE para calcular desvalorização e reservas.</div><button class="btn sm" style="margin-top:10px" onclick="openModal('vehicleModal')">Completar dados →</button></div>`;
+    return;
+  }
+
+  const h = calcVehicleHealth();
+  if (!h) return;
+
+  // Ganho líquido do mês para calcular % de reserva
+  const now = new Date();
+  const monthStart = dateISO(new Date(now.getFullYear(), now.getMonth(), 1));
+  const monthInc = income(S.transactions.filter(t => t.date >= monthStart));
+  const monthExp = expense(S.transactions.filter(t => t.date >= monthStart));
+  const monthNet = monthInc - monthExp;
+  const pctReserva = monthNet > 0 ? Math.round(h.totalMensal / monthNet * 100) : 0;
+
+  const alertsHtml = h.alerts.length ? h.alerts.map(a => `
+    <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--brd)">
+      <div>
+        <div style="font-size:13px;font-weight:600;color:${a.urgent?'var(--err)':'var(--warn)'}">${a.urgent?'🔴':'🟡'} ${a.label}</div>
+        <div style="font-size:11px;color:var(--txt2)">${a.kmUntil.toFixed(0)} km restantes · ${Math.round(a.pct*100)}% do intervalo</div>
+      </div>
+      <div style="font-size:13px;font-weight:700;color:var(--txt)">${R(a.cost)}</div>
+    </div>`).join('') : `<div style="padding:12px;text-align:center;color:var(--ok);font-size:13px">✅ Nenhuma manutenção urgente no momento</div>`;
+
+  c.innerHTML = `
+    <div class="card" style="margin-bottom:10px">
+      <div style="font-size:13px;font-weight:700;margin-bottom:12px">💰 Reserva mensal recomendada</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px">
+        <div style="background:var(--err-lt);padding:10px;border-radius:10px">
+          <div style="font-size:10px;color:var(--err);font-weight:600;margin-bottom:3px">Desvalorização</div>
+          <div style="font-size:15px;font-weight:800;color:var(--err)">${R(h.monthlyDeprValue)}/mês</div>
+          <div style="font-size:10px;color:var(--txt2)">${(h.deprRate*100).toFixed(0)}% ao ano</div>
+        </div>
+        <div style="background:var(--warn-lt);padding:10px;border-radius:10px">
+          <div style="font-size:10px;color:var(--warn);font-weight:600;margin-bottom:3px">IPVA mensal</div>
+          <div style="font-size:15px;font-weight:800;color:var(--warn)">${R(h.ipvaMensal)}/mês</div>
+          <div style="font-size:10px;color:var(--txt2)">${R(h.ipvaAnual)}/ano estimado</div>
+        </div>
+        <div style="background:var(--pri-lt);padding:10px;border-radius:10px">
+          <div style="font-size:10px;color:var(--pri);font-weight:600;margin-bottom:3px">Seguro estimado</div>
+          <div style="font-size:15px;font-weight:800;color:var(--pri)">${R(h.seguroMensal)}/mês</div>
+          <div style="font-size:10px;color:var(--txt2)">≈5% do valor FIPE/ano</div>
+        </div>
+        <div style="background:var(--bg2);padding:10px;border-radius:10px">
+          <div style="font-size:10px;color:var(--txt2);font-weight:600;margin-bottom:3px">Manutenção média</div>
+          <div style="font-size:15px;font-weight:800">${R(h.manutencaoMensal)}/mês</div>
+          <div style="font-size:10px;color:var(--txt2)">Revisões + consumíveis</div>
+        </div>
+      </div>
+      <div style="background:var(--azul, var(--pri));background:var(--pri);color:#fff;padding:14px;border-radius:10px;text-align:center">
+        <div style="font-size:11px;opacity:.7;margin-bottom:4px">Total que você deveria reservar por mês</div>
+        <div style="font-size:24px;font-weight:800">${R(h.totalMensal)}</div>
+        ${monthNet > 0 ? `<div style="font-size:11px;opacity:.7;margin-top:4px">${pctReserva}% do seu líquido deste mês</div>` : ''}
+      </div>
+      <p style="font-size:11px;color:var(--txt2);margin-top:10px;line-height:1.5">⚠️ Esses valores são estimativas orientativas. O NoCorre não guarda esse dinheiro — é uma bússola para você reservar por conta própria.</p>
+    </div>
+    <div class="card">
+      <div style="font-size:13px;font-weight:700;margin-bottom:8px">🔧 Alertas de manutenção</div>
+      ${alertsHtml}
+    </div>`;
+}
+
+// ================================================================
+// EMAIL
+// ================================================================
+function saveEmail() {
+  const email = el('emailInput').value.trim();
+  if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    toast('Verifica o formato do e-mail 😊', 'err'); return;
+  }
+  S.user.email = email || null;
+  persist(); renderProfile(); closeModal('emailModal');
+  toast(email ? `E-mail salvo! 📧` : 'E-mail removido.', 'ok');
+}
+
+// ================================================================
+// PDF REPORT
+// ================================================================
+function getPdfMonthRange(sel) {
+  const now = new Date();
+  let year = now.getFullYear(), month = now.getMonth();
+  if (sel === 'last')  { month -= 1; if (month < 0) { month = 11; year--; } }
+  if (sel === 'last2') { month -= 2; if (month < 0) { month += 12; year--; } }
+  const start = dateISO(new Date(year, month, 1));
+  const end   = dateISO(new Date(year, month + 1, 0));
+  const label = new Date(year, month, 1).toLocaleDateString('pt-BR', { month: 'long', year: 'numeric' });
+  return { start, end, label, year, month };
+}
+
+function updatePdfPreview() {
+  const sel = el('pdfMonth').value;
+  const range = getPdfMonthRange(sel);
+  const txns = S.transactions.filter(t => t.date >= range.start && t.date <= range.end);
+  const inc = txns.filter(t=>t.type==='income').reduce((s,t)=>s+(parseFloat(t.amount)||0),0);
+  const exp = txns.filter(t=>t.type==='expense').reduce((s,t)=>s+(parseFloat(t.amount)||0),0);
+  el('pdfPreview').innerHTML = txns.length
+    ? `<strong>${range.label}</strong> · ${txns.length} registros · Entrou: ${R(inc)} · Saiu: ${R(exp)} · <strong style="color:var(--ok)">Líquido: ${R(inc-exp)}</strong>`
+    : `Nenhum registro em <strong>${range.label}</strong>.`;
+}
+
+function generatePDF() {
+  const sel = el('pdfMonth').value;
+  const range = getPdfMonthRange(sel);
+  const txns = S.transactions.filter(t => t.date >= range.start && t.date <= range.end)
+    .sort((a,b) => a.date.localeCompare(b.date));
+
+  if (!txns.length) { toast('Sem registros nesse período.', 'err'); return; }
+
+  const inc = txns.filter(t=>t.type==='income').reduce((s,t)=>s+(parseFloat(t.amount)||0),0);
+  const exp = txns.filter(t=>t.type==='expense').reduce((s,t)=>s+(parseFloat(t.amount)||0),0);
+  const net_ = inc - exp;
+
+  const rows = txns.map(t => `
+    <tr style="border-bottom:1px solid #eee">
+      <td style="padding:7px 10px;font-size:12px">${fmtDate(t.date)}</td>
+      <td style="padding:7px 10px;font-size:12px">${t.categoryEmoji} ${t.categoryLabel}</td>
+      <td style="padding:7px 10px;font-size:12px;max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${t.description}</td>
+      <td style="padding:7px 10px;font-size:12px;font-weight:700;color:${t.type==='income'?'#1F6F5F':'#C0392B'};text-align:right">${t.type==='income'?'+':'-'}${R(t.amount)}</td>
+    </tr>`).join('');
+
+  const vehicleInfo = S.vehicle
+    ? `${S.vehicle.make} ${S.vehicle.model} · ${S.vehicle.kmPerLiter} km/l`
+    : 'Não cadastrado';
+
+  const html = `<!DOCTYPE html><html><head><meta charset="UTF-8">
+    <title>NoCorre — ${range.label}</title>
+    <style>
+      body{font-family:Arial,sans-serif;margin:0;padding:32px;color:#1a1a1a}
+      h1{color:#112D4E;font-size:24px;margin-bottom:4px}
+      .sub{color:#888;font-size:13px;margin-bottom:24px}
+      .summary{display:flex;gap:16px;margin-bottom:24px}
+      .scard{flex:1;background:#f5f5f5;padding:14px;border-radius:8px}
+      .scard-lbl{font-size:11px;color:#888;margin-bottom:4px}
+      .scard-val{font-size:20px;font-weight:800}
+      table{width:100%;border-collapse:collapse}
+      th{background:#112D4E;color:#fff;padding:9px 10px;text-align:left;font-size:12px}
+      tr:nth-child(even) td{background:#f9f9f9}
+      .footer{margin-top:24px;font-size:11px;color:#aaa;text-align:center}
+    </style>
+  </head><body>
+    <h1>NoCorre · Relatório Mensal</h1>
+    <div class="sub">${range.label} · ${S.user.name}${S.user.email ? ' · ' + S.user.email : ''} · Veículo: ${vehicleInfo}</div>
+    <div class="summary">
+      <div class="scard"><div class="scard-lbl">Total que entrou</div><div class="scard-val" style="color:#1F6F5F">${R(inc)}</div></div>
+      <div class="scard"><div class="scard-lbl">Total que saiu</div><div class="scard-val" style="color:#C0392B">${R(exp)}</div></div>
+      <div class="scard"><div class="scard-lbl">Líquido no bolso</div><div class="scard-val" style="color:#112D4E">${R(net_)}</div></div>
+      <div class="scard"><div class="scard-lbl">Registros</div><div class="scard-val">${txns.length}</div></div>
+    </div>
+    <table>
+      <tr><th>Data</th><th>Categoria</th><th>Descrição</th><th style="text-align:right">Valor</th></tr>
+      ${rows}
+    </table>
+    <div class="footer">Gerado pelo NoCorre em ${new Date().toLocaleDateString('pt-BR')} · nocorre.app</div>
+  </body></html>`;
+
+  const w = window.open('', '_blank');
+  if (w) {
+    w.document.write(html);
+    w.document.close();
+    setTimeout(() => w.print(), 500);
+  } else {
+    // Fallback: download como HTML
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(new Blob([html], {type:'text/html'}));
+    a.download = `nocorre_${range.label.replace(' ','_')}.html`;
+    a.click();
+  }
+  closeModal('pdfModal');
+  toast('Relatório gerado! 📄', 'ok');
+}
+
+// ================================================================
+// BOOT
 // ================================================================
 if ('serviceWorker' in navigator && location.protocol !== 'file:') {
   window.addEventListener('load', () => {
