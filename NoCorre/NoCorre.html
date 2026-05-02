@@ -160,6 +160,11 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Helvetica Neue',Ar
 .ins-title{font-size:13px;font-weight:700;margin-bottom:3px;color:var(--txt)}
 .ins-text{font-size:12px;color:var(--txt2);line-height:1.5}
 
+/* ── Insights Grid 2x2 ── */
+.insights-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
+@media(max-width:400px){.insights-grid{grid-template-columns:1fr}}
+.insights-grid .ins{margin-bottom:0}
+
 /* ── Onboarding ── */
 .ob-step{display:flex;gap:12px;margin-bottom:8px;padding:14px;background:var(--card);border-radius:var(--r);cursor:pointer;border:2px solid var(--brd);transition:border .2s;box-shadow:var(--shadow)}
 .ob-step.done{border-color:var(--ok);background:var(--ok-lt)}
@@ -444,12 +449,18 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Helvetica Neue',Ar
       <input class="f-input" id="lEmail" type="email" placeholder="seu@email.com" inputmode="email" onkeypress="if(event.key==='Enter')doLogin()">
     </div>
     <div class="form-grp">
+      <label class="form-lbl">Tipo de veículo</label>
+      <div class="period-grid" style="grid-template-columns:1fr 1fr;gap:8px;margin-bottom:0">
+        <button class="per-btn active" id="lTypeCar" onclick="setLoginVehicleType('car')"><span>🚗</span>Carro</button>
+        <button class="per-btn" id="lTypeMoto" onclick="setLoginVehicleType('moto')"><span>🏍️</span>Moto</button>
+      </div>
+    </div>
+    <div class="form-grp">
       <label class="form-lbl">Onde você trabalha mais?</label>
       <select class="f-sel" id="lPlatform">
         <option value="uber">🚗 Uber / 99</option>
         <option value="ifood">🍔 iFood / Rappi</option>
-        <option value="loggi">📦 Loggi / Bluefy</option>
-        <option value="freelancer">💻 Freelancer</option>
+        <option value="particular">🏍️ Particular</option>
         <option value="outro">🔄 Outro</option>
       </select>
     </div>
@@ -545,17 +556,21 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Helvetica Neue',Ar
         </button>
       </div>
       <div class="balance-amount" id="incomeVal">R$ 0,00</div>
-      <div class="balance-row">
-        <div class="balance-col">
+      <div class="balance-row" style="grid-template-columns:1fr 1fr 1fr 1fr;display:grid;gap:0;border-top:1px solid var(--brd);padding-top:12px;margin-top:4px">
+        <div class="balance-col" style="border-right:1px solid var(--brd)">
           <div class="balance-col-lbl">Entrou</div>
           <div class="balance-col-val inc" id="incomeGross">R$ 0</div>
         </div>
-        <div class="balance-col">
+        <div class="balance-col" style="border-right:1px solid var(--brd)">
           <div class="balance-col-lbl">Saiu</div>
           <div class="balance-col-val exp" id="incomeExp">R$ 0</div>
         </div>
+        <div class="balance-col" id="rentCol" style="display:none;border-right:1px solid var(--brd)">
+          <div class="balance-col-lbl">Aluguel</div>
+          <div class="balance-col-val exp" id="rentVal">R$ 0</div>
+        </div>
         <div class="balance-col">
-          <div class="balance-col-lbl">Projeção mês</div>
+          <div class="balance-col-lbl">Projeção</div>
           <div class="balance-col-val" id="statProj" style="color:var(--pri)">R$ 0</div>
         </div>
       </div>
@@ -677,12 +692,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Helvetica Neue',Ar
       <div class="qs-lbl" id="chartTitle">Ganhos — últimos 7 dias</div>
       <div class="chart-wrap" id="chartBox"></div>
     </div>
-    <div class="sec-hdr"><h3>⚡ Melhores e piores dias</h3></div>
-    <div id="patternsBox"></div>
-    <div class="sec-hdr"><h3>🕐 Horários mais vantajosos</h3></div>
-    <div class="card" id="hourlyStatsBox"></div>
-    <div class="sec-hdr"><h3>🔮 Quanto falta para a meta?</h3></div>
-    <div id="forecastBox"></div>
+    <div class="sec-hdr"><h3>🔧 Saúde do veículo</h3><a onclick="openModal('vehicleModal')">Configurar →</a></div>
+    <div id="vehicleHealthBox"></div>
     <div class="sec-hdr"><h3>📈 Resumo</h3></div>
     <div class="card">
       <div class="p-stat"><span class="p-stat-lbl">Total que entrou</span><span class="p-stat-val" style="color:var(--ok)" id="sGross">R$ 0,00</span></div>
@@ -692,10 +703,12 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Helvetica Neue',Ar
       <div class="p-stat"><span class="p-stat-lbl">Média diária</span><span class="p-stat-val" id="sAvg">R$ 0,00</span></div>
       <div class="p-stat"><span class="p-stat-lbl">Melhor dia</span><span class="p-stat-val" id="sBest">-</span></div>
     </div>
+    <div class="sec-hdr"><h3>🕐 Horários mais vantajosos</h3></div>
+    <div class="card" id="hourlyStatsBox"></div>
+    <div class="sec-hdr"><h3>🔮 Quanto falta para a meta?</h3></div>
+    <div id="forecastBox"></div>
     <div class="sec-hdr"><h3>📊 Para onde foi o que saiu</h3></div>
     <div class="card" id="sByCat"></div>
-    <div class="sec-hdr"><h3>🔧 Saúde do veículo</h3><a onclick="openModal('vehicleModal')">Configurar →</a></div>
-    <div id="vehicleHealthBox"></div>
   </div>
 
   <!-- ── GALERA ── -->
@@ -877,23 +890,28 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Helvetica Neue',Ar
     </div>
 
     <div style="height:1px;background:var(--brd);margin:16px 0"></div>
-    <div style="font-size:12px;font-weight:700;color:var(--txt2);text-transform:uppercase;letter-spacing:.5px;margin-bottom:12px">📋 Dados para manutenção e saúde</div>
+    <div style="font-size:12px;font-weight:700;color:var(--txt2);text-transform:uppercase;letter-spacing:.5px;margin-bottom:12px">💰 Custos mensais</div>
 
     <div class="form-grp">
-      <label class="form-lbl">Ano do veículo</label>
-      <input class="f-input" id="vYear" type="number" placeholder="Ex: 2020" min="1990" max="2026" inputmode="numeric">
+      <label class="form-lbl">Este veículo é alugado?</label>
+      <div class="period-grid" style="grid-template-columns:1fr 1fr;gap:8px;margin-bottom:0">
+        <button class="per-btn" id="vRentedNo" onclick="setVehicleRented(false)"><span>❌</span>Não</button>
+        <button class="per-btn" id="vRentedYes" onclick="setVehicleRented(true)"><span>✅</span>Sim</button>
+      </div>
     </div>
-    <div class="form-grp">
-      <label class="form-lbl">KM atual do veículo</label>
-      <input class="f-input" id="vKmCurrent" type="number" placeholder="Ex: 85000" inputmode="numeric">
-    </div>
-    <div class="form-grp">
-      <label class="form-lbl">KM na última troca de óleo</label>
-      <input class="f-input" id="vKmOil" type="number" placeholder="Ex: 80000" inputmode="numeric">
-    </div>
-    <div class="form-grp">
-      <label class="form-lbl">KM na última troca de pneus</label>
-      <input class="f-input" id="vKmTires" type="number" placeholder="Ex: 50000" inputmode="numeric">
+    <div class="form-grp" id="vRentGroup" style="display:none">
+      <label class="form-lbl">Valor do aluguel</label>
+      <div class="cols-2" style="gap:8px">
+        <div>
+          <input class="f-input" id="vRentValue" type="number" placeholder="Ex: 1200" inputmode="decimal" step="0.01">
+        </div>
+        <div>
+          <select class="f-input" id="vRentPeriod">
+            <option value="weekly">Semanal</option>
+            <option value="monthly" selected>Mensal</option>
+          </select>
+        </div>
+      </div>
     </div>
     <div class="form-grp">
       <label class="form-lbl">Valor IPVA anual (R$) <span style="color:var(--txt2);font-weight:400">opcional</span></label>
@@ -1244,7 +1262,7 @@ const STATES = [
   {code:'SE',name:'Sergipe'},{code:'TO',name:'Tocantins'}
 ];
 
-const PLATFORM_LABELS = {uber:'🚗 Uber/99',ifood:'🍔 iFood/Rappi',loggi:'📦 Loggi/Bluefy',freelancer:'💻 Freelancer',outro:'🔄 Outro'};
+const PLATFORM_LABELS = {uber:'🚗 Uber/99',ifood:'🍔 iFood/Rappi',particular:'🏍️ Particular',outro:'🔄 Outro'};
 const PERIOD_LABELS = {day:'Diário',week:'Semanal',biweekly:'Quinzenal',month:'Mensal'};
 const GOAL_LABELS = {day:'Meta diária',week:'Meta semanal',biweekly:'Meta quinzenal',month:'Meta mensal'};
 const PERIOD_HLABELS = {day:'O que ficou hoje',week:'O que ficou esta semana',biweekly:'O que ficou na quinzena',month:'O que ficou para você (Mês)'};
@@ -1608,14 +1626,21 @@ function doLogin() {
   const platform = el('lPlatform').value;
   const state = el('lState').value;
   const email = el('lEmail') ? el('lEmail').value.trim() : '';
+  const vehicleType = window._loginVehicleType || 'car';
   if (!name) { toast('Como te chamam? 😊', 'err'); return; }
   if (!state) { toast('Escolhe o teu estado para continuar', 'err'); return; }
 
-  S.user = { name, platform, state, email: email || null, createdAt: new Date().toISOString() };
+  S.user = { name, platform, state, email: email || null, vehicleType, createdAt: new Date().toISOString() };
   if (!S.posts || S.posts.length === 0) S.posts = DEMO_POSTS.map(p => ({...p}));
   persist();
   bootApp();
   toast(`Olá, ${name.split(' ')[0]}! Tudo pronto para você. 🎉`, 'ok');
+}
+
+function setLoginVehicleType(type) {
+  window._loginVehicleType = type;
+  el('lTypeCar').classList.toggle('active', type === 'car');
+  el('lTypeMoto').classList.toggle('active', type === 'moto');
 }
 
 function googleLoginNotice() {
@@ -1788,6 +1813,15 @@ function renderDashboard() {
   el('incomeGross').textContent = R(inc);
   el('incomeExp').textContent = R(exp);
 
+  // Mostrar aluguel se aplicável (apenas no período mês)
+  if (S.displayPeriod === 'month' && S.vehicle && S.vehicle.isRented && S.vehicle.rentValue) {
+    const rentMonthly = S.vehicle.rentPeriod === 'weekly' ? S.vehicle.rentValue * 4.33 : S.vehicle.rentValue;
+    el('rentCol').style.display = 'block';
+    el('rentVal').textContent = R(rentMonthly);
+  } else {
+    el('rentCol').style.display = 'none';
+  }
+
   // Ritmo hoje — ganho líquido por hora online
   const todayStr = todayISO();
   const todayNetVal = net(S.transactions.filter(t => t.date === todayStr));
@@ -1903,6 +1937,40 @@ function renderInsights(mInc, mExp, mNet) {
   }
 
   const items = [];
+  
+  // Calcular melhores e piores dias (PRIORITY)
+  const allInc = S.transactions.filter(t => t.type==='income');
+  if (allInc.length >= 3) {
+    const dayNet = {};
+    S.transactions.forEach(t => {
+      if (!dayNet[t.date]) dayNet[t.date] = 0;
+      dayNet[t.date] += t.type === 'income' ? parseFloat(t.amount)||0 : -(parseFloat(t.amount)||0);
+    });
+    const dow = Array(7).fill(null).map(() => ({total:0, count:0}));
+    Object.entries(dayNet).forEach(([ds, v]) => {
+      if (v === 0) return;
+      const d = new Date(ds + 'T00:00:00').getDay();
+      dow[d].total += v;
+      dow[d].count++;
+    });
+    const dayNames = ['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado'];
+    const avgs = dow
+      .map((s,i) => ({ day: dayNames[i], short: DAY_SHORT[i], avg: s.count > 0 ? s.total/s.count : 0, count: s.count }))
+      .filter(d => d.count > 0);
+    
+    if (avgs.length >= 2) {
+      const sorted = [...avgs].sort((a,b) => b.avg - a.avg);
+      const best = sorted[0];
+      const worst = sorted[sorted.length - 1];
+      
+      items.push({t:'ok',i:'🏆',h:`${best.day} é seu melhor dia`,b:`Líquido médio de ${R(best.avg)} nas ${best.short}s. Vale colocar o pé na rua com tudo nesse dia.`});
+      if (best.day !== worst.day && worst.avg >= 0 && best.avg / worst.avg > 1.3) {
+        items.push({t:'warn',i:'😴',h:`${worst.day} costuma render menos`,b:`Média de ${R(worst.avg)} líquido nas ${worst.short}s. Pode ser um bom dia para descansar ou adiantar tarefas.`});
+      }
+    }
+  }
+  
+  // Insights de gastos
   const costPct = mInc > 0 ? (mExp / mInc * 100) : 0;
   if (costPct > 60) items.push({t:'err',i:'⚠️',h:'Os gastos estão pesados este mês',b:`${costPct.toFixed(0)}% do que você ganhou vai para custos. O ideal é abaixo de 50%.`});
   else if (costPct > 0 && costPct < 40) items.push({t:'ok',i:'🎯',h:'Você está no controle dos gastos',b:`Só ${costPct.toFixed(0)}% do que entrou foi para custos. Continue assim.`});
@@ -1920,7 +1988,8 @@ function renderInsights(mInc, mExp, mNet) {
 
   if (!items.length) items.push({t:'',i:'📈',h:'Continue registrando tudo',b:'Quanto mais dados, mais preciso o retrato do que fica para você.'});
 
-  c.innerHTML = items.map(it => insCard(it.t, it.i, it.h, it.b)).join('');
+  // Organizar em grid 2x2
+  c.innerHTML = `<div class="insights-grid">${items.map(it => insCard(it.t, it.i, it.h, it.b)).join('')}</div>`;
 }
 
 function insCard(type, icon, title, text) {
@@ -2294,7 +2363,6 @@ function renderStats() {
 
   renderChart(r);
   renderExpByCat(r);
-  renderPatterns();
   renderHourlyStats();
   renderForecast();
   renderVehicleHealth();
@@ -3049,6 +3117,13 @@ function setVehicleType(type) {
   el('vConsumptionBox').style.display = 'none';
 }
 
+function setVehicleRented(isRented) {
+  window._vehicleIsRented = isRented;
+  el('vRentedYes').classList.toggle('active', isRented);
+  el('vRentedNo').classList.toggle('active', !isRented);
+  el('vRentGroup').style.display = isRented ? 'block' : 'none';
+}
+
 function filterVehicleMakes(query) {
   const makes = Object.keys(VEHICLE_DB[vehicleType]).sort();
   const filtered = query.length >= 1
@@ -3299,7 +3374,12 @@ function saveVehicle() {
     currentKm:       parseFloat(el('vCurrentKm')?.value)  || null,
     kmLastOil:       parseFloat(el('vKmLastOil')?.value)  || null,
     kmLastTire:      parseFloat(el('vKmLastTire')?.value) || null,
-    kmLastRevision:  parseFloat(el('vKmLastRevision')?.value) || null
+    kmLastRevision:  parseFloat(el('vKmLastRevision')?.value) || null,
+    isRented:        window._vehicleIsRented || false,
+    rentValue:       parseFloat(el('vRentValue')?.value)  || null,
+    rentPeriod:      el('vRentPeriod')?.value || 'monthly',
+    ipva:            parseFloat(el('vIPVA')?.value) || null,
+    seguro:          parseFloat(el('vSeguro')?.value) || null
   };
   persist();
   renderProfile();
@@ -3357,6 +3437,12 @@ function openVehicleModal() {
     if (el('vKmLastOil'))      el('vKmLastOil').value      = S.vehicle.kmLastOil      || '';
     if (el('vKmLastTire'))     el('vKmLastTire').value     = S.vehicle.kmLastTire     || '';
     if (el('vKmLastRevision')) el('vKmLastRevision').value = S.vehicle.kmLastRevision || '';
+    if (el('vIPVA'))           el('vIPVA').value           = S.vehicle.ipva           || '';
+    if (el('vSeguro'))         el('vSeguro').value         = S.vehicle.seguro         || '';
+    // Aluguel
+    setVehicleRented(S.vehicle.isRented || false);
+    if (el('vRentValue'))  el('vRentValue').value  = S.vehicle.rentValue  || '';
+    if (el('vRentPeriod')) el('vRentPeriod').value = S.vehicle.rentPeriod || 'monthly';
     // se já tem FIPE salvo, mostra badge "salvo"
     if (S.vehicle.fipeValue) {
       const b = el('fipeBadge');
@@ -3375,7 +3461,8 @@ function openVehicleModal() {
     el('vModel').value = '';
     el('vModelInput').disabled = true;
     el('vConsumptionBox').style.display = 'none';
-    ['vYear','vFipe','vCurrentKm','vKmLastOil','vKmLastTire','vKmLastRevision']
+    setVehicleRented(false);
+    ['vYear','vFipe','vCurrentKm','vKmLastOil','vKmLastTire','vKmLastRevision','vIPVA','vSeguro','vRentValue']
       .forEach(id => { if (el(id)) el(id).value = ''; });
   }
 }
@@ -3807,7 +3894,8 @@ function calcVehicleHealth() {
 
   // Tabela FIPE aproximada — usa valor informado pelo usuário ou estimativa
   const fipeValue = v.fipeValue || 0;
-  const deprRate = (DEPRECIATION_RATES[type]?.[v.make] || 16) / 100;
+  // Taxa de depreciação corrigida: 13.5% para carros, 15% para motos
+  const deprRate = type === 'moto' ? 0.15 : 0.135;
   const yearlyDeprValue = fipeValue * deprRate;
   const monthlyDeprValue = yearlyDeprValue / 12;
 
@@ -3832,27 +3920,32 @@ function calcVehicleHealth() {
     }
   });
 
-  // IPVA estimado (1% a 4% do valor FIPE dependendo do estado)
-  const ipvaRates = { SP:0.04, RJ:0.04, MG:0.04, RS:0.03, PR:0.035, SC:0.03, BA:0.035, default:0.03 };
-  const ipvaRate = ipvaRates[v.state || (S.user && S.user.state)] || ipvaRates.default;
-  const ipvaAnual = fipeValue * ipvaRate;
+  // IPVA: usa valor informado pelo usuário ou estima por % do FIPE
+  const ipvaAnual = v.ipva || (fipeValue * 0.04); // padrão 4% se não informado
   const ipvaMensal = ipvaAnual / 12;
 
-  // Seguro estimado (3% a 8% do valor FIPE)
-  const seguroAnual = fipeValue * 0.05;
+  // Seguro: usa valor informado pelo usuário ou estima 5% do FIPE
+  const seguroAnual = v.seguro || (fipeValue * 0.05);
   const seguroMensal = seguroAnual / 12;
 
   // Manutenção mensal média
   const manutencaoAnual = Object.values(MAINTENANCE_SCHEDULE)
-    .reduce((s, m) => s + (m.cost[type] || 0) / (m.km / (km > 0 ? km / age : 15000)), 0);
+    .reduce((s, m) => s + (m.cost[type] || 0) * ((km > 0 ? km / age : 15000) / m.km), 0);
   const manutencaoMensal = Math.max(manutencaoAnual / 12, 80);
+
+  // Aluguel mensal (se aplicável)
+  let aluguelMensal = 0;
+  if (v.isRented && v.rentValue) {
+    aluguelMensal = v.rentPeriod === 'weekly' ? v.rentValue * 4.33 : v.rentValue;
+  }
 
   return {
     age, km, fipeValue, deprRate,
     monthlyDeprValue, yearlyDeprValue,
     ipvaAnual, ipvaMensal,
     seguroMensal, manutencaoMensal,
-    totalMensal: monthlyDeprValue + ipvaMensal + seguroMensal + manutencaoMensal,
+    aluguelMensal,
+    totalMensal: monthlyDeprValue + ipvaMensal + seguroMensal + manutencaoMensal + aluguelMensal,
     alerts
   };
 }
