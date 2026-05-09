@@ -72,7 +72,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Helvetica Neue',Ar
 /* ── Main balance card ── */
 .balance-card{background:var(--card);border-radius:var(--r);padding:20px;margin-bottom:12px;box-shadow:var(--shadow);border:1px solid var(--brd)}
 .balance-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:4px}
-.balance-lbl{font-size:12px;color:var(--txt2);font-weight:500}
+.balance-lbl{font-size:12px;color:var(--txt2);font-weight:700}
 .period-btn-sel{background:var(--pri-lt);border:none;padding:5px 10px;border-radius:20px;font-size:11px;font-weight:600;color:var(--pri);cursor:pointer;font-family:inherit;display:inline-flex;align-items:center;gap:4px}
 .balance-amount{font-size:36px;font-weight:800;color:var(--ok);line-height:1.1;letter-spacing:-1px;margin:8px 0}
 .balance-amount.neg{color:var(--err)}
@@ -85,9 +85,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Helvetica Neue',Ar
 .balance-col-val.exp{color:var(--err)}
 
 /* ── GPS Session ── */
-.gps-card{background:var(--pri);border-radius:var(--r);padding:18px;margin-bottom:12px;color:#fff}
+.gps-card{background:var(--card);border:1px solid var(--brd);border-radius:var(--r);padding:18px;margin-bottom:12px;box-shadow:var(--shadow)}
 .gps-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
-.gps-title{font-size:12px;font-weight:600;opacity:.7;text-transform:uppercase;letter-spacing:.5px}
+.gps-title{font-size:12px;font-weight:700;color:var(--txt2);text-transform:uppercase;letter-spacing:.5px}
 .gps-badge{display:flex;align-items:center;gap:5px;font-size:11px;font-weight:600;background:rgba(255,255,255,.1);padding:4px 10px;border-radius:20px}
 .gps-dot{width:6px;height:6px;border-radius:50%;background:#4ade80;animation:pulse 2s infinite;flex-shrink:0}
 .gps-dot.off{background:rgba(255,255,255,.4);animation:none}
@@ -98,7 +98,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Helvetica Neue',Ar
 .gps-stat-lbl{font-size:9px;opacity:.6;margin-top:3px;font-weight:500}
 .gps-bottom{display:flex;justify-content:space-between;align-items:flex-end;background:rgba(255,255,255,.06);border-radius:10px;padding:12px}
 .gps-net-lbl{font-size:10px;opacity:.65;margin-bottom:4px;font-weight:500}
-.gps-net-val{font-size:22px;font-weight:800;color:#4ade80;letter-spacing:-.5px}
+.gps-net-val{font-size:22px;font-weight:800;color:var(--ok);letter-spacing:-.5px}
 .gps-side{text-align:right}
 .gps-side-item{font-size:10px;opacity:.6;margin-bottom:2px}
 .gps-side-item span{font-weight:600;opacity:.9}
@@ -152,7 +152,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Helvetica Neue',Ar
 .auto-badge{font-size:9px;background:var(--pri-lt);color:var(--pri);padding:1px 5px;border-radius:6px;margin-left:4px;font-weight:700}
 
 /* ── Insight card ── */
-.ins{background:var(--card);border-radius:var(--r);padding:14px;margin-bottom:10px;border-left:3px solid var(--pri);box-shadow:var(--shadow)}
+.ins{background:var(--card);border-radius:var(--r);padding:14px;margin-bottom:10px;box-shadow:var(--shadow)}
 .ins.ok{border-left-color:var(--ok);background:var(--ok-lt)}
 .ins.warn{border-left-color:var(--acc);background:var(--acc-lt)}
 .ins.err{border-left-color:var(--err);background:var(--err-lt)}
@@ -300,7 +300,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Helvetica Neue',Ar
 .news-foot{font-size:10px;color:var(--txt3);display:flex;justify-content:space-between}
 
 /* ── Tip box ── */
-.tip-box{background:var(--pri-lt);border-left:3px solid var(--pri);padding:12px 14px;border-radius:var(--r-sm);margin-bottom:12px}
+.tip-box{background:var(--card);border:1px solid var(--brd);padding:12px 14px;border-radius:var(--r);margin-bottom:12px;box-shadow:var(--shadow)}
 .tip-box .tt{font-weight:700;font-size:13px;color:var(--pri);margin-bottom:3px}
 .tip-box .tb{font-size:12px;color:var(--txt2);line-height:1.4}
 
@@ -403,6 +403,81 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Helvetica Neue',Ar
 .ob-progress{display:flex;gap:6px;align-items:center;margin-bottom:10px;font-size:12px;color:var(--txt2);font-weight:500}
 .ob-progress-bar{flex:1;height:5px;background:var(--brd);border-radius:3px;overflow:hidden}
 .ob-progress-fill{height:100%;background:var(--ok);border-radius:3px;transition:width .4s ease}
+
+/* ── MOBILE RESPONSIVE ── */
+@media(max-width:400px){
+  /* Cards de análise - garantir grid responsivo */
+  .card[style*="grid-template-columns:1fr 1fr 1fr"]{
+    grid-template-columns:1fr !important;
+  }
+  
+  /* Balance row - ajustar para mobile */
+  #balanceRowGrid{
+    grid-template-columns:1fr 1fr !important;
+  }
+  
+  /* GPS Card stats */
+  .gps-stat-val{font-size:18px !important}
+  .gps-stat-lbl{font-size:10px !important}
+  
+  /* Quick stats */
+  .qs-val{font-size:20px !important}
+  .qs-lbl{font-size:11px !important}
+  
+  /* Balance columns */
+  .balance-col-lbl{font-size:10px !important}
+  .balance-col-val{font-size:16px !important}
+  
+  /* Textos menores em cards pequenos */
+  .ins-title{font-size:12px !important}
+  .ins-text{font-size:10px !important}
+  
+  /* Garantir que grids não quebrem */
+  .period-grid{
+    grid-template-columns:1fr 1fr !important;
+  }
+  
+  /* Stats grid mobile */
+  div[style*="grid-template-columns:1fr 1fr"]{
+    gap:6px !important;
+  }
+}
+
+/* Ajustes para telas muito pequenas */
+@media(max-width:360px){
+  .balance-col-lbl{font-size:9px !important}
+  .balance-col-val{font-size:14px !important}
+  .gps-stat-val{font-size:16px !important}
+  .qs-val{font-size:18px !important}
+}
+
+
+.nav-btn .ni{font-size:16px;line-height:1;color:var(--pri)}
+.nav-btn.active .ni{color:var(--acc)}
+
+/* Ícones SVG para navegação */
+.nav-btn .ni {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.nav-btn svg {
+  width: 22px;
+  height: 22px;
+  stroke: var(--pri);
+  fill: none;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.nav-btn.active svg {
+  stroke: var(--acc);
+}
+
 </style>
 </head>
 <body>
@@ -556,7 +631,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Helvetica Neue',Ar
         </button>
       </div>
       <div class="balance-amount" id="incomeVal">R$ 0,00</div>
-      <div class="balance-row" style="grid-template-columns:1fr 1fr 1fr 1fr;display:grid;gap:0;border-top:1px solid var(--brd);padding-top:12px;margin-top:4px">
+      <div class="balance-row" id="balanceRowGrid" style="display:grid;gap:0;border-top:1px solid var(--brd);padding-top:12px;margin-top:4px">
         <div class="balance-col" style="border-right:1px solid var(--brd)">
           <div class="balance-col-lbl">Entrou</div>
           <div class="balance-col-val inc" id="incomeGross">R$ 0</div>
@@ -565,13 +640,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Helvetica Neue',Ar
           <div class="balance-col-lbl">Saiu</div>
           <div class="balance-col-val exp" id="incomeExp">R$ 0</div>
         </div>
-        <div class="balance-col" id="rentCol" style="display:none;border-right:1px solid var(--brd)">
+        <div class="balance-col" id="rentCol" style="display:none">
           <div class="balance-col-lbl">Aluguel</div>
           <div class="balance-col-val exp" id="rentVal">R$ 0</div>
-        </div>
-        <div class="balance-col">
-          <div class="balance-col-lbl">Projeção</div>
-          <div class="balance-col-val" id="statProj" style="color:var(--pri)">R$ 0</div>
         </div>
       </div>
     </div>
@@ -692,8 +763,14 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Helvetica Neue',Ar
       <div class="qs-lbl" id="chartTitle">Ganhos — últimos 7 dias</div>
       <div class="chart-wrap" id="chartBox"></div>
     </div>
-    <div class="sec-hdr"><h3>🔧 Saúde do veículo</h3><a onclick="openModal('vehicleModal')">Configurar →</a></div>
+    <div class="sec-hdr"><h3>🔧 Saúde do veículo</h3><a onclick="openModal('vehicleModal')" style="cursor:pointer;user-select:none;-webkit-tap-highlight-color:transparent">Configurar →</a></div>
     <div id="vehicleHealthBox"></div>
+    <div class="sec-hdr"><h3>🕐 Horários mais vantajosos</h3></div>
+    <div class="card" id="hourlyStatsBox"></div>
+    <div class="sec-hdr"><h3>🔮 Quanto falta para a meta?</h3></div>
+    <div id="forecastBox"></div>
+    <div class="sec-hdr"><h3>📊 Para onde foi o que saiu</h3></div>
+    <div class="card" id="sByCat"></div>
     <div class="sec-hdr"><h3>📈 Resumo</h3></div>
     <div class="card">
       <div class="p-stat"><span class="p-stat-lbl">Total que entrou</span><span class="p-stat-val" style="color:var(--ok)" id="sGross">R$ 0,00</span></div>
@@ -703,12 +780,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Helvetica Neue',Ar
       <div class="p-stat"><span class="p-stat-lbl">Média diária</span><span class="p-stat-val" id="sAvg">R$ 0,00</span></div>
       <div class="p-stat"><span class="p-stat-lbl">Melhor dia</span><span class="p-stat-val" id="sBest">-</span></div>
     </div>
-    <div class="sec-hdr"><h3>🕐 Horários mais vantajosos</h3></div>
-    <div class="card" id="hourlyStatsBox"></div>
-    <div class="sec-hdr"><h3>🔮 Quanto falta para a meta?</h3></div>
-    <div id="forecastBox"></div>
-    <div class="sec-hdr"><h3>📊 Para onde foi o que saiu</h3></div>
-    <div class="card" id="sByCat"></div>
   </div>
 
   <!-- ── GALERA ── -->
@@ -737,7 +808,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Helvetica Neue',Ar
       <div class="fuel-3" id="fuelMyState"></div>
       <div class="fuel-src" id="fuelColeta"></div>
     </div>
-    <button class="btn sec" style="margin-bottom:16px;font-size:13px" onclick="openModal('fuelModal')">🗺️ Ver preços em outras regiões</button>
+    <button class="btn sec" style="margin-bottom:16px;font-size:13px" onclick="openModal('fuelModal')">Ver preços em outras regiões</button>
     <div class="tip-box">
       <div class="tt">📰 O que está mudando por aí</div>
       <div class="tb">Novidades em tarifas, regras e bônus das plataformas.</div>
@@ -774,10 +845,25 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Helvetica Neue',Ar
     <div class="sec-hdr"><h3>🚗 Meu veículo</h3></div>
     <div class="card" id="vehicleCard">
       <div id="vehicleDisplay"></div>
-      <button class="btn sec" style="margin-top:10px;font-size:13px" onclick="openModal('vehicleModal')">⚙️ Configurar veículo</button>
+      <button class="btn sec" style="margin-top:10px;font-size:13px" onclick="openModal('vehicleModal')">Configurar veículo</button>
     </div>
 
-    <div class="sec-hdr"><h3>📊 Seu histórico</h3></div>
+    
+    <div class="sec-hdr"><h3>💳 Minha assinatura</h3></div>
+    <div class="card">
+      <div style="text-align:center;padding:12px 0 16px">
+        <div style="font-size:32px;font-weight:800;color:var(--acc);margin-bottom:4px">R$ 18,99</div>
+        <div style="font-size:12px;color:var(--txt2);margin-bottom:16px">por mês</div>
+        <div style="background:var(--ok-lt);color:var(--ok);padding:6px 12px;border-radius:20px;display:inline-block;font-size:11px;font-weight:700;margin-bottom:12px">✓ ATIVO</div>
+      </div>
+      <div class="p-stat"><span class="p-stat-lbl">Plano</span><span class="p-stat-val">NoCorre Pro</span></div>
+      <div class="p-stat"><span class="p-stat-lbl">Próxima cobrança</span><span class="p-stat-val">06 Jun 2026</span></div>
+      <div class="p-stat"><span class="p-stat-lbl">Forma de pagamento</span><span class="p-stat-val">●●●● 4532</span></div>
+      <div class="p-stat" style="cursor:pointer"><span class="p-stat-lbl">Gerenciar pagamento</span><span class="p-stat-val" style="color:var(--acc)">→</span></div>
+      <div class="p-stat" style="cursor:pointer"><span class="p-stat-lbl" style="color:var(--txt2)">Cancelar assinatura</span><span class="p-stat-val" style="color:var(--txt2)">→</span></div>
+    </div>
+
+<div class="sec-hdr"><h3>📊 Seu histórico</h3></div>
     <div class="card">
       <div class="p-stat"><span class="p-stat-lbl">Com o NoCorre desde</span><span class="p-stat-val" id="pSince">-</span></div>
       <div class="p-stat"><span class="p-stat-lbl">Registros feitos</span><span class="p-stat-val" id="pCount">0</span></div>
@@ -797,7 +883,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Helvetica Neue',Ar
       <div class="p-stat" style="cursor:pointer" onclick="resetAll()"><span class="p-stat-lbl" style="color:var(--err)">🗑️ Apagar tudo</span><span class="p-stat-val" style="color:var(--err)">→</span></div>
       <div class="p-stat" style="cursor:pointer" onclick="doLogout()"><span class="p-stat-lbl">🚪 Sair</span><span class="p-stat-val" style="color:var(--txt2)">→</span></div>
     </div>
-    <div style="text-align:center;padding:20px;color:var(--txt3);font-size:11px;font-weight:500">NoCorre v1.0 · Feito com 💜 para quem está no corre</div>
+    <div style="text-align:center;padding:20px;color:var(--txt3);font-size:11px;font-weight:500">NoCorre v1.0 · Feito com 🧡 para quem está no corre</div>
   </div>
 
   <!-- FAB -->
@@ -817,11 +903,11 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Helvetica Neue',Ar
 
   <!-- Bottom nav -->
   <nav class="bottom-nav">
-    <button class="nav-btn active" onclick="showPage('dashboard',this)"><div class="ni">🏠</div><div>Início</div></button>
-    <button class="nav-btn" onclick="showPage('rides',this)"><div class="ni">🚗</div><div>Corridas</div></button>
-    <button class="nav-btn" onclick="showPage('transactions',this)"><div class="ni">📋</div><div>Histórico</div></button>
-    <button class="nav-btn" onclick="showPage('stats',this)"><div class="ni">📊</div><div>Análises</div></button>
-    <button class="nav-btn" onclick="showPage('news',this)"><div class="ni">📰</div><div>Novidades</div></button>
+    <button class="nav-btn active" onclick="showPage('dashboard',this)"><div class="ni"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg></div><div>Início</div></button>
+    <button class="nav-btn" onclick="showPage('rides',this)"><div class="ni"><svg viewBox="0 0 24 24"><path d="M5 17h-2v-5l2-1 1-4h10l1 4 2 1v5h-2m-12 0a2 2 0 1 0 4 0m6 0a2 2 0 1 0 4 0m-10-6h10"></path></svg></div><div>Corridas</div></button>
+    <button class="nav-btn" onclick="showPage('transactions',this)"><div class="ni"><svg viewBox="0 0 24 24"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg></div><div>Histórico</div></button>
+    <button class="nav-btn" onclick="showPage('stats',this)"><div class="ni"><svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg></div><div>Análises</div></button>
+    <button class="nav-btn" onclick="showPage('news',this)"><div class="ni"><svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg></div><div>Novidades</div></button>
   </nav>
 </div>
 
@@ -891,6 +977,17 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Helvetica Neue',Ar
 
     <div style="height:1px;background:var(--brd);margin:16px 0"></div>
     <div style="font-size:12px;font-weight:700;color:var(--txt2);text-transform:uppercase;letter-spacing:.5px;margin-bottom:12px">💰 Custos mensais</div>
+
+    <div class="form-grp">
+      <label class="form-lbl" style="display:flex;align-items:center;gap:6px">
+        Deseja juntar dinheiro para um novo veículo?
+        <button onclick="alert('Ao ativar esta opção, a reserva mensal recomendada incluirá o cálculo da desvalorização do seu veículo.\n\nExemplo: Se seu carro desvaloriza 14% ao ano, você deveria reservar 14% ÷ 12 = 1,17% do valor FIPE por mês.\n\nIsso garante que você terá dinheiro acumulado para a troca quando precisar.')" style="background:none;border:none;color:var(--pri);font-size:14px;font-weight:700;cursor:pointer;padding:0;display:flex;align-items:center;justify-content:center;width:18px;height:18px;border-radius:50%;border:1.5px solid var(--pri)">i</button>
+      </label>
+      <div class="period-grid" style="grid-template-columns:1fr 1fr;gap:8px;margin-bottom:0">
+        <button class="per-btn" id="vSaveNo" onclick="setVehicleSaveForNew(false)"><span>❌</span>Não</button>
+        <button class="per-btn active" id="vSaveYes" onclick="setVehicleSaveForNew(true)"><span>✅</span>Sim</button>
+      </div>
+    </div>
 
     <div class="form-grp">
       <label class="form-lbl">Este veículo é alugado?</label>
@@ -1070,6 +1167,25 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Helvetica Neue',Ar
     </div>
     <div class="form-grp"><label class="form-lbl">O que você quer compartilhar?</label><textarea class="f-area" id="postTxt" placeholder="Uma dica, um alerta, uma dúvida — tudo vale aqui."></textarea></div>
     <button class="btn" onclick="savePost()">Mandar para a galera</button>
+  </div>
+</div>
+
+<!-- Manutenção Feita -->
+<div id="maintenanceDoneModal" class="modal">
+  <div class="modal-box">
+    <div class="modal-hdr"><span class="modal-title">✅ Manutenção realizada</span><button class="modal-close" onclick="closeModal('maintenanceDoneModal')">×</button></div>
+    <p style="font-size:12px;color:var(--txt2);margin-bottom:14px">Registre quando fez essa manutenção para o NoCorre prever a próxima:</p>
+    <div class="form-grp"><label class="form-lbl">Data da manutenção</label><input class="f-input" id="maintenanceDate" type="date"></div>
+    <div class="form-grp"><label class="form-lbl">Quilometragem no momento da manutenção</label><input class="f-input" id="maintenanceKm" type="number" placeholder="Ex: 85000"></div>
+    <button class="btn" onclick="saveMaintenanceDone()">Tudo certo</button>
+  </div>
+</div>
+
+<!-- Histórico de Manutenções -->
+<div id="maintenanceHistoryModal" class="modal">
+  <div class="modal-box">
+    <div class="modal-hdr"><span class="modal-title">Histórico de manutenções</span><button class="modal-close" onclick="closeModal('maintenanceHistoryModal')">×</button></div>
+    <div id="maintenanceHistoryContent" style="max-height:400px;overflow-y:auto"></div>
   </div>
 </div>
 
@@ -1289,44 +1405,44 @@ const DAY_SHORT = ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'];
 // FUEL DATA (ANP — 2026-04-25)
 // ================================================================
 const FUEL_DATA = {
-  ultima_coleta_anp:'2026-04-25',
+  ultima_coleta_anp:'2026-05-07',
   regioes:[
     {nome:'Norte',media_gasolina:6.21,media_etanol:4.11,media_diesel:5.78,estados:[
-      {id_estado:'AM',media_gasolina:6.34,tendencia_gasolina:'subida',media_etanol:4.20,tendencia_etanol:'estavel',media_diesel:5.91,tendencia_diesel:'subida',ultima_coleta_anp:'2026-04-25'},
-      {id_estado:'PA',media_gasolina:6.08,tendencia_gasolina:'estavel',media_etanol:4.02,tendencia_etanol:'descida',media_diesel:5.65,tendencia_diesel:'estavel',ultima_coleta_anp:'2026-04-25'},
-      {id_estado:'AC',media_gasolina:6.45,tendencia_gasolina:'subida',media_etanol:4.30,tendencia_etanol:'estavel',media_diesel:5.99,tendencia_diesel:'subida',ultima_coleta_anp:'2026-04-25'},
-      {id_estado:'RO',media_gasolina:6.10,tendencia_gasolina:'estavel',media_etanol:4.05,tendencia_etanol:'estavel',media_diesel:5.72,tendencia_diesel:'estavel',ultima_coleta_anp:'2026-04-25'},
-      {id_estado:'RR',media_gasolina:6.38,tendencia_gasolina:'subida',media_etanol:4.22,tendencia_etanol:'estavel',media_diesel:5.95,tendencia_diesel:'subida',ultima_coleta_anp:'2026-04-25'},
-      {id_estado:'AP',media_gasolina:6.28,tendencia_gasolina:'estavel',media_etanol:4.15,tendencia_etanol:'estavel',media_diesel:5.80,tendencia_diesel:'estavel',ultima_coleta_anp:'2026-04-25'},
-      {id_estado:'TO',media_gasolina:5.98,tendencia_gasolina:'descida',media_etanol:3.95,tendencia_etanol:'descida',media_diesel:5.60,tendencia_diesel:'estavel',ultima_coleta_anp:'2026-04-25'}
+      {id_estado:'AM',media_gasolina:6.34,tendencia_gasolina:'subida',media_etanol:4.20,tendencia_etanol:'estavel',media_diesel:5.91,tendencia_diesel:'subida',ultima_coleta_anp:'2026-05-07'},
+      {id_estado:'PA',media_gasolina:6.08,tendencia_gasolina:'estavel',media_etanol:4.02,tendencia_etanol:'descida',media_diesel:5.65,tendencia_diesel:'estavel',ultima_coleta_anp:'2026-05-07'},
+      {id_estado:'AC',media_gasolina:6.45,tendencia_gasolina:'subida',media_etanol:4.30,tendencia_etanol:'estavel',media_diesel:5.99,tendencia_diesel:'subida',ultima_coleta_anp:'2026-05-07'},
+      {id_estado:'RO',media_gasolina:6.10,tendencia_gasolina:'estavel',media_etanol:4.05,tendencia_etanol:'estavel',media_diesel:5.72,tendencia_diesel:'estavel',ultima_coleta_anp:'2026-05-07'},
+      {id_estado:'RR',media_gasolina:6.38,tendencia_gasolina:'subida',media_etanol:4.22,tendencia_etanol:'estavel',media_diesel:5.95,tendencia_diesel:'subida',ultima_coleta_anp:'2026-05-07'},
+      {id_estado:'AP',media_gasolina:6.28,tendencia_gasolina:'estavel',media_etanol:4.15,tendencia_etanol:'estavel',media_diesel:5.80,tendencia_diesel:'estavel',ultima_coleta_anp:'2026-05-07'},
+      {id_estado:'TO',media_gasolina:5.98,tendencia_gasolina:'descida',media_etanol:3.95,tendencia_etanol:'descida',media_diesel:5.60,tendencia_diesel:'estavel',ultima_coleta_anp:'2026-05-07'}
     ]},
     {nome:'Nordeste',media_gasolina:5.98,media_etanol:3.89,media_diesel:5.54,estados:[
-      {id_estado:'BA',media_gasolina:6.01,tendencia_gasolina:'subida',media_etanol:3.95,tendencia_etanol:'estavel',media_diesel:5.58,tendencia_diesel:'estavel',ultima_coleta_anp:'2026-04-25'},
-      {id_estado:'CE',media_gasolina:5.92,tendencia_gasolina:'estavel',media_etanol:3.80,tendencia_etanol:'descida',media_diesel:5.49,tendencia_diesel:'estavel',ultima_coleta_anp:'2026-04-25'},
-      {id_estado:'PE',media_gasolina:5.95,tendencia_gasolina:'estavel',media_etanol:3.85,tendencia_etanol:'estavel',media_diesel:5.52,tendencia_diesel:'estavel',ultima_coleta_anp:'2026-04-25'},
-      {id_estado:'MA',media_gasolina:6.05,tendencia_gasolina:'subida',media_etanol:3.98,tendencia_etanol:'estavel',media_diesel:5.65,tendencia_diesel:'subida',ultima_coleta_anp:'2026-04-25'},
-      {id_estado:'PB',media_gasolina:5.88,tendencia_gasolina:'estavel',media_etanol:3.75,tendencia_etanol:'estavel',media_diesel:5.44,tendencia_diesel:'estavel',ultima_coleta_anp:'2026-04-25'},
-      {id_estado:'RN',media_gasolina:5.90,tendencia_gasolina:'estavel',media_etanol:3.78,tendencia_etanol:'estavel',media_diesel:5.47,tendencia_diesel:'estavel',ultima_coleta_anp:'2026-04-25'},
-      {id_estado:'AL',media_gasolina:5.97,tendencia_gasolina:'subida',media_etanol:3.88,tendencia_etanol:'estavel',media_diesel:5.55,tendencia_diesel:'estavel',ultima_coleta_anp:'2026-04-25'},
-      {id_estado:'PI',media_gasolina:6.02,tendencia_gasolina:'estavel',media_etanol:3.92,tendencia_etanol:'estavel',media_diesel:5.62,tendencia_diesel:'estavel',ultima_coleta_anp:'2026-04-25'},
-      {id_estado:'SE',media_gasolina:5.94,tendencia_gasolina:'estavel',media_etanol:3.82,tendencia_etanol:'estavel',media_diesel:5.50,tendencia_diesel:'estavel',ultima_coleta_anp:'2026-04-25'}
+      {id_estado:'BA',media_gasolina:6.01,tendencia_gasolina:'subida',media_etanol:3.95,tendencia_etanol:'estavel',media_diesel:5.58,tendencia_diesel:'estavel',ultima_coleta_anp:'2026-05-07'},
+      {id_estado:'CE',media_gasolina:5.92,tendencia_gasolina:'estavel',media_etanol:3.80,tendencia_etanol:'descida',media_diesel:5.49,tendencia_diesel:'estavel',ultima_coleta_anp:'2026-05-07'},
+      {id_estado:'PE',media_gasolina:5.95,tendencia_gasolina:'estavel',media_etanol:3.85,tendencia_etanol:'estavel',media_diesel:5.52,tendencia_diesel:'estavel',ultima_coleta_anp:'2026-05-07'},
+      {id_estado:'MA',media_gasolina:6.05,tendencia_gasolina:'subida',media_etanol:3.98,tendencia_etanol:'estavel',media_diesel:5.65,tendencia_diesel:'subida',ultima_coleta_anp:'2026-05-07'},
+      {id_estado:'PB',media_gasolina:5.88,tendencia_gasolina:'estavel',media_etanol:3.75,tendencia_etanol:'estavel',media_diesel:5.44,tendencia_diesel:'estavel',ultima_coleta_anp:'2026-05-07'},
+      {id_estado:'RN',media_gasolina:5.90,tendencia_gasolina:'estavel',media_etanol:3.78,tendencia_etanol:'estavel',media_diesel:5.47,tendencia_diesel:'estavel',ultima_coleta_anp:'2026-05-07'},
+      {id_estado:'AL',media_gasolina:5.97,tendencia_gasolina:'subida',media_etanol:3.88,tendencia_etanol:'estavel',media_diesel:5.55,tendencia_diesel:'estavel',ultima_coleta_anp:'2026-05-07'},
+      {id_estado:'PI',media_gasolina:6.02,tendencia_gasolina:'estavel',media_etanol:3.92,tendencia_etanol:'estavel',media_diesel:5.62,tendencia_diesel:'estavel',ultima_coleta_anp:'2026-05-07'},
+      {id_estado:'SE',media_gasolina:5.94,tendencia_gasolina:'estavel',media_etanol:3.82,tendencia_etanol:'estavel',media_diesel:5.50,tendencia_diesel:'estavel',ultima_coleta_anp:'2026-05-07'}
     ]},
     {nome:'Centro-Oeste',media_gasolina:5.77,media_etanol:3.72,media_diesel:5.42,estados:[
-      {id_estado:'DF',media_gasolina:5.81,tendencia_gasolina:'estavel',media_etanol:3.78,tendencia_etanol:'estavel',media_diesel:5.45,tendencia_diesel:'estavel',ultima_coleta_anp:'2026-04-25'},
-      {id_estado:'GO',media_gasolina:5.73,tendencia_gasolina:'descida',media_etanol:3.66,tendencia_etanol:'estavel',media_diesel:5.39,tendencia_diesel:'estavel',ultima_coleta_anp:'2026-04-25'},
-      {id_estado:'MT',media_gasolina:5.79,tendencia_gasolina:'estavel',media_etanol:3.72,tendencia_etanol:'descida',media_diesel:5.44,tendencia_diesel:'estavel',ultima_coleta_anp:'2026-04-25'},
-      {id_estado:'MS',media_gasolina:5.75,tendencia_gasolina:'estavel',media_etanol:3.72,tendencia_etanol:'estavel',media_diesel:5.40,tendencia_diesel:'estavel',ultima_coleta_anp:'2026-04-25'}
+      {id_estado:'DF',media_gasolina:5.81,tendencia_gasolina:'estavel',media_etanol:3.78,tendencia_etanol:'estavel',media_diesel:5.45,tendencia_diesel:'estavel',ultima_coleta_anp:'2026-05-07'},
+      {id_estado:'GO',media_gasolina:5.73,tendencia_gasolina:'descida',media_etanol:3.66,tendencia_etanol:'estavel',media_diesel:5.39,tendencia_diesel:'estavel',ultima_coleta_anp:'2026-05-07'},
+      {id_estado:'MT',media_gasolina:5.79,tendencia_gasolina:'estavel',media_etanol:3.72,tendencia_etanol:'descida',media_diesel:5.44,tendencia_diesel:'estavel',ultima_coleta_anp:'2026-05-07'},
+      {id_estado:'MS',media_gasolina:5.75,tendencia_gasolina:'estavel',media_etanol:3.72,tendencia_etanol:'estavel',media_diesel:5.40,tendencia_diesel:'estavel',ultima_coleta_anp:'2026-05-07'}
     ]},
     {nome:'Sudeste',media_gasolina:5.89,media_etanol:3.68,media_diesel:5.41,estados:[
-      {id_estado:'RJ',media_gasolina:6.05,tendencia_gasolina:'estavel',media_etanol:3.81,tendencia_etanol:'estavel',media_diesel:5.62,tendencia_diesel:'subida',ultima_coleta_anp:'2026-04-25'},
-      {id_estado:'SP',media_gasolina:5.74,tendencia_gasolina:'descida',media_etanol:3.55,tendencia_etanol:'descida',media_diesel:5.28,tendencia_diesel:'estavel',ultima_coleta_anp:'2026-04-25'},
-      {id_estado:'MG',media_gasolina:5.88,tendencia_gasolina:'estavel',media_etanol:3.62,tendencia_etanol:'estavel',media_diesel:5.44,tendencia_diesel:'estavel',ultima_coleta_anp:'2026-04-25'},
-      {id_estado:'ES',media_gasolina:5.89,tendencia_gasolina:'subida',media_etanol:3.74,tendencia_etanol:'estavel',media_diesel:5.30,tendencia_diesel:'estavel',ultima_coleta_anp:'2026-04-25'}
+      {id_estado:'RJ',media_gasolina:6.05,tendencia_gasolina:'estavel',media_etanol:3.81,tendencia_etanol:'estavel',media_diesel:5.62,tendencia_diesel:'subida',ultima_coleta_anp:'2026-05-07'},
+      {id_estado:'SP',media_gasolina:5.74,tendencia_gasolina:'descida',media_etanol:3.55,tendencia_etanol:'descida',media_diesel:5.28,tendencia_diesel:'estavel',ultima_coleta_anp:'2026-05-07'},
+      {id_estado:'MG',media_gasolina:5.88,tendencia_gasolina:'estavel',media_etanol:3.62,tendencia_etanol:'estavel',media_diesel:5.44,tendencia_diesel:'estavel',ultima_coleta_anp:'2026-05-07'},
+      {id_estado:'ES',media_gasolina:5.89,tendencia_gasolina:'subida',media_etanol:3.74,tendencia_etanol:'estavel',media_diesel:5.30,tendencia_diesel:'estavel',ultima_coleta_anp:'2026-05-07'}
     ]},
     {nome:'Sul',media_gasolina:5.71,media_etanol:3.61,media_diesel:5.35,estados:[
-      {id_estado:'PR',media_gasolina:5.68,tendencia_gasolina:'estavel',media_etanol:3.57,tendencia_etanol:'descida',media_diesel:5.31,tendencia_diesel:'estavel',ultima_coleta_anp:'2026-04-25'},
-      {id_estado:'RS',media_gasolina:5.75,tendencia_gasolina:'estavel',media_etanol:3.66,tendencia_etanol:'estavel',media_diesel:5.39,tendencia_diesel:'estavel',ultima_coleta_anp:'2026-04-25'},
-      {id_estado:'SC',media_gasolina:5.70,tendencia_gasolina:'estavel',media_etanol:3.60,tendencia_etanol:'estavel',media_diesel:5.35,tendencia_diesel:'estavel',ultima_coleta_anp:'2026-04-25'}
+      {id_estado:'PR',media_gasolina:5.68,tendencia_gasolina:'estavel',media_etanol:3.57,tendencia_etanol:'descida',media_diesel:5.31,tendencia_diesel:'estavel',ultima_coleta_anp:'2026-05-07'},
+      {id_estado:'RS',media_gasolina:5.75,tendencia_gasolina:'estavel',media_etanol:3.66,tendencia_etanol:'estavel',media_diesel:5.39,tendencia_diesel:'estavel',ultima_coleta_anp:'2026-05-07'},
+      {id_estado:'SC',media_gasolina:5.70,tendencia_gasolina:'estavel',media_etanol:3.60,tendencia_etanol:'estavel',media_diesel:5.35,tendencia_diesel:'estavel',ultima_coleta_anp:'2026-05-07'}
     ]}
   ]
 };
@@ -1366,7 +1482,12 @@ async function atualizarCombustivel() {
 // NEWS
 // ================================================================
 const NEWS = [
-  {id:1,platform:'uber',title:'Uber anuncia novo bônus de fim de semana',summary:'Motoristas que completarem 30 corridas entre sexta e domingo recebem R$ 150 extras em SP, RJ e BH.',impact:'positive',date:'2 dias atrás',source:'Uber Newsroom',emoji:'🎯',content:'<h3>Detalhes do bônus</h3><p>A Uber anunciou novo programa de bônus para motoristas ativos:</p><ul><li><strong>Meta:</strong> 30 corridas de sexta (00h) a domingo (23h59)</li><li><strong>Bônus:</strong> R$ 150 pagos na semana seguinte</li><li><strong>Cidades:</strong> SP, RJ, BH e Brasília</li></ul>'},
+  {id:11,platform:'uber',title:'Uber reduz taxa de serviço para 20% em 12 cidades',summary:'A partir de junho, motoristas com mais de 500 corridas pagam 20% em vez de 25% de taxa.',impact:'positive',date:'1 dia atrás',source:'Uber Newsroom',emoji:'📉',content:'<h3>Nova taxa reduzida</h3><p>Uber anuncia redução histórica de taxa para motoristas parceiros experientes:</p><ul><li><strong>Nova taxa:</strong> 20% (antes 25%)</li><li><strong>Requisito:</strong> Mínimo 500 corridas e avaliação 4.85+</li><li><strong>Cidades:</strong> SP, RJ, BH, Brasília, Curitiba, POA, Recife, Salvador, Fortaleza, Manaus, Belém, Goiânia</li><li><strong>Início:</strong> 1º de junho de 2026</li></ul><p>Estimativa: economia de R$ 500-800/mês para motoristas full-time.</p>'},
+  {id:12,platform:'n99',title:'99 lança programa de lealdade com acúmulo de pontos',summary:'Pontos convertidos em bônus, manutenção grátis e prioridade em corridas de alta demanda.',impact:'positive',date:'1 dia atrás',source:'99 Brasil',emoji:'⭐',content:'<h3>99 Fidelidade</h3><p>Novo programa recompensa motoristas ativos:</p><ul><li><strong>1 ponto</strong> = R$ 1 em corridas</li><li><strong>1.000 pontos:</strong> Bônus de R$ 50</li><li><strong>5.000 pontos:</strong> Troca de óleo grátis</li><li><strong>10.000 pontos:</strong> Revisão completa grátis</li></ul><p>Pontos não expiram e são transferíveis para familiares.</p>'},
+  {id:13,platform:'ifood',title:'iFood aumenta distância máxima de entregas para 12km',summary:'Antes limitado a 8km, agora entregadores podem aceitar pedidos até 12km de distância.',impact:'neutral',date:'2 dias atrás',source:'iFood News',emoji:'📏',content:'<h3>Novas regras de distância</h3><p>iFood amplia raio de entregas:</p><ul><li><strong>Antes:</strong> Máximo 8km</li><li><strong>Agora:</strong> Máximo 12km</li><li><strong>Pagamento:</strong> R$ 1,50 adicional por km extra</li></ul><p>⚠️ Atenção: Calcule se compensa - mais km = mais combustível.</p>'},
+  {id:14,platform:'geral',title:'Nova lei exige seguro obrigatório para apps a partir de julho',summary:'Congresso aprova lei que obriga plataformas a fornecerem seguro de vida e acidentes.',impact:'positive',date:'1 semana atrás',source:'Congresso Nacional',emoji:'🛡️',content:'<h3>Lei do Seguro Obrigatório</h3><p>Sancionada ontem, nova lei beneficia todos gig workers:</p><ul><li><strong>Cobertura mínima:</strong> R$ 100.000 em caso de morte</li><li><strong>Invalidez:</strong> Até R$ 100.000</li><li><strong>Despesas médicas:</strong> R$ 20.000</li><li><strong>Quem paga:</strong> As plataformas (sem custo para motoristas/entregadores)</li><li><strong>Início:</strong> 1º de julho de 2026</li></ul>'},
+  {id:15,platform:'rappi',title:'Rappi adiciona gorjeta obrigatória de 10%',summary:'A partir de 15 de maio, todos pedidos terão gorjeta de 10% incluída automaticamente.',impact:'positive',date:'4 dias atrás',source:'Rappi Brasil',emoji:'💵',content:'<h3>Gorjeta automática</h3><p>Rappi segue modelo internacional:</p><ul><li><strong>Valor:</strong> 10% do pedido</li><li><strong>Destino:</strong> 100% para o entregador</li><li><strong>Opcional:</strong> Cliente pode remover, mas é desencorajado</li></ul><p>Estimativa: R$ 200-400/mês extras por entregador.</p>'},
+  {id:1,platform:'uber',title:'Uber anuncia novo bônus de fim de semana',summary:'Motoristas que completarem 30 corridas entre sexta e domingo recebem R$ 150 extras em SP, RJ e BH.',impact:'positive',date:'1 semana atrás',source:'Uber Newsroom',emoji:'🎯',content:'<h3>Detalhes do bônus</h3><p>A Uber anunciou novo programa de bônus para motoristas ativos:</p><ul><li><strong>Meta:</strong> 30 corridas de sexta (00h) a domingo (23h59)</li><li><strong>Bônus:</strong> R$ 150 pagos na semana seguinte</li><li><strong>Cidades:</strong> SP, RJ, BH e Brasília</li></ul>'},
   {id:2,platform:'ifood',title:'iFood reduz taxa de entregadores em 5 cidades',summary:'A partir de junho, taxa cai de 30% para 25% em SP, RJ, Curitiba, POA e Recife.',impact:'positive',date:'3 dias atrás',source:'iFood News',emoji:'📉',content:'<h3>O que muda</h3><p>iFood anuncia redução de 5 pontos percentuais na taxa cobrada de entregadores em pedidos abaixo de R$ 30.</p><ul><li><strong>Antes:</strong> 30%</li><li><strong>Depois:</strong> 25%</li><li><strong>Início:</strong> Junho/2026</li></ul>'},
   {id:3,platform:'n99',title:'99 lança nova categoria 99Comfort',summary:'Categoria intermediária com tarifa 30% maior que Pop, exigindo carros 2018+.',impact:'positive',date:'5 dias atrás',source:'99 Brasil',emoji:'🚙',content:'<h3>99Comfort</h3><p>Nova categoria intermediária entre Pop e Top.</p><ul><li><strong>Requisito:</strong> 2018 ou mais novo</li><li><strong>Avaliação:</strong> Mínimo 4.8</li><li><strong>Tarifa:</strong> 30% maior que Pop</li></ul>'},
   {id:4,platform:'geral',title:'STF mantém autônomos sem vínculo com apps',summary:'Decisão confirma que motoristas e entregadores continuam autônomos, sem CLT.',impact:'neutral',date:'1 semana atrás',source:'STF / Folha',emoji:'⚖️',content:'<h3>Decisão do STF</h3><p>8 votos a 3 mantendo autonomia dos trabalhadores de plataforma. Congresso discute regulamentação específica.</p>'},
@@ -1533,11 +1654,20 @@ function hydrate() {
 // DATE HELPERS
 // ================================================================
 function todayISO() {
-  return new Date().toISOString().substring(0, 10);
+  // Usa timezone local para evitar bug quando próximo de meia-noite
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = String(now.getMonth() + 1).padStart(2, '0');
+  const day = String(now.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
 }
 
 function dateISO(d) {
-  return d.toISOString().substring(0, 10);
+  // Usa timezone local para evitar bug de timezone
+  const year = d.getFullYear();
+  const month = String(d.getMonth() + 1).padStart(2, '0');
+  const day = String(d.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
 }
 
 function daysAgoISO(n) {
@@ -1818,8 +1948,12 @@ function renderDashboard() {
     const rentMonthly = S.vehicle.rentPeriod === 'weekly' ? S.vehicle.rentValue * 4.33 : S.vehicle.rentValue;
     el('rentCol').style.display = 'block';
     el('rentVal').textContent = R(rentMonthly);
+    // Grid com 3 colunas (Entrou, Saiu, Aluguel)
+    el('balanceRowGrid').style.gridTemplateColumns = '1fr 1fr 1fr';
   } else {
     el('rentCol').style.display = 'none';
+    // Grid com 2 colunas (Entrou, Saiu)
+    el('balanceRowGrid').style.gridTemplateColumns = '1fr 1fr';
   }
 
   // Ritmo hoje — ganho líquido por hora online
@@ -1875,7 +2009,7 @@ function renderDashboard() {
   const dom = now.getDate();
   const dim = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
   const proj = dom > 0 ? (monthNet / dom) * dim : 0;
-  el('statProj').textContent = R(proj); if(el('statProjCard')) el('statProjCard').textContent = R(proj);
+  if(el('statProjCard')) el('statProjCard').textContent = R(proj);
   el('projDetailCard') && (el('projDetailCard').textContent = `${dim-dom} dias restantes no mês`);
 
   // Highlight period button
@@ -2076,6 +2210,16 @@ function addSmartTransaction(data) {
       }
   }
   persist();
+  
+  // DEBUG: Log da transação adicionada
+  console.log('💰 addSmartTransaction:', {
+    type: data.type,
+    amount: data.amount,
+    source: data.source,
+    date: data.date,
+    hasRide: !!data._ride
+  });
+  
   renderDashboard();
   renderGpsCard();
   // Animate balance card to give satisfying feedback
@@ -2086,6 +2230,7 @@ function addSmartTransaction(data) {
     balEl.classList.add('pulse');
   }
   if (el('pgTransactions').classList.contains('active')) renderTransactions();
+  if (el('pgRides').classList.contains('active')) renderRides();
 }
 
 function confirmTxn(id) {
@@ -2095,6 +2240,7 @@ function confirmTxn(id) {
     t.status = 'confirmed'; t.source = 'manual';
     persist(); renderDashboard();
     if (el('pgTransactions').classList.contains('active')) renderTransactions();
+    if (el('pgRides').classList.contains('active')) renderRides();
     toast('Ok dado! Esse ganho está confirmado no seu resumo. ✓', 'ok');
   } else { deleteTxn(id); }
 }
@@ -2104,6 +2250,7 @@ function deleteTxn(id) {
   S.transactions = S.transactions.filter(t => t.id !== id);
   persist(); renderDashboard();
   if (el('pgTransactions').classList.contains('active')) renderTransactions();
+  if (el('pgRides').classList.contains('active')) renderRides();
   toast('Pronto, esse registro foi removido.', 'ok');
 }
 
@@ -2771,7 +2918,7 @@ function saveFeedback() {
   const typeLabels = {sugestao:'💡 Sugestão',bug:'🐛 Problema',feature:'✨ Nova funcionalidade',elogio:'❤️ Elogio',outro:'💭 Outro'};
   S.feedbacks.unshift({id:Date.now(),type:el('fbType').value,typeLabel:typeLabels[el('fbType').value],message:msg,email:el('fbEmail').value.trim()||null,sentAt:new Date().toISOString()});
   persist(); el('fbMsg').value=''; el('fbEmail').value='';
-  renderFbHistory(); toast('Chegou aqui! Valeu pela confiança. 💜','ok');
+  renderFbHistory(); toast('Chegou aqui! Valeu pela confiança. 🧡','ok');
 }
 
 function renderFbHistory() {
@@ -2812,6 +2959,8 @@ function loadDemo() {
   }
   S.transactions = [...demo, ...S.transactions].sort((a,b) => b.date.localeCompare(a.date));
   persist(); renderDashboard();
+  if (el('pgRides').classList.contains('active')) renderRides();
+  if (el('pgTransactions').classList.contains('active')) renderTransactions();
   toast('Dados de exemplo carregados. Explore à vontade! 🎉','ok');
 }
 
@@ -2820,6 +2969,8 @@ function resetAll() {
   if (!confirm('Última chance — isso não tem volta. Apagar tudo mesmo?')) return;
   S.transactions = []; S.goal = null;
   persist(); renderDashboard(); renderProfile();
+  if (el('pgRides').classList.contains('active')) renderRides();
+  if (el('pgTransactions').classList.contains('active')) renderTransactions();
   toast('Tudo apagado. Página virada, novo começo.','ok');
 }
 
@@ -2979,14 +3130,59 @@ function ridesDateRange(f) {
 }
 
 function renderRides() {
-  const f = S.ridesFilter;
+  const f = S.ridesFilter || 'today';
   const range = ridesDateRange(f);
 
-  // TODAS as corridas/ganhos no período — mesma fonte que o Histórico
+  // DEBUG: Log para diagnóstico
+  console.log('🚗 renderRides chamado:', {
+    filter: f,
+    range: range,
+    totalTransactions: S.transactions.length,
+    incomeTransactions: S.transactions.filter(t => t.type === 'income').length
+  });
+  console.log('  📅 RANGE:', 'start=' + range.start, 'end=' + range.end);
+
+  // TODAS as corridas/ganhos no período — EXCLUI demos GPS
+  // Mesma lógica do renderGpsCard: source !== 'gps'
+  
+  // DEBUG: Mostrar TODAS as transações antes de filtrar
+  console.log('  📦 ANTES do filtro:');
+  const allIncome = S.transactions.filter(t => t.type === 'income');
+  console.log('    Total income:', allIncome.length);
+  allIncome.forEach(t => {
+    console.log(`    - ${t.date} | source:${t.source} | R$${t.amount}`);
+  });
+  
+  // DEBUG: Testar cada condição separadamente
+  console.log('  🧪 TESTE DE FILTROS (cada corrida):');
+  allIncome.slice(0, 3).forEach(t => {
+    const check1 = t.type === 'income';
+    const check2 = t.date >= range.start;
+    const check3 = t.date <= range.end;
+    const check4 = t.source !== 'gps';
+    console.log(`    ${t.date} | source:${t.source}:`);
+    console.log(`      type=income? ${check1}`);
+    console.log(`      date >= ${range.start}? ${check2} (${t.date} >= ${range.start})`);
+    console.log(`      date <= ${range.end}? ${check3} (${t.date} <= ${range.end})`);
+    console.log(`      source !== gps? ${check4}`);
+    console.log(`      PASSA? ${check1 && check2 && check3 && check4}`);
+  });
+  
   const incTxns = S.transactions.filter(t =>
     t.type === 'income' &&
-    t.date >= range.start && t.date <= range.end
+    t.date >= range.start && t.date <= range.end &&
+    t.source !== 'gps'
   );
+
+  // DEBUG: Log detalhado
+  console.log('  🔍 DEPOIS do filtro:');
+  console.log('    → Corridas filtradas:', incTxns.length);
+  console.log('    → Detalhes:', incTxns.map(t => ({
+    date: t.date,
+    amount: t.amount,
+    source: t.source,
+    hasRide: !!t._ride
+  })));
 
   // Despesas de combustível vinculadas (por _rideRef ou por categoria no mesmo dia)
   const fuelByRef = {};
@@ -3024,10 +3220,15 @@ function renderRides() {
   const filtNet   = filtGross - filtFuel;
   const filterLabel = {today:'hoje','7d':'7 dias','15d':'15 dias','30d':'30 dias',month1:'mês ant.',month2:'2 meses'}[f] || '';
 
-  el('rTotalTrips').textContent = rides.length;
-  el('rTotalTripsLbl').textContent = `corridas (${filterLabel})`;
-  el('rTotalKm').textContent    = filtKm.toFixed(1) + ' km';
-  el('rPerKm').textContent      = filtKm > 0 ? R(filtNet / filtKm) : 'R$ 0';
+  const rTotalTrips = el('rTotalTrips');
+  const rTotalTripsLbl = el('rTotalTripsLbl');
+  const rTotalKm = el('rTotalKm');
+  const rPerKm = el('rPerKm');
+  
+  if (rTotalTrips) rTotalTrips.textContent = rides.length;
+  if (rTotalTripsLbl) rTotalTripsLbl.textContent = `corridas (${filterLabel})`;
+  if (rTotalKm) rTotalKm.textContent = filtKm.toFixed(1) + ' km';
+  if (rPerKm) rPerKm.textContent = filtKm > 0 ? R(filtNet / filtKm) : 'R$ 0';
 
   // Efficiency
   const uniqueDays = [...new Set(rides.map(r => r.date))].length;
@@ -3035,9 +3236,14 @@ function renderRides() {
   const avgEarn = rides.length ? filtNet / rides.length : 0;
   const avgKm   = rides.length ? filtKm / rides.length  : 0;
   const avgWait = rides.length ? rides.reduce((s,r) => s + r.waitMin, 0) / rides.length : 0;
-  el('rAvgEarn').textContent = R(avgEarn);
-  el('rAvgKm').textContent   = avgKm.toFixed(1) + ' km';
-  el('rAvgWait').textContent = Math.round(avgWait) + ' min';
+  
+  const rAvgEarn = el('rAvgEarn');
+  const rAvgKm = el('rAvgKm');
+  const rAvgWait = el('rAvgWait');
+  
+  if (rAvgEarn) rAvgEarn.textContent = R(avgEarn);
+  if (rAvgKm) rAvgKm.textContent = avgKm.toFixed(1) + ' km';
+  if (rAvgWait) rAvgWait.textContent = Math.round(avgWait) + ' min';
 
   // Efficiency header with days analyzed
   const effSection = document.querySelector('#pgRides .sec-hdr h3');
@@ -3122,6 +3328,19 @@ function setVehicleRented(isRented) {
   el('vRentedYes').classList.toggle('active', isRented);
   el('vRentedNo').classList.toggle('active', !isRented);
   el('vRentGroup').style.display = isRented ? 'block' : 'none';
+}
+
+function setVehicleSaveForNew(val) {
+  if (!S.vehicle) S.vehicle = {};
+  S.vehicle.saveForNew = val;
+  const yesBtn = el('vSaveYes');
+  const noBtn = el('vSaveNo');
+  if (yesBtn) yesBtn.classList.toggle('active', val);
+  if (noBtn) noBtn.classList.toggle('active', !val);
+  
+  // CORREÇÃO: Salvar e atualizar card
+  persist();
+  renderVehicleHealth();
 }
 
 function filterVehicleMakes(query) {
@@ -3367,6 +3586,9 @@ function saveVehicle() {
   const kml = VEHICLE_DB[vehicleType][make]?.[model];
   if (!kml) { toast('Modelo não encontrado na base de dados', 'err'); return; }
 
+  // CRÍTICO: Preservar saveForNew do estado anterior
+  const previousSaveForNew = S.vehicle?.saveForNew;
+  
   S.vehicle = {
     type: vehicleType, make, model, kmPerLiter: kml,
     year:            parseInt(el('vYear')?.value)         || null,
@@ -3379,11 +3601,13 @@ function saveVehicle() {
     rentValue:       parseFloat(el('vRentValue')?.value)  || null,
     rentPeriod:      el('vRentPeriod')?.value || 'monthly',
     ipva:            parseFloat(el('vIPVA')?.value) || null,
-    seguro:          parseFloat(el('vSeguro')?.value) || null
+    seguro:          parseFloat(el('vSeguro')?.value) || null,
+    saveForNew:      previousSaveForNew !== undefined ? previousSaveForNew : true  // ✅ PRESERVAR
   };
   persist();
   renderProfile();
   renderGpsCard();
+  renderVehicleHealth();  // ✅ Atualizar card de saúde imediatamente
   closeModal('vehicleModal');
   toast(`${make} ${model} salvo! ${kml} km/l ⛽`, 'ok');
 }
@@ -3443,6 +3667,8 @@ function openVehicleModal() {
     setVehicleRented(S.vehicle.isRented || false);
     if (el('vRentValue'))  el('vRentValue').value  = S.vehicle.rentValue  || '';
     if (el('vRentPeriod')) el('vRentPeriod').value = S.vehicle.rentPeriod || 'monthly';
+    // Reserva para novo veículo
+    setVehicleSaveForNew(S.vehicle.saveForNew !== false); // default true
     // se já tem FIPE salvo, mostra badge "salvo"
     if (S.vehicle.fipeValue) {
       const b = el('fipeBadge');
@@ -3462,6 +3688,7 @@ function openVehicleModal() {
     el('vModelInput').disabled = true;
     el('vConsumptionBox').style.display = 'none';
     setVehicleRented(false);
+    setVehicleSaveForNew(true); // default true
     ['vYear','vFipe','vCurrentKm','vKmLastOil','vKmLastTire','vKmLastRevision','vIPVA','vSeguro','vRentValue']
       .forEach(id => { if (el(id)) el(id).value = ''; });
   }
@@ -3681,24 +3908,6 @@ function renderHourlyStats() {
 // ================================================================
 // ZERAR SESSÃO DE HOJE
 // ================================================================
-function resetTodaySession() {
-  const today = todayISO();
-  const before = S.transactions.length;
-  // Remove todas as transações de hoje (GPS + auto + manual)
-  S.transactions = S.transactions.filter(t => t.date !== today);
-  // Para que as DEMO_RIDES sejam reinjetadas frescas, remove flag
-  persist();
-  injectDemoRides(); // reinjecta com dados limpos do DEMO_RIDES
-  // Remove corridas de hoje do DEMO_RIDES das transações também
-  S.transactions = S.transactions.filter(t => !(t.source === 'gps' && t.date === today));
-  persist();
-  renderDashboard();
-  renderGpsCard();
-  if (el('pgRides').classList.contains('active')) renderRides();
-  if (el('pgTransactions').classList.contains('active')) renderTransactions();
-  toast('Sessão de hoje zerada. Partiu do zero! 🔄', 'ok');
-}
-
 // ================================================================
 // RESET SESSION
 // ================================================================
@@ -3708,26 +3917,29 @@ function resetTodaySession() {
   overlay.innerHTML = `
     <div style="background:#fff;border-radius:20px 20px 0 0;width:100%;max-width:480px;padding:24px 20px 32px;text-align:center">
       <div style="font-size:28px;margin-bottom:12px">🔄</div>
-      <div style="font-size:17px;font-weight:800;color:#0D1B2A;margin-bottom:6px">Zerar sessão de hoje?</div>
-      <div style="font-size:13px;color:#5A6472;margin-bottom:24px;line-height:1.5">Remove todos os registros de hoje (GPS e simulados). Útil para testar do zero. Dados de outros dias não são afetados.</div>
-      <button id="resetConfirm" style="width:100%;padding:14px;background:#E87F24;color:#fff;border:none;border-radius:12px;font-size:14px;font-weight:700;cursor:pointer;margin-bottom:10px;font-family:inherit">Zerar agora</button>
+      <div style="font-size:17px;font-weight:800;color:#0D1B2A;margin-bottom:6px">Zerar sessão completa?</div>
+      <div style="font-size:13px;color:#5A6472;margin-bottom:24px;line-height:1.5">Remove TODAS as transações do mês atual (incluindo o card "O que ficou para você"). Útil para recomeçar do zero. Dados de outros meses não são afetados.</div>
+      <button id="resetConfirm" style="width:100%;padding:14px;background:#E87F24;color:#fff;border:none;border-radius:12px;font-size:14px;font-weight:700;cursor:pointer;margin-bottom:10px;font-family:inherit">Zerar tudo do mês</button>
       <button id="resetCancel" style="width:100%;padding:14px;background:#F0EEF0;color:#0D1B2A;border:none;border-radius:12px;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit">Cancelar</button>
     </div>`;
   document.body.appendChild(overlay);
   document.getElementById('resetConfirm').onclick = () => {
     document.body.removeChild(overlay);
-    const today = todayISO();
-    // Remove todas as transações de hoje (manuais, GPS e auto)
-    S.transactions = S.transactions.filter(t => t.date !== today);
-    // Reinjecta as corridas demo GPS para hoje
-    S.transactions = S.transactions.filter(t => t.source !== 'gps');
-    // Para ter sessão zerada de verdade, não reinjecta demo
+    
+    // Obter início do mês atual
+    const now = new Date();
+    const monthStart = new Date(now.getFullYear(), now.getMonth(), 1);
+    const monthStartISO = monthStart.toISOString().split('T')[0];
+    
+    // Remove TODAS as transações do mês atual (incluindo GPS, manuais e automáticas)
+    S.transactions = S.transactions.filter(t => t.date < monthStartISO);
+    
     persist();
     renderDashboard();
     renderGpsCard();
     if (el('pgRides').classList.contains('active')) renderRides();
     if (el('pgTransactions').classList.contains('active')) renderTransactions();
-    toast('Sessão zerada! Pode começar do zero. 🔄', 'ok');
+    toast('Sessão zerada! Todo o mês foi limpo. 🔄', 'ok');
   };
   document.getElementById('resetCancel').onclick = () => document.body.removeChild(overlay);
   overlay.addEventListener('click', e => { if (e.target === overlay) document.body.removeChild(overlay); });
@@ -3901,22 +4113,37 @@ function calcVehicleHealth() {
 
   // Manutenções pendentes
   const alerts = [];
-  const kmLastOil = v.kmLastOil || 0;
-  const kmLastTire = v.kmLastTire || 0;
-  const kmLastRevision = v.kmLastRevision || 0;
+  
+  // Mapeamento de keys para campos do veículo
+  const kmLastMap = {
+    'oilChange': v.kmLastOil || 0,
+    'tireRotation': v.kmLastTire || 0,
+    'tireChange': v.kmLastTire || 0,
+    'brakes': v.kmLastBrakes || 0,
+    'filters': v.kmLastFilters || 0,
+    'transmission': v.kmLastTransmission || 0,
+    'belt': v.kmLastBelt || 0,
+    'revision': v.kmLastRevision || 0
+  };
 
   Object.entries(MAINTENANCE_SCHEDULE).forEach(([key, m]) => {
-    let kmRef = km;
-    if (key === 'oilChange') kmRef = km - kmLastOil;
-    else if (key === 'tireChange' || key === 'tireRotation') kmRef = km - kmLastTire;
-    else if (key === 'revision') kmRef = km - kmLastRevision;
+    // Usar km desde a última manutenção deste tipo
+    const kmSinceLast = kmLastMap[key] || 0;
+    const kmRef = km - kmSinceLast;
 
     const kmUntil = m.km - (kmRef % m.km);
     const pct = (kmRef % m.km) / m.km;
     const cost = m.cost[type] || 0;
 
     if (pct >= 0.85) {
-      alerts.push({ label: m.label, kmUntil, pct, cost, urgent: pct >= 0.95 });
+      alerts.push({ 
+        key: key,
+        label: m.label, 
+        kmUntil, 
+        pct, 
+        cost, 
+        urgent: pct >= 0.95 
+      });
     }
   });
 
@@ -3945,7 +4172,10 @@ function calcVehicleHealth() {
     ipvaAnual, ipvaMensal,
     seguroMensal, manutencaoMensal,
     aluguelMensal,
-    totalMensal: monthlyDeprValue + ipvaMensal + seguroMensal + manutencaoMensal + aluguelMensal,
+    depreciaMensal: monthlyDeprValue,
+    depreciaAnual: Math.round(deprRate * 100),
+    saveForNew: v.saveForNew !== false, // default true
+    totalMensal: (v.saveForNew !== false ? monthlyDeprValue : 0) + ipvaMensal + seguroMensal + manutencaoMensal + aluguelMensal,
     alerts
   };
 }
@@ -3955,12 +4185,12 @@ function renderVehicleHealth() {
   if (!c) return;
 
   if (!S.vehicle) {
-    c.innerHTML = `<div class="ins warn"><div class="ins-icon">🚗</div><div class="ins-title">Cadastre seu veículo primeiro</div><div class="ins-text">Com o veículo cadastrado, o NoCorre calcula desvalorização, IPVA e alertas de manutenção.</div><button class="btn sm" style="margin-top:10px" onclick="openModal('vehicleModal')">Cadastrar veículo →</button></div>`;
+    c.innerHTML = `<div class="ins warn"><div class="ins-icon">🚗</div><div class="ins-title">Cadastre seu veículo primeiro</div><div class="ins-text">Com o veículo cadastrado, o NoCorre calcula IPVA, seguro e alertas de manutenção.</div><button class="btn sm" style="margin-top:10px" onclick="openModal('vehicleModal')">Cadastrar veículo →</button></div>`;
     return;
   }
 
   if (!S.vehicle.year || !S.vehicle.fipeValue) {
-    c.innerHTML = `<div class="ins warn"><div class="ins-icon">📋</div><div class="ins-title">Complete os dados do veículo</div><div class="ins-text">Precisamos do ano e valor FIPE para calcular desvalorização e reservas.</div><button class="btn sm" style="margin-top:10px" onclick="openModal('vehicleModal')">Completar dados →</button></div>`;
+    c.innerHTML = `<div class="ins warn"><div class="ins-icon">📋</div><div class="ins-title">Complete os dados do veículo</div><div class="ins-text">Precisamos do ano e valor FIPE para calcular IPVA, seguro e reservas recomendadas.</div><button class="btn sm" style="margin-top:10px" onclick="openModal('vehicleModal')">Completar dados →</button></div>`;
     return;
   }
 
@@ -3976,23 +4206,21 @@ function renderVehicleHealth() {
   const pctReserva = monthNet > 0 ? Math.round(h.totalMensal / monthNet * 100) : 0;
 
   const alertsHtml = h.alerts.length ? h.alerts.map(a => `
-    <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--brd)">
-      <div>
+    <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--brd);gap:8px">
+      <div style="flex:1">
         <div style="font-size:13px;font-weight:600;color:${a.urgent?'var(--err)':'var(--warn)'}">${a.urgent?'🔴':'🟡'} ${a.label}</div>
         <div style="font-size:11px;color:var(--txt2)">${a.kmUntil.toFixed(0)} km restantes · ${Math.round(a.pct*100)}% do intervalo</div>
       </div>
-      <div style="font-size:13px;font-weight:700;color:var(--txt)">${R(a.cost)}</div>
+      <div style="text-align:right">
+        <div style="font-size:13px;font-weight:700;color:var(--txt);margin-bottom:4px">${R(a.cost)}</div>
+        <button onclick="markMaintenanceDone('${a.key}', ${a.cost})" style="padding:4px 10px;background:var(--ok);color:#fff;border:none;border-radius:6px;font-size:10px;font-weight:600;cursor:pointer;font-family:inherit">✓ Feito</button>
+      </div>
     </div>`).join('') : `<div style="padding:12px;text-align:center;color:var(--ok);font-size:13px">✅ Nenhuma manutenção urgente no momento</div>`;
 
   c.innerHTML = `
     <div class="card" style="margin-bottom:10px">
       <div style="font-size:13px;font-weight:700;margin-bottom:12px">💰 Reserva mensal recomendada</div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px">
-        <div style="background:var(--err-lt);padding:10px;border-radius:10px">
-          <div style="font-size:10px;color:var(--err);font-weight:600;margin-bottom:3px">Desvalorização</div>
-          <div style="font-size:15px;font-weight:800;color:var(--err)">${R(h.monthlyDeprValue)}/mês</div>
-          <div style="font-size:10px;color:var(--txt2)">${(h.deprRate*100).toFixed(0)}% ao ano</div>
-        </div>
         <div style="background:var(--warn-lt);padding:10px;border-radius:10px">
           <div style="font-size:10px;color:var(--warn);font-weight:600;margin-bottom:3px">IPVA mensal</div>
           <div style="font-size:15px;font-weight:800;color:var(--warn)">${R(h.ipvaMensal)}/mês</div>
@@ -4008,18 +4236,164 @@ function renderVehicleHealth() {
           <div style="font-size:15px;font-weight:800">${R(h.manutencaoMensal)}/mês</div>
           <div style="font-size:10px;color:var(--txt2)">Revisões + consumíveis</div>
         </div>
+        ${h.aluguelMensal > 0 ? `<div style="background:#fff3e0;padding:10px;border-radius:10px">
+          <div style="font-size:10px;color:#e65100;font-weight:600;margin-bottom:3px">Aluguel do veículo</div>
+          <div style="font-size:15px;font-weight:800;color:#e65100">${R(h.aluguelMensal)}/mês</div>
+          <div style="font-size:10px;color:var(--txt2)">Veículo alugado</div>
+        </div>` : ''}
+        ${h.saveForNew ? `<div style="background:var(--err-lt);padding:10px;border-radius:10px">
+          <div style="font-size:10px;color:var(--err);font-weight:600;margin-bottom:3px">Desvalorização</div>
+          <div style="font-size:15px;font-weight:800;color:var(--err)">${R(h.depreciaMensal)}/mês</div>
+          <div style="font-size:10px;color:var(--txt2)">${h.depreciaAnual}% ao ano</div>
+        </div>` : ''}
       </div>
       <div style="background:var(--azul, var(--pri));background:var(--pri);color:#fff;padding:14px;border-radius:10px;text-align:center">
         <div style="font-size:11px;opacity:.7;margin-bottom:4px">Total que você deveria reservar por mês</div>
         <div style="font-size:24px;font-weight:800">${R(h.totalMensal)}</div>
-        ${monthNet > 0 ? `<div style="font-size:11px;opacity:.7;margin-top:4px">${pctReserva}% do seu líquido deste mês</div>` : ''}
+        ${monthNet > 0 ? `<div style="font-size:11px;opacity:.7;margin-top:4px">${Math.round(h.totalMensal / monthNet * 100)}% do seu líquido deste mês</div>` : ''}
       </div>
       <p style="font-size:11px;color:var(--txt2);margin-top:10px;line-height:1.5">⚠️ Esses valores são estimativas orientativas. O NoCorre não guarda esse dinheiro — é uma bússola para você reservar por conta própria.</p>
     </div>
     <div class="card">
       <div style="font-size:13px;font-weight:700;margin-bottom:8px">🔧 Alertas de manutenção</div>
       ${alertsHtml}
+      <button onclick="openMaintenanceHistory()" style="width:100%;margin-top:12px;padding:10px;background:var(--bg2);color:var(--txt);border:none;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:6px">
+        Histórico de manutenções
+      </button>
     </div>`;
+}
+
+// ================================================================
+// MANUTENÇÃO FEITA
+// ================================================================
+let currentMaintenanceKey = null;
+let currentMaintenanceCost = 0;
+
+function markMaintenanceDone(key, cost) {
+  currentMaintenanceKey = key;
+  currentMaintenanceCost = cost;
+  el('maintenanceDate').value = todayISO();
+  el('maintenanceKm').value = S.vehicle.km || '';
+  openModal('maintenanceDoneModal');
+}
+
+function saveMaintenanceDone() {
+  const date = el('maintenanceDate').value;
+  const km = parseFloat(el('maintenanceKm').value);
+  
+  if (!date || !km) {
+    toast('Preencha data e quilometragem', 'err');
+    return;
+  }
+  
+  if (!S.vehicle) return;
+  
+  // Atualizar km do veículo
+  S.vehicle.km = km;
+  
+  // Mapa de manutenções - keys do MAINTENANCE_SCHEDULE para campos do veículo
+  const maintenanceMap = {
+    'oilChange': 'kmLastOil',
+    'tireRotation': 'kmLastTire',
+    'tireChange': 'kmLastTire',
+    'brakes': 'kmLastBrakes',
+    'filters': 'kmLastFilters',
+    'transmission': 'kmLastTransmission',
+    'belt': 'kmLastBelt',
+    'revision': 'kmLastRevision'
+  };
+  
+  // Atualizar último km da manutenção específica
+  if (maintenanceMap[currentMaintenanceKey]) {
+    S.vehicle[maintenanceMap[currentMaintenanceKey]] = km;
+  }
+  
+  // Adicionar ao histórico de manutenções
+  if (!S.vehicle.maintenanceHistory) {
+    S.vehicle.maintenanceHistory = [];
+  }
+  
+  // Pegar label do MAINTENANCE_SCHEDULE
+  const maintenanceLabel = MAINTENANCE_SCHEDULE[currentMaintenanceKey]?.label || currentMaintenanceKey;
+  
+  S.vehicle.maintenanceHistory.push({
+    id: Date.now(),
+    type: currentMaintenanceKey,
+    label: maintenanceLabel,
+    date: date,
+    km: km,
+    cost: currentMaintenanceCost
+  });
+  
+  // Registrar como despesa
+  S.transactions.push({
+    id: Date.now(),
+    date: date,
+    type: 'expense',
+    category: 'manutencao',
+    categoryLabel: 'Manutenção',
+    amount: currentMaintenanceCost,
+    description: maintenanceLabel,
+    source: 'manual'
+  });
+  
+  persist();
+  closeModal('maintenanceDoneModal');
+  renderStats();
+  toast('Manutenção registrada! ✅', 'ok');
+}
+
+function openMaintenanceHistory() {
+  const c = el('maintenanceHistoryContent');
+  
+  if (!S.vehicle || !S.vehicle.maintenanceHistory || S.vehicle.maintenanceHistory.length === 0) {
+    c.innerHTML = `
+      <div style="padding:40px 20px;text-align:center">
+        <div style="font-size:48px;margin-bottom:12px;opacity:.3">🔧</div>
+        <div style="font-size:14px;font-weight:600;color:var(--txt2);margin-bottom:6px">Nenhuma manutenção registrada</div>
+        <div style="font-size:12px;color:var(--txt3)">Quando você marcar uma manutenção como feita, ela aparecerá aqui.</div>
+      </div>
+    `;
+    openModal('maintenanceHistoryModal');
+    return;
+  }
+  
+  // Ordenar por data (mais recente primeiro)
+  const history = [...S.vehicle.maintenanceHistory].sort((a, b) => 
+    new Date(b.date) - new Date(a.date)
+  );
+  
+  const historyHtml = history.map(m => {
+    const date = new Date(m.date);
+    const dateStr = `${date.getDate()}/${(date.getMonth()+1).toString().padStart(2,'0')}/${date.getFullYear()}`;
+    
+    return `
+      <div style="padding:12px;border-bottom:1px solid var(--brd);display:flex;justify-content:space-between;align-items:center;gap:12px">
+        <div style="flex:1">
+          <div style="font-size:13px;font-weight:600;color:var(--txt);margin-bottom:2px">${m.label}</div>
+          <div style="font-size:11px;color:var(--txt2)">
+            📅 ${dateStr} · 🚗 ${m.km.toLocaleString('pt-BR')} km
+          </div>
+        </div>
+        <div style="text-align:right">
+          <div style="font-size:14px;font-weight:700;color:var(--txt)">${R(m.cost)}</div>
+        </div>
+      </div>
+    `;
+  }).join('');
+  
+  const totalCost = history.reduce((sum, m) => sum + m.cost, 0);
+  
+  c.innerHTML = `
+    ${historyHtml}
+    <div style="padding:14px;background:var(--bg2);text-align:center;border-radius:0 0 12px 12px">
+      <div style="font-size:11px;color:var(--txt2);margin-bottom:4px">Total investido em manutenções</div>
+      <div style="font-size:18px;font-weight:800;color:var(--pri)">${R(totalCost)}</div>
+      <div style="font-size:10px;color:var(--txt3);margin-top:2px">${history.length} ${history.length === 1 ? 'manutenção' : 'manutenções'} registrada${history.length === 1 ? '' : 's'}</div>
+    </div>
+  `;
+  
+  openModal('maintenanceHistoryModal');
 }
 
 // ================================================================
