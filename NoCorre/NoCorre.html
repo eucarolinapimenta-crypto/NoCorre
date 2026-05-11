@@ -85,10 +85,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Helvetica Neue',Ar
 .balance-col-val.exp{color:var(--err)}
 
 /* ── GPS Session ── */
-.gps-card{background:var(--card);border:1px solid var(--brd);border-radius:var(--r);padding:18px;margin-bottom:12px;box-shadow:var(--shadow)}
+.gps-card{background:var(--pri);border:none;border-radius:var(--r);padding:18px;margin-bottom:12px;box-shadow:var(--shadow);color:#fff}
 .gps-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
-.gps-title{font-size:12px;font-weight:700;color:var(--txt2);text-transform:uppercase;letter-spacing:.5px}
-.gps-badge{display:flex;align-items:center;gap:5px;font-size:11px;font-weight:600;background:rgba(255,255,255,.1);padding:4px 10px;border-radius:20px}
+.gps-title{font-size:12px;font-weight:700;color:rgba(255,255,255,.7);text-transform:uppercase;letter-spacing:.5px}
+.gps-badge{display:flex;align-items:center;gap:5px;font-size:11px;font-weight:600;background:rgba(255,255,255,.1);padding:4px 10px;border-radius:20px;color:rgba(255,255,255,.8)}
 .gps-dot{width:6px;height:6px;border-radius:50%;background:#4ade80;animation:pulse 2s infinite;flex-shrink:0}
 .gps-dot.off{background:rgba(255,255,255,.4);animation:none}
 @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.8)}}
@@ -98,9 +98,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Helvetica Neue',Ar
 .gps-stat-lbl{font-size:9px;opacity:.6;margin-top:3px;font-weight:500}
 .gps-bottom{display:flex;justify-content:space-between;align-items:flex-end;background:rgba(255,255,255,.06);border-radius:10px;padding:12px}
 .gps-net-lbl{font-size:10px;opacity:.65;margin-bottom:4px;font-weight:500}
-.gps-net-val{font-size:22px;font-weight:800;color:var(--ok);letter-spacing:-.5px}
+.gps-net-val{font-size:clamp(16px, 5.5vw, 22px);font-weight:800;color:#4ade80;letter-spacing:-.5px}
 .gps-side{text-align:right}
-.gps-side-item{font-size:10px;opacity:.6;margin-bottom:2px}
+.gps-side-item{font-size:10px;opacity:.6;margin-bottom:2px;color:#fff}
 .gps-side-item span{font-weight:600;opacity:.9}
 
 /* ── Goal card ── */
@@ -361,6 +361,11 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Helvetica Neue',Ar
 .login-pg h1 span{color:var(--acc)}
 .login-pg > p{font-size:14px;opacity:.75;margin-bottom:32px;max-width:300px;line-height:1.6;font-weight:400}
 .login-form{background:var(--card);color:var(--txt);padding:24px 20px;border-radius:var(--r-lg);width:100%;max-width:380px}
+.login-form .form-lbl{color:var(--txt2)}
+.login-form .f-input,.login-form .f-sel{color:var(--txt);background:var(--card)}
+.login-form .per-btn{color:var(--txt2)}
+.login-form .per-btn.active{color:var(--pri)}
+.login-form .btn.acc{color:#fff}
 .login-form h2{font-size:17px;margin-bottom:16px;font-weight:700}
 
 /* ── Toast ── */
@@ -478,22 +483,232 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Helvetica Neue',Ar
   stroke: var(--acc);
 }
 
+/* ── Botões [i] de transparência ── */
+.info-btn{display:inline-flex;align-items:center;justify-content:center;width:16px;height:16px;border-radius:50%;background:rgba(90,100,114,.15);border:none;color:var(--txt3);font-size:9px;font-weight:800;cursor:pointer;padding:0;line-height:1;flex-shrink:0;font-family:inherit;vertical-align:middle;margin-left:4px;transition:background .15s}
+.info-btn:active{background:rgba(90,100,114,.3)}
+.gps-card .info-btn{background:rgba(255,255,255,.15);color:rgba(255,255,255,.7)}
+.gps-card .info-btn:active{background:rgba(255,255,255,.3)}
+.qs-card.accent .info-btn{background:rgba(255,255,255,.18);color:rgba(255,255,255,.7)}
+/* Modal de info — estilo limpo conforme design */
+.info-modal{position:fixed;inset:0;background:rgba(13,27,42,.45);display:none;align-items:center;justify-content:center;z-index:400;backdrop-filter:blur(4px);padding:20px}
+.info-modal.active{display:flex}
+.info-box{background:#fff;border-radius:20px;width:100%;max-width:400px;padding:24px 20px 20px;animation:slideUp .25s ease;box-shadow:0 20px 60px rgba(13,27,42,.18)}
+.info-box-header{display:flex;align-items:flex-start;gap:10px;margin-bottom:12px}
+.info-box-emoji{font-size:22px;line-height:1.2;flex-shrink:0}
+.info-box-title{font-size:17px;font-weight:800;color:#0D1B2A;line-height:1.3}
+.info-box-desc{font-size:13px;color:#5A6472;line-height:1.6;margin-bottom:14px}
+.info-box-desc b{color:#0D1B2A;font-weight:600}
+.info-box-formula{background:#F5F7FA;border-radius:10px;padding:14px;text-align:center;font-size:15px;font-family:'Courier New',monospace;color:#1a3a5c;font-weight:600;margin-bottom:16px;letter-spacing:.3px}
+.info-box-rows{border-top:1px solid #F0EEF0;margin-bottom:16px}
+.info-box-row{display:flex;justify-content:space-between;align-items:center;padding:11px 0;border-bottom:1px solid #F0EEF0}
+.info-box-row-lbl{font-size:13px;color:#5A6472}
+.info-box-row-val{font-size:13px;font-weight:700;color:#0D1B2A}
+.info-box-row-val.red{color:#C0392B}
+.info-box-footnote{font-size:11px;color:#9AA3AD;line-height:1.5;margin-bottom:16px}
+.info-box-btn{width:100%;padding:14px;background:#F5F7FA;border:none;border-radius:12px;font-size:15px;font-weight:600;color:#0D1B2A;cursor:pointer;font-family:inherit;transition:background .15s}
+.info-box-btn:active{background:#E4E8EE}
+.gmap-wrap{position:relative;width:100%;margin-bottom:14px;border-radius:var(--r);overflow:hidden;border:1px solid var(--brd);background:#EEF2F7;cursor:grab;user-select:none}
+.gmap-wrap:active{cursor:grabbing}
+.gmap-header{display:flex;align-items:center;justify-content:space-between;padding:10px 12px 8px;background:var(--card);border-bottom:1px solid var(--brd)}
+.gmap-title{font-size:12px;font-weight:700;color:var(--txt);display:flex;align-items:center;gap:6px}
+.gmap-loc{font-size:11px;color:var(--txt2);display:flex;align-items:center;gap:4px;font-weight:500}
+.gmap-loc::before{content:'';width:7px;height:7px;border-radius:50%;background:var(--txt3);display:inline-block}
+.gmap-canvas{display:block;width:100%;height:220px}
+.gmap-legend{display:flex;align-items:center;gap:12px;padding:8px 12px;background:var(--card);border-top:1px solid var(--brd);flex-wrap:wrap}
+.gmap-leg-item{display:flex;align-items:center;gap:5px;font-size:10px;color:var(--txt2);font-weight:500}
+.gmap-leg-dot{width:10px;height:10px;border-radius:50%;display:inline-block}
+.gmap-updated{margin-left:auto;font-size:10px;color:var(--txt3)}
+.galera-post{background:var(--card);border-radius:var(--r);padding:14px;margin-bottom:10px;box-shadow:var(--shadow)}
+.galera-post-hdr{display:flex;align-items:flex-start;gap:10px;margin-bottom:8px}
+.galera-avatar{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;color:#fff;flex-shrink:0;font-family:inherit}
+.galera-meta{flex:1;min-width:0}
+.galera-name{font-size:13px;font-weight:800;color:var(--txt);display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.galera-location{font-size:11px;color:var(--txt3);margin-top:1px}
+.galera-time{font-size:10px;color:var(--txt3);white-space:nowrap;margin-left:auto}
+.galera-badge{font-size:9px;font-weight:800;padding:2px 7px;border-radius:10px;letter-spacing:.3px;text-transform:uppercase}
+.gb-dica{background:#EEF6FF;color:#1a5276}
+.gb-alerta{background:#FEECEB;color:#922b21}
+.gb-area{background:#E6F4F1;color:#1a5c4b}
+.gb-bonus{background:#FEF3E2;color:#7d5108}
+.gb-combustivel{background:#F0EEF9;color:#4a235a}
+.galera-txt{font-size:13px;color:var(--txt);line-height:1.5;margin-bottom:10px}
+.galera-actions{display:flex;align-items:center;gap:12px}
+.galera-action{display:flex;align-items:center;gap:4px;font-size:11px;font-weight:600;color:var(--txt3);cursor:pointer;padding:4px 0;border:none;background:none;font-family:inherit}
+.galera-action.confirmed{color:var(--ok)}
+.galera-confirm-count{font-weight:800;color:var(--ok)}
+.galera-post-footer{font-size:11px;color:var(--txt3);padding-top:6px;border-top:1px solid var(--brd);margin-top:4px}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+
+/* ═══════════════════════════════════════════════════
+   RESPONSIVE FIXES — Android popular models
+   Tested breakpoints: 320px, 360px, 375px, 390px, 412px, 430px
+   ═══════════════════════════════════════════════════ */
+
+/* --- Login page: scroll seguro em telas baixas --- */
+.login-pg{
+  overflow-y:auto;
+  padding-top:max(24px, env(safe-area-inset-top, 0px));
+  padding-bottom:max(24px, env(safe-area-inset-bottom, 0px));
+  justify-content:flex-start;
+  gap:0;
+}
+@media(min-height:700px){
+  .login-pg{justify-content:center}
+}
+.login-form{
+  margin-bottom:16px;
+}
+
+/* --- Modal: padding-bottom correto para Android nav bar --- */
+.modal-box{
+  padding-bottom:max(20px, calc(16px + env(safe-area-inset-bottom, 0px)));
+}
+
+/* --- GPS card: valor não cortar em 320px --- */
+.gps-net-val{
+  font-size:clamp(16px, 5.5vw, 22px);
+}
+.gps-stat-val{
+  font-size:clamp(13px, 4vw, 16px);
+}
+
+/* --- Balance amount: escala com a tela --- */
+.balance-amount{
+  font-size:clamp(28px, 9vw, 36px);
+}
+
+/* --- Quick stats: escala com a tela --- */
+.qs-val{
+  font-size:clamp(16px, 5vw, 20px);
+}
+
+/* --- Heatmap modal: padding mínimo em telas pequenas --- */
+.hm-modal{
+  padding:8px;
+}
+.hm-box{
+  background:var(--card);
+  border-radius:16px;
+  width:100%;
+  max-width:480px;
+  max-height:92dvh;
+  overflow-y:auto;
+  padding:16px 12px 20px;
+  animation:slideUp .28s ease;
+}
+@media(max-width:380px){
+  /* Label mais estreita para dar mais espaço às células */
+  .hm-day-row{
+    grid-template-columns:22px repeat(7,1fr);
+    gap:2px;
+  }
+  .hm-row-lbl{
+    font-size:8px;
+    padding-right:2px;
+  }
+  .hm-col-lbl{
+    font-size:8px;
+  }
+}
+@media(max-width:340px){
+  .hm-day-row{
+    grid-template-columns:18px repeat(7,1fr);
+    gap:2px;
+  }
+  .hm-row-lbl{font-size:7px}
+  .hm-col-lbl{font-size:7px}
+  .hm-box{padding:12px 8px 16px}
+}
+
+/* --- Cat grid: 2 cols em 320px --- */
+@media(max-width:340px){
+  .cat-grid{
+    grid-template-columns:1fr 1fr;
+  }
+}
+
+/* --- Rides summary 3 cols: pode apertar em 320px --- */
+@media(max-width:340px){
+  .rides-summary{
+    grid-template-columns:1fr 1fr;
+  }
+}
+
+/* --- Period grid (per-btn): nunca 1 col para veículo --- */
+.period-grid{
+  grid-template-columns:1fr 1fr;
+}
+
+/* --- GPS stats: em 320px gap menor --- */
+@media(max-width:340px){
+  .gps-stats{gap:2px}
+  .gps-stat{padding:8px 2px}
+}
+
+/* --- Page padding: em 320px reduz laterais --- */
+@media(max-width:340px){
+  .page{padding:12px}
+  .card{padding:12px}
+  .header{padding-left:14px;padding-right:14px}
+}
+
+/* --- Login steps: em telas muito baixas compacta --- */
+@media(max-height:620px){
+  .login-steps{display:none}
+  .login-pg > p{margin-bottom:16px}
+  .login-logo{margin-bottom:10px}
+}
+
+/* --- Toque: área mínima de 44px para todos botões interativos --- */
+.nav-btn{min-height:44px}
+.btn{min-height:44px}
+.per-btn{min-height:52px}
+.chip,.tab{min-height:36px;display:inline-flex;align-items:center}
+
+/* ── Heatmap Modal ── */
+.hm-modal{position:fixed;inset:0;background:rgba(13,27,42,.7);display:none;align-items:center;justify-content:center;z-index:300;backdrop-filter:blur(4px)}
+.hm-modal.active{display:flex}
+.hm-title{font-size:16px;font-weight:800;color:var(--txt);margin-bottom:2px}
+.hm-sub{font-size:11px;color:var(--txt2);margin-bottom:16px}
+.hm-close{background:none;border:none;font-size:22px;cursor:pointer;color:var(--txt2);padding:0;line-height:1;min-width:44px;min-height:44px;display:flex;align-items:center;justify-content:flex-end}
+.hm-hdr{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px}
+.hm-best-badge{background:var(--pri);color:#fff;font-size:11px;font-weight:700;padding:4px 10px;border-radius:20px;white-space:nowrap}
+.hm-day-row{display:grid;grid-template-columns:28px repeat(7,1fr);gap:3px;align-items:center}
+.hm-row-lbl{font-size:9px;font-weight:600;color:var(--txt3);text-align:right;padding-right:4px}
+.hm-col-lbl{font-size:9px;font-weight:700;color:var(--txt3);text-align:center;padding-bottom:2px}
+.hm-cell{aspect-ratio:1;border-radius:5px;cursor:pointer;transition:transform .15s;position:relative}
+.hm-cell:hover{transform:scale(1.12);z-index:2}
+.hm-cell.selected{outline:2px solid var(--acc);outline-offset:1px}
+.hm-legend{display:flex;align-items:center;gap:6px;font-size:10px;color:var(--txt3);margin-bottom:14px}
+.hm-legend-cells{display:flex;gap:2px}
+.hm-legend-cell{width:14px;height:14px;border-radius:3px}
+.hm-insight{background:#EEF6FF;border-radius:10px;padding:12px 14px;font-size:12px;color:#1a3a5c;line-height:1.5;border-left:3px solid var(--pri)}
+.hm-insight b{font-weight:700}
+
 </style>
+<!-- Supabase SDK (Galera realtime) — carregado em background, não bloqueia o app -->
+<script>
+(function() {
+  var s = document.createElement('script');
+  s.src = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js';
+  s.async = true;
+  document.head.appendChild(s);
+})();
+</script>
 </head>
 <body>
 
 <!-- LOGIN -->
 <div id="loginPage" class="login-pg">
   <div class="login-logo">
-    <svg width="52" height="52" viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <rect width="52" height="52" rx="14" fill="#E87F24"/>
-      <path d="M14 26C14 19.373 19.373 14 26 14C32.627 14 38 19.373 38 26" stroke="white" stroke-width="3.5" stroke-linecap="round"/>
-      <path d="M26 14V26L33 19" stroke="white" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
-      <circle cx="26" cy="26" r="3" fill="white"/>
-      <path d="M14 26C14 32.627 19.373 38 26 38C32.627 38 38 32.627 38 26" stroke="white" stroke-width="3.5" stroke-linecap="round" stroke-dasharray="4 4"/>
+    <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect width="64" height="64" rx="16" fill="#0D1F33"/>
+      <rect x="1" y="1" width="62" height="62" rx="15" stroke="rgba(255,255,255,0.1)" stroke-width="2"/>
+      <text x="10" y="47" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif" font-size="36" font-weight="800" fill="white" letter-spacing="-2">N</text>
+      <circle cx="52" cy="17" r="7" fill="#E87F24"/>
     </svg>
   </div>
-  <h1>No<span>Corre</span></h1>
+  <h1>NoCorre<span>.</span></h1>
   <p>O app que mostra <strong>quanto realmente fica no seu bolso</strong> depois de pagar combustível, alimentação e taxas</p>
 
   <div class="login-steps">
@@ -541,7 +756,36 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Helvetica Neue',Ar
     </div>
     <div class="form-grp">
       <label class="form-lbl">Seu estado</label>
-      <select class="f-sel" id="lState"><option value="">Selecione...</option></select>
+      <select class="f-sel" id="lState">
+        <option value="">📍 Selecione seu estado...</option>
+        <option value="AC">Acre (AC)</option>
+        <option value="AL">Alagoas (AL)</option>
+        <option value="AP">Amapá (AP)</option>
+        <option value="AM">Amazonas (AM)</option>
+        <option value="BA">Bahia (BA)</option>
+        <option value="CE">Ceará (CE)</option>
+        <option value="DF">Distrito Federal (DF)</option>
+        <option value="ES">Espírito Santo (ES)</option>
+        <option value="GO">Goiás (GO)</option>
+        <option value="MA">Maranhão (MA)</option>
+        <option value="MT">Mato Grosso (MT)</option>
+        <option value="MS">Mato Grosso do Sul (MS)</option>
+        <option value="MG">Minas Gerais (MG)</option>
+        <option value="PA">Pará (PA)</option>
+        <option value="PB">Paraíba (PB)</option>
+        <option value="PR">Paraná (PR)</option>
+        <option value="PE">Pernambuco (PE)</option>
+        <option value="PI">Piauí (PI)</option>
+        <option value="RJ">Rio de Janeiro (RJ)</option>
+        <option value="RN">Rio Grande do Norte (RN)</option>
+        <option value="RS">Rio Grande do Sul (RS)</option>
+        <option value="RO">Rondônia (RO)</option>
+        <option value="RR">Roraima (RR)</option>
+        <option value="SC">Santa Catarina (SC)</option>
+        <option value="SP">São Paulo (SP)</option>
+        <option value="SE">Sergipe (SE)</option>
+        <option value="TO">Tocantins (TO)</option>
+      </select>
     </div>
     <button class="btn acc" onclick="doLogin()">Entrar no corre →</button>
     <div style="display:flex;align-items:center;gap:10px;margin:14px 0">
@@ -565,13 +809,12 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Helvetica Neue',Ar
     <div class="header-row">
       <div class="logo-mark">
         <svg class="logo-svg" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <rect width="36" height="36" rx="10" fill="#E87F24"/>
-          <path d="M10 18C10 13.582 13.582 10 18 10C22.418 10 26 13.582 26 18" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
-          <path d="M18 10V18L22.5 13.5" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-          <circle cx="18" cy="18" r="2" fill="white"/>
-          <path d="M10 18C10 22.418 13.582 26 18 26C22.418 26 26 22.418 26 18" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="2.5 3"/>
+          <rect width="36" height="36" rx="9" fill="#0D1F33"/>
+          <rect x="0.5" y="0.5" width="35" height="35" rx="8.5" stroke="rgba(255,255,255,0.12)"/>
+          <text x="5" y="27" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif" font-size="20" font-weight="800" fill="white" letter-spacing="-1">N</text>
+          <circle cx="28" cy="11" r="4" fill="#E87F24"/>
         </svg>
-        <span class="logo-txt">No<span class="logo-dot">Corre</span></span>
+        <span class="logo-txt">NoCorre<span class="logo-dot">.</span></span>
       </div>
       <div class="header-actions">
         <button id="gpsToggleBtn" onclick="toggleGPS()" style="background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);color:#fff;padding:5px 10px;border-radius:20px;font-size:11px;cursor:pointer;font-family:inherit;display:flex;align-items:center;gap:5px">
@@ -601,14 +844,14 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Helvetica Neue',Ar
         <span class="gps-badge"><span class="gps-dot" id="gpsDot"></span><span id="gpsStatusTxt">Ativo</span></span>
       </div>
       <div class="gps-stats">
-        <div class="gps-stat"><div class="gps-stat-val" id="gpsKm">0</div><div class="gps-stat-lbl">km</div></div>
-        <div class="gps-stat"><div class="gps-stat-val" id="gpsTrips">0</div><div class="gps-stat-lbl">corridas</div></div>
-        <div class="gps-stat"><div class="gps-stat-val" id="gpsOnline">0h</div><div class="gps-stat-lbl">online</div></div>
+        <div class="gps-stat"><div class="gps-stat-val" id="gpsKm">0</div><div class="gps-stat-lbl">km <button class="info-btn" onclick="showInfo('gpsKm',event)">i</button></div></div>
+        <div class="gps-stat"><div class="gps-stat-val" id="gpsTrips">0</div><div class="gps-stat-lbl">corridas <button class="info-btn" onclick="showInfo('gpsCorridas',event)">i</button></div></div>
+        <div class="gps-stat"><div class="gps-stat-val" id="gpsOnline">0h</div><div class="gps-stat-lbl">online <button class="info-btn" onclick="showInfo('gpsTempo',event)">i</button></div></div>
         <div class="gps-stat"><div class="gps-stat-val" id="gpsWait">0%</div><div class="gps-stat-lbl">esperando</div></div>
       </div>
       <div class="gps-bottom">
         <div>
-          <div class="gps-net-lbl">Bruto / Líquido hoje</div>
+          <div class="gps-net-lbl">Bruto / Líquido hoje <button class="info-btn" onclick="showInfo('gpsLiquido',event)">i</button></div>
           <div style="display:flex;align-items:baseline;gap:6px">
             <div style="font-size:13px;opacity:.7;font-weight:500" id="gpsGross">R$ 0,00</div>
             <div style="font-size:11px;opacity:.5">/</div>
@@ -616,7 +859,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Helvetica Neue',Ar
           </div>
         </div>
         <div class="gps-side">
-          <div class="gps-side-item">⛽ <span id="gpsCombust">R$ 0,00</span> em custos</div>
+          <div class="gps-side-item">⛽ <span id="gpsCombust">R$ 0,00</span> em custos <button class="info-btn" onclick="showInfo('custoKm',event)">i</button></div>
           <div class="gps-side-item"><span id="gpsPerKm">—</span></div>
         </div>
       </div>
@@ -630,18 +873,21 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Helvetica Neue',Ar
           <span id="periodLbl">Mês</span> ▾
         </button>
       </div>
-      <div class="balance-amount" id="incomeVal">R$ 0,00</div>
+      <div style="display:flex;align-items:baseline;gap:4px">
+        <div class="balance-amount" id="incomeVal">R$ 0,00</div>
+        <button class="info-btn" onclick="showInfo('liquido',event)">i</button>
+      </div>
       <div class="balance-row" id="balanceRowGrid" style="display:grid;gap:0;border-top:1px solid var(--brd);padding-top:12px;margin-top:4px">
         <div class="balance-col" style="border-right:1px solid var(--brd)">
-          <div class="balance-col-lbl">Entrou</div>
+          <div class="balance-col-lbl">Entrou <button class="info-btn" onclick="showInfo('entrou',event)">i</button></div>
           <div class="balance-col-val inc" id="incomeGross">R$ 0</div>
         </div>
         <div class="balance-col" style="border-right:1px solid var(--brd)">
-          <div class="balance-col-lbl">Saiu</div>
+          <div class="balance-col-lbl">Saiu <button class="info-btn" onclick="showInfo('saiu',event)">i</button></div>
           <div class="balance-col-val exp" id="incomeExp">R$ 0</div>
         </div>
         <div class="balance-col" id="rentCol" style="display:none">
-          <div class="balance-col-lbl">Aluguel</div>
+          <div class="balance-col-lbl">Aluguel <button class="info-btn" onclick="showInfo('aluguel',event)">i</button></div>
           <div class="balance-col-val exp" id="rentVal">R$ 0</div>
         </div>
       </div>
@@ -650,7 +896,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Helvetica Neue',Ar
     <!-- Goal card -->
     <div class="goal-card" id="goalCard">
       <div class="goal-card-header">
-        <span class="goal-card-title">🎯 <span id="goalPeriodLbl">Meta do mês</span></span>
+        <span class="goal-card-title">🎯 <span id="goalPeriodLbl">Meta do mês</span> <button class="info-btn" onclick="showInfo('meta',event)">i</button></span>
         <button class="goal-edit-btn" onclick="openModal('goalModal')" id="goalEditBtn">Editar</button>
       </div>
       <div id="goalContent">
@@ -672,12 +918,12 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Helvetica Neue',Ar
     <!-- Quick stats -->
     <div class="qs-grid">
       <div class="qs-card">
-        <div class="qs-lbl">⚡ Ritmo hoje</div>
+        <div class="qs-lbl">⚡ Ritmo hoje <button class="info-btn" onclick="showInfo('ritmo',event)">i</button></div>
         <div class="qs-val" id="statToday">R$ 0/h</div>
         <div class="qs-sub" id="projDetail">ganho por hora online</div>
       </div>
       <div class="qs-card accent">
-        <div class="qs-lbl">📈 Projeção do mês</div>
+        <div class="qs-lbl">📈 Projeção do mês <button class="info-btn" onclick="showInfo('projecao',event)">i</button></div>
         <div class="qs-val" id="statProjCard">R$ 0</div>
         <div class="qs-sub" id="projDetailCard">baseado na média recente</div>
       </div>
@@ -703,7 +949,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Helvetica Neue',Ar
 
   <!-- ── CORRIDAS ── -->
   <div id="pgRides" class="page">
-    <h2 style="margin-bottom:4px;font-size:20px;font-weight:800">Corridas</h2>
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px">
+      <h2 style="font-size:20px;font-weight:800;margin:0">Corridas</h2>
+      <button onclick="showPage('transactions')" style="background:none;border:1.5px solid var(--brd);border-radius:20px;padding:6px 14px;font-size:12px;font-weight:700;color:var(--pri);cursor:pointer;font-family:inherit;display:flex;align-items:center;gap:5px;min-height:36px"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>Histórico</button>
+    </div>
     <p style="font-size:12px;color:var(--txt2);margin-bottom:12px;font-weight:400">Histórico capturado pelo GPS do app</p>
     <div class="chips" id="ridesChips">
       <button class="chip active" onclick="setRidesFilter('today',this)">Hoje</button>
@@ -718,7 +967,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Helvetica Neue',Ar
       <div class="rides-stat"><div class="rides-stat-val" id="rTotalKm">0 km</div><div class="rides-stat-lbl">km rodados</div></div>
       <div class="rides-stat"><div class="rides-stat-val" id="rPerKm">R$ 0</div><div class="rides-stat-lbl">líquido/km</div></div>
     </div>
-    <div class="sec-hdr"><h3>⚡ Eficiência</h3></div>
+    <div class="sec-hdr"><h3>⚡ Eficiência <button class="info-btn" onclick="showInfo('eficiencia',event)">i</button></h3></div>
     <div class="efficiency-row">
       <div class="eff-card"><div class="eff-val" id="rAvgEarn">R$ 0</div><div class="eff-lbl">por corrida</div></div>
       <div class="eff-card"><div class="eff-val" id="rAvgKm">0 km</div><div class="eff-lbl">por corrida</div></div>
@@ -736,7 +985,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Helvetica Neue',Ar
 
   <!-- ── HISTÓRICO ── -->
   <div id="pgTransactions" class="page">
-    <h2 style="margin-bottom:14px;font-size:20px;font-weight:800">Histórico</h2>
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px">
+      <button onclick="showPage('rides')" style="background:none;border:none;padding:0;cursor:pointer;color:var(--pri);display:flex;align-items:center;gap:4px;font-size:13px;font-weight:700;font-family:inherit;min-height:36px"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>Corridas</button>
+      <h2 style="font-size:20px;font-weight:800;margin:0;flex:1">Histórico</h2>
+    </div>
     <div class="tabs">
       <button class="tab active" id="tAll" onclick="setTxnFilter('all',this)">Tudo</button>
       <button class="tab" id="tInc" onclick="setTxnFilter('income',this)">Ganhos</button>
@@ -763,9 +1015,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Helvetica Neue',Ar
       <div class="qs-lbl" id="chartTitle">Ganhos — últimos 7 dias</div>
       <div class="chart-wrap" id="chartBox"></div>
     </div>
-    <div class="sec-hdr"><h3>🔧 Saúde do veículo</h3><a onclick="openModal('vehicleModal')" style="cursor:pointer;user-select:none;-webkit-tap-highlight-color:transparent">Configurar →</a></div>
+    <div class="sec-hdr"><h3>🔧 Saúde do veículo <button class="info-btn" onclick="showInfo('saude',event)">i</button></h3><a onclick="openModal('vehicleModal')" style="cursor:pointer;user-select:none;-webkit-tap-highlight-color:transparent">Configurar →</a></div>
     <div id="vehicleHealthBox"></div>
-    <div class="sec-hdr"><h3>🕐 Horários mais vantajosos</h3></div>
+    <div class="sec-hdr"><h3>🕐 Horários mais vantajosos</h3><a onclick="openHeatmap()" style="cursor:pointer;user-select:none;font-size:12px;color:var(--acc);font-weight:600">Mapa completo →</a></div>
     <div class="card" id="hourlyStatsBox"></div>
     <div class="sec-hdr"><h3>🔮 Quanto falta para a meta?</h3></div>
     <div id="forecastBox"></div>
@@ -783,22 +1035,62 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Helvetica Neue',Ar
   </div>
 
   <!-- ── GALERA ── -->
-  <div id="pgCommunity" class="page">
-    <h2 style="margin-bottom:12px;font-size:20px;font-weight:800">Galera na rua</h2>
-    <div class="form-lbl" style="margin-bottom:6px">📍 Perto de você</div>
-    <div class="state-chips" id="stateChips"></div>
-    <div class="form-lbl" style="margin-bottom:6px">🏷️ Plataforma</div>
-    <div class="chips">
-      <button class="chip active" onclick="setCommunityFilter('all',this)">Todos</button>
-      <button class="chip" onclick="setCommunityFilter('uber',this)">🚗 Uber/99</button>
-      <button class="chip" onclick="setCommunityFilter('ifood',this)">🍔 iFood</button>
-      <button class="chip" onclick="setCommunityFilter('loggi',this)">📦 Loggi</button>
-      <button class="chip" onclick="setCommunityFilter('rappi',this)">🛵 Rappi</button>
-      <button class="chip" onclick="setCommunityFilter('dicas',this)">💡 Dicas</button>
+  <div id="pgGalera" class="page">
+    <!-- Header com estado e status ao vivo -->
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px">
+      <div>
+        <div style="font-size:10px;font-weight:700;color:var(--txt3);letter-spacing:.8px;text-transform:uppercase;margin-bottom:2px">GALERA NA RUA</div>
+        <h2 style="font-size:20px;font-weight:800;margin:0" id="galeraStateTitle">Seu estado · agora</h2>
+      </div>
+      <div id="galeraLiveBadge" style="display:flex;align-items:center;gap:5px;background:#1F6F5F;color:#fff;font-size:10px;font-weight:800;padding:5px 10px;border-radius:20px;letter-spacing:.3px"><span style="width:6px;height:6px;background:#4ade80;border-radius:50%;display:inline-block;animation:pulse 1.5s infinite"></span>AO VIVO</div>
     </div>
-    <button class="btn sec" style="margin-bottom:12px" onclick="openModal('postModal')">✏️ Compartilhar com a galera</button>
-    <div id="communityFeed"></div>
+
+    <!-- Heatmap SVG da galera -->
+    <div class="gmap-wrap">
+      <div class="gmap-header">
+        <div class="gmap-title">🗺 Heatmap da galera · agora</div>
+        <div class="gmap-loc" id="gmapLocLabel">São Paulo · Centro</div>
+      </div>
+      <canvas id="gmapCanvas" class="gmap-canvas" width="480" height="220"></canvas>
+      <div class="gmap-legend">
+        <div class="gmap-leg-item"><span class="gmap-leg-dot" style="background:#1F6F5F"></span>Área boa</div>
+        <div class="gmap-leg-item"><span class="gmap-leg-dot" style="background:#D4820A"></span>Área fraca</div>
+        <div class="gmap-leg-item"><span class="gmap-leg-dot" style="background:#C0392B"></span>Alerta / evite</div>
+        <div class="gmap-leg-item"><span class="gmap-leg-dot" style="background:#E87F24;border:2px solid #fff;outline:1px solid #E87F24"></span>Você</div>
+        <div class="gmap-updated" id="gmapUpdated">Atualizado há 14 segundos</div>
+      </div>
+    </div>
+
+    <!-- Filtros de tipo -->
+    <div class="chips" style="margin-bottom:12px">
+      <button class="chip active" id="gfTudo" onclick="setGaleraFilter('tudo',this)">Tudo</button>
+      <button class="chip" id="gfDica" onclick="setGaleraFilter('dica',this)">💡 Dicas</button>
+      <button class="chip" id="gfAlerta" onclick="setGaleraFilter('alerta',this)">⚠️ Alertas</button>
+      <button class="chip" id="gfArea" onclick="setGaleraFilter('area',this)">✅ Áreas</button>
+      <button class="chip" id="gfBonus" onclick="setGaleraFilter('bonus',this)">💸 Bônus</button>
+      <button class="chip" id="gfCombustivel" onclick="setGaleraFilter('combustivel',this)">⛽ Combustível</button>
+    </div>
+
+    <!-- Botão postar -->
+    <button onclick="openGaleraPost()" style="width:100%;padding:12px;border-radius:var(--r);border:1.5px dashed var(--brd);background:var(--bg);color:var(--txt2);font-size:13px;font-weight:600;font-family:inherit;cursor:pointer;margin-bottom:14px;display:flex;align-items:center;justify-content:center;gap:6px">
+      <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+      Compartilhar com a galera
+    </button>
+
+    <!-- Feed -->
+    <div id="galeraFeed"></div>
+
+    <!-- Online counter -->
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 0 4px;border-top:1px solid var(--brd);margin-top:8px">
+      <div style="display:flex;align-items:center;gap:6px;font-size:12px;font-weight:700;color:var(--ok)">
+        <span style="width:7px;height:7px;background:var(--ok);border-radius:50%;display:inline-block"></span>
+        <span id="galeraOnline">312 motoristas online agora</span>
+      </div>
+      <span style="font-size:11px;color:var(--txt3)">atualiza sozinho ↻</span>
+    </div>
   </div>
+
+
 
   <!-- ── NOVIDADES ── -->
   <div id="pgNews" class="page">
@@ -905,8 +1197,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Helvetica Neue',Ar
   <nav class="bottom-nav">
     <button class="nav-btn active" onclick="showPage('dashboard',this)"><div class="ni"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg></div><div>Início</div></button>
     <button class="nav-btn" onclick="showPage('rides',this)"><div class="ni"><svg viewBox="0 0 24 24"><path d="M5 17h-2v-5l2-1 1-4h10l1 4 2 1v5h-2m-12 0a2 2 0 1 0 4 0m6 0a2 2 0 1 0 4 0m-10-6h10"></path></svg></div><div>Corridas</div></button>
-    <button class="nav-btn" onclick="showPage('transactions',this)"><div class="ni"><svg viewBox="0 0 24 24"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg></div><div>Histórico</div></button>
     <button class="nav-btn" onclick="showPage('stats',this)"><div class="ni"><svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg></div><div>Análises</div></button>
+    <button class="nav-btn" onclick="showPage('galera',this)"><div class="ni"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg></div><div>Galera</div></button>
     <button class="nav-btn" onclick="showPage('news',this)"><div class="ni"><svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg></div><div>Novidades</div></button>
   </nav>
 </div>
@@ -1153,22 +1445,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Helvetica Neue',Ar
 </div>
 
 <!-- Post -->
-<div id="postModal" class="modal">
-  <div class="modal-box">
-    <div class="modal-hdr"><span class="modal-title">Falar com a galera</span><button class="modal-close" onclick="closeModal('postModal')">×</button></div>
-    <div class="form-grp"><label class="form-lbl">É sobre qual plataforma?</label>
-      <select class="f-sel" id="postCat">
-        <option value="dicas">💡 Dica geral</option>
-        <option value="uber">🚗 Uber/99</option>
-        <option value="ifood">🍔 iFood</option>
-        <option value="loggi">📦 Loggi</option>
-        <option value="rappi">🛵 Rappi</option>
-      </select>
-    </div>
-    <div class="form-grp"><label class="form-lbl">O que você quer compartilhar?</label><textarea class="f-area" id="postTxt" placeholder="Uma dica, um alerta, uma dúvida — tudo vale aqui."></textarea></div>
-    <button class="btn" onclick="savePost()">Mandar para a galera</button>
-  </div>
-</div>
+
 
 <!-- Manutenção Feita -->
 <div id="maintenanceDoneModal" class="modal">
@@ -1556,8 +1833,6 @@ let S = {
   txnCat: null,
   txnFilter: 'all',
   txnPeriod: '7',
-  commFilter: 'all',
-  commState: 'all',
   newsFilter: 'all',
   newsImpact: 'all',
   fuelModalFilter: 'all',
@@ -1732,6 +2007,10 @@ function net(arr) { return income(arr) - expense(arr); }
 // ================================================================
 function init() {
   hydrate();
+  // Migra registros pending antigos para confirmed
+  let migrated = 0;
+  S.transactions.forEach(t => { if (t.status === 'pending') { t.status = 'confirmed'; migrated++; } });
+  if (migrated) persist();
   populateStateDropdowns();
 
   if (S.user && S.user.name) {
@@ -1744,8 +2023,8 @@ function init() {
 
 function populateStateDropdowns() {
   const opts = STATES.map(s => `<option value="${s.code}">${s.name} (${s.code})</option>`).join('');
-  el('lState').innerHTML = '<option value="">Selecione...</option>' + opts;
-  el('stateSelect').innerHTML = opts;
+  const stateSelect = el('stateSelect');
+  if (stateSelect) stateSelect.innerHTML = opts;
 }
 
 // ================================================================
@@ -1769,8 +2048,10 @@ function doLogin() {
 
 function setLoginVehicleType(type) {
   window._loginVehicleType = type;
-  el('lTypeCar').classList.toggle('active', type === 'car');
-  el('lTypeMoto').classList.toggle('active', type === 'moto');
+  const car  = el('lTypeCar');
+  const moto = el('lTypeMoto');
+  if (car)  car.classList.toggle('active', type === 'car');
+  if (moto) moto.classList.toggle('active', type === 'moto');
 }
 
 function googleLoginNotice() {
@@ -1808,6 +2089,7 @@ function doLogout() {
 function bootApp() {
   el('loginPage').style.display = 'none';
   show('app');
+  initSupabase(); // Galera realtime
 
   const firstName = S.user.name.split(' ')[0];
   el('greetTxt').textContent = `Olá, ${firstName}! 👋`;
@@ -1828,7 +2110,6 @@ function bootApp() {
   injectDemoRides();
 
   renderWidgetCats();
-  renderStateChips();
   renderDashboard();
   renderGpsCard();
   atualizarCombustivel();
@@ -1907,7 +2188,7 @@ function showPage(name, navEl) {
   document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
   if (navEl) navEl.classList.add('active');
   else {
-    const map = {dashboard:0, rides:1, transactions:2, stats:3, news:4};
+    const map = {dashboard:0, rides:1, stats:2, galera:3, news:4};
     const btns = document.querySelectorAll('.nav-btn');
     if (map[name] !== undefined) btns[map[name]].classList.add('active');
   }
@@ -1917,7 +2198,7 @@ function showPage(name, navEl) {
 
   if (name === 'transactions') renderTransactions();
   else if (name === 'stats') renderStats();
-  else if (name === 'community') renderCommunity();
+  else if (name === 'galera') renderGalera();
   else if (name === 'news') renderNews();
   else if (name === 'profile') renderProfile();
   else if (name === 'dashboard') renderDashboard();
@@ -2165,17 +2446,11 @@ function renderOnboarding() {
 // TRANSACTION HTML
 // ================================================================
 function txnHTML(t) {
-  const pending = t.status === 'pending';
-  const badge = pending ? '<span class="pend-badge">AGUARDANDO OK</span>' : '';
-  const autoBadge = (t.source === 'auto' && !pending) ? '<span class="auto-badge">AUTO</span>' : '';
-  const title = pending ? `Toque para dar o ok · ${t.description}` : t.description;
-  const click = pending ? `confirmTxn(${t.id})` : `openTripEdit(${t.id})`;
-  const sub = pending
-    ? `${fmtDate(t.date)} · vi que entrou, aguardando seu ok`
-    : `${fmtDate(t.date)} · toque para editar ou apagar`;
-  return `<div class="txn ${pending?'pending':''}" onclick="${click}">
+  const autoBadge = t.source === 'auto' ? '<span class="auto-badge">AUTO</span>' : '';
+  const sub = `${fmtDate(t.date)} · toque para editar ou apagar`;
+  return `<div class="txn" onclick="openTripEdit(${t.id})">
     <div class="txn-icon ${t.type}">${t.categoryEmoji}</div>
-    <div class="txn-info"><div class="txn-title">${title}${badge}${autoBadge}</div><div class="txn-date">${sub}</div></div>
+    <div class="txn-info"><div class="txn-title">${t.description}${autoBadge}</div><div class="txn-date">${sub}</div></div>
     <div class="txn-amt ${t.type}">${t.type==='income'?'+':'-'}${R(t.amount)}</div>
   </div>`;
 }
@@ -2200,14 +2475,10 @@ function addSmartTransaction(data) {
     toast('Tudo certo — era o mesmo valor. Confirmado e sem duplicata. ✓', 'ok');
   } else {
     S.transactions.unshift(data);
-    if (data.source === 'auto') {
-        toast(`📡 Captei ${R(data.amount)} da ${data.categoryLabel}. Toque para confirmar. ⏳`, 'warn');
-      } else {
-        const msg = data.type === 'income'
-          ? `💰 +${R(data.amount)} registrado! Já está no seu saldo.`
-          : `📝 -${R(data.amount)} anotado nos custos.`;
-        toast(msg, 'ok');
-      }
+    const msg = data.type === 'income'
+      ? `💰 +${R(data.amount)} registrado! Já está no seu saldo.`
+      : `📝 -${R(data.amount)} anotado nos custos.`;
+    toast(msg, 'ok');
   }
   persist();
   
@@ -2358,7 +2629,7 @@ function simulateCapture() {
     id: Date.now(), type: 'income',
     category: p.id, categoryLabel: p.l, categoryEmoji: p.e,
     amount: amt, description: `Corrida ${p.l}`,
-    date: todayISO(), source: 'auto', status: 'pending', timestamp: Date.now(),
+    date: todayISO(), source: 'auto', status: 'confirmed', timestamp: Date.now(),
     _ride: { km: kmEst, durationMin: durationEst, waitMin: waitEst,
              startTime, endTime: startTime, platform: p.id,
              origin: 'Captura automática', dest: '' }
@@ -2713,76 +2984,7 @@ function setForecastDays(n) { S.forecastDays = n; renderForecast(); }
 // ================================================================
 // COMMUNITY
 // ================================================================
-function renderStateChips() {
-  const used = [...new Set(S.posts.map(p=>p.state).filter(Boolean))];
-  const userSt = S.user && S.user.state;
-  let html = `<button class="st-chip ${S.commState==='all'?'active':''}" onclick="setCommState('all',this)">🌎 Todos</button>`;
-  if (userSt && used.includes(userSt))
-    html += `<button class="st-chip ${S.commState===userSt?'active':''}" onclick="setCommState('${userSt}',this)">📍 Meu estado (${userSt})</button>`;
-  used.filter(s => s !== userSt).forEach(s => {
-    html += `<button class="st-chip ${S.commState===s?'active':''}" onclick="setCommState('${s}',this)">${s}</button>`;
-  });
-  el('stateChips').innerHTML = html;
-}
 
-function setCommState(s, btn) {
-  S.commState = s;
-  document.querySelectorAll('#stateChips .st-chip').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  renderCommunity();
-}
-
-function setCommunityFilter(f, btn) {
-  S.commFilter = f;
-  document.querySelectorAll('#pgCommunity .chips .chip').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  renderCommunity();
-}
-
-function renderCommunity() {
-  let posts = [...S.posts];
-  if (S.commFilter !== 'all') posts = posts.filter(p => p.category === S.commFilter);
-  if (S.commState !== 'all') posts = posts.filter(p => p.state === S.commState);
-  const c = el('communityFeed');
-  if (!posts.length) { c.innerHTML = emptyHTML('💬','Ninguém por aqui ainda nesse filtro','Muda o filtro ou seja o primeiro a compartilhar!'); return; }
-  const catE = {uber:'🚗',ifood:'🍔',loggi:'📦',rappi:'🛵',dicas:'💡'};
-  const catL = {uber:'Uber/99',ifood:'iFood',loggi:'Loggi',rappi:'Rappi',dicas:'Dica'};
-  c.innerHTML = posts.map(p => `
-    <div class="post">
-      <div class="post-hdr">
-        <div class="post-av">${p.avatar}</div>
-        <div style="flex:1;min-width:0">
-          <div class="post-author">${p.author}</div>
-          <div class="post-meta">${p.time}</div>
-          <div class="post-tags"><span class="p-tag">${catE[p.category]||'💡'} ${catL[p.category]||'Dica'}</span>${p.state?`<span class="p-tag loc">📍 ${p.state}</span>`:''}</div>
-        </div>
-      </div>
-      <div class="post-body">${p.content}</div>
-      <div class="post-acts">
-        <button class="post-act ${p.liked?'liked':''}" onclick="toggleLike(${p.id})">${p.liked?'❤️':'🤍'} ${p.likes}</button>
-        <button class="post-act">💬 ${p.comments}</button>
-        <button class="post-act">🔗</button>
-      </div>
-    </div>`).join('');
-}
-
-function toggleLike(id) {
-  const p = S.posts.find(p => p.id===id);
-  if (!p) return;
-  p.liked = !p.liked; p.likes += p.liked ? 1 : -1;
-  persist(); renderCommunity();
-}
-
-function savePost() {
-  const txt = el('postTxt').value.trim();
-  if (!txt) { toast('Escreve algo primeiro — a galera quer te ouvir!','err'); return; }
-  const cat = el('postCat').value;
-  const initials = S.user.name.split(' ').map(n=>n[0].toUpperCase()).slice(0,2).join('');
-  S.posts.unshift({id:Date.now(),author:S.user.name,avatar:initials,category:cat,state:S.user.state,content:txt,time:'agora',likes:0,comments:0,liked:false});
-  persist(); renderStateChips(); renderCommunity();
-  closeModal('postModal'); el('postTxt').value='';
-  toast('Compartilhado! A galera já pode ver. 🎉','ok');
-}
 
 // ================================================================
 // NEWS + FUEL
@@ -2908,6 +3110,12 @@ function saveState_change() {
   const v = el('stateSelect').value;
   if (!v) { toast('Escolhe o teu estado para continuar','err'); return; }
   S.user.state = v;
+  // Reset completo da Galera ao trocar estado
+  unsubscribeGalera();
+  _galeraRemotePosts = [];
+  _galeraUserPosts   = [];
+  _galeraConfirmed   = new Set();
+  _galeraLoading     = false;
   persist(); bootApp(); closeModal('stateModal');
   toast('Localização atualizada! 📍','ok');
 }
@@ -4219,36 +4427,36 @@ function renderVehicleHealth() {
 
   c.innerHTML = `
     <div class="card" style="margin-bottom:10px">
-      <div style="font-size:13px;font-weight:700;margin-bottom:12px">💰 Reserva mensal recomendada</div>
+      <div style="font-size:13px;font-weight:700;margin-bottom:12px">💰 Reserva mensal recomendada <button class="info-btn" onclick="showInfo('custoFixo',event)" style="background:rgba(90,100,114,.15);color:var(--txt3)">i</button></div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px">
         <div style="background:var(--warn-lt);padding:10px;border-radius:10px">
-          <div style="font-size:10px;color:var(--warn);font-weight:600;margin-bottom:3px">IPVA mensal</div>
+          <div style="font-size:10px;color:var(--warn);font-weight:600;margin-bottom:3px">IPVA mensal <button class="info-btn" onclick="showInfo('ipva',event)" style="background:rgba(212,130,10,.15);color:var(--warn)">i</button></div>
           <div style="font-size:15px;font-weight:800;color:var(--warn)">${R(h.ipvaMensal)}/mês</div>
           <div style="font-size:10px;color:var(--txt2)">${R(h.ipvaAnual)}/ano estimado</div>
         </div>
         <div style="background:var(--pri-lt);padding:10px;border-radius:10px">
-          <div style="font-size:10px;color:var(--pri);font-weight:600;margin-bottom:3px">Seguro estimado</div>
+          <div style="font-size:10px;color:var(--pri);font-weight:600;margin-bottom:3px">Seguro estimado <button class="info-btn" onclick="showInfo('seguro',event)" style="background:rgba(17,45,78,.15);color:var(--pri)">i</button></div>
           <div style="font-size:15px;font-weight:800;color:var(--pri)">${R(h.seguroMensal)}/mês</div>
           <div style="font-size:10px;color:var(--txt2)">≈5% do valor FIPE/ano</div>
         </div>
         <div style="background:var(--bg2);padding:10px;border-radius:10px">
-          <div style="font-size:10px;color:var(--txt2);font-weight:600;margin-bottom:3px">Manutenção média</div>
+          <div style="font-size:10px;color:var(--txt2);font-weight:600;margin-bottom:3px">Manutenção média <button class="info-btn" onclick="showInfo('manutencao',event)">i</button></div>
           <div style="font-size:15px;font-weight:800">${R(h.manutencaoMensal)}/mês</div>
           <div style="font-size:10px;color:var(--txt2)">Revisões + consumíveis</div>
         </div>
         ${h.aluguelMensal > 0 ? `<div style="background:#fff3e0;padding:10px;border-radius:10px">
-          <div style="font-size:10px;color:#e65100;font-weight:600;margin-bottom:3px">Aluguel do veículo</div>
+          <div style="font-size:10px;color:#e65100;font-weight:600;margin-bottom:3px">Aluguel do veículo <button class="info-btn" onclick="showInfo('aluguel',event)" style="background:rgba(230,81,0,.15);color:#e65100">i</button></div>
           <div style="font-size:15px;font-weight:800;color:#e65100">${R(h.aluguelMensal)}/mês</div>
           <div style="font-size:10px;color:var(--txt2)">Veículo alugado</div>
         </div>` : ''}
         ${h.saveForNew ? `<div style="background:var(--err-lt);padding:10px;border-radius:10px">
-          <div style="font-size:10px;color:var(--err);font-weight:600;margin-bottom:3px">Desvalorização</div>
+          <div style="font-size:10px;color:var(--err);font-weight:600;margin-bottom:3px">Desvalorização <button class="info-btn" onclick="showInfo('depreciacao',event)" style="background:rgba(192,57,43,.15);color:var(--err)">i</button></div>
           <div style="font-size:15px;font-weight:800;color:var(--err)">${R(h.depreciaMensal)}/mês</div>
           <div style="font-size:10px;color:var(--txt2)">${h.depreciaAnual}% ao ano</div>
         </div>` : ''}
       </div>
-      <div style="background:var(--azul, var(--pri));background:var(--pri);color:#fff;padding:14px;border-radius:10px;text-align:center">
-        <div style="font-size:11px;opacity:.7;margin-bottom:4px">Total que você deveria reservar por mês</div>
+      <div style="background:var(--pri);color:#fff;padding:14px;border-radius:10px;text-align:center;cursor:pointer" onclick="showInfo('custoFixo',event)">
+        <div style="font-size:11px;opacity:.7;margin-bottom:4px">Total que você deveria reservar por mês <span style="opacity:.6;font-size:10px">ⓘ</span></div>
         <div style="font-size:24px;font-weight:800">${R(h.totalMensal)}</div>
         ${monthNet > 0 ? `<div style="font-size:11px;opacity:.7;margin-top:4px">${Math.round(h.totalMensal / monthNet * 100)}% do seu líquido deste mês</div>` : ''}
       </div>
@@ -4521,6 +4729,1017 @@ if ('serviceWorker' in navigator && location.protocol !== 'file:') {
 // ================================================================
 if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
 else init();
+
+// ── HEATMAP MAPA DA GALERA ──────────────────────────────────────
+// Coordenadas normalizadas [0-1] por bairro/área dentro de cada estado
+// Formato: {key, label, x, y} — x,y em fração do canvas (0=esq/topo, 1=dir/baixo)
+const GMAP_COORDS = {
+  // SP
+  'sp · vila olímpia':    {x:.62,y:.32,label:'Vila Olímpia'},
+  'sp · marginal tietê':  {x:.70,y:.60,label:'Marginal'},
+  'sp · santana':          {x:.28,y:.20,label:'Santana'},
+  'sp · aeroporto':        {x:.88,y:.72,label:'Aeroporto'},
+  'sp · vila mariana':     {x:.55,y:.52,label:'Vila Mariana'},
+  'sp · centro':           {x:.50,y:.45,label:'Centro'},
+  'sp · pinheiros':        {x:.42,y:.35,label:'Pinheiros'},
+  'sp · itaim':            {x:.60,y:.38,label:'Itaim'},
+  'sp · capão redondo':    {x:.25,y:.68,label:'Capão'},
+  // RJ
+  'rj · copacabana':       {x:.58,y:.55,label:'Copacabana'},
+  'rj · ipanema':          {x:.45,y:.60,label:'Ipanema'},
+  'rj · centro':           {x:.35,y:.35,label:'Centro'},
+  'rj · tijuca':           {x:.32,y:.28,label:'Tijuca'},
+  'rj · barra':            {x:.18,y:.55,label:'Barra'},
+  'rj · zona sul':         {x:.55,y:.62,label:'Zona Sul'},
+  // MG
+  'mg · bh centro':        {x:.48,y:.40,label:'BH Centro'},
+  'mg · savassi':          {x:.55,y:.48,label:'Savassi'},
+  'mg · belo horizonte':   {x:.48,y:.40,label:'BH'},
+  // PR
+  'pr · curitiba':         {x:.45,y:.42,label:'Curitiba'},
+  // RS
+  'rs · porto alegre':     {x:.44,y:.44,label:'POA'},
+  // DF
+  'df · plano piloto':     {x:.48,y:.40,label:'Plano Piloto'},
+  'df · asa sul':          {x:.50,y:.52,label:'Asa Sul'},
+};
+
+// Malha de ruas abstrata — segmentos [x1,y1,x2,y2] normalizados
+const GMAP_STREETS = [
+  [0,.25,1,.25],[0,.45,1,.42],[0,.62,1,.65],[0,.78,1,.75], // horizontais
+  [.15,0,.18,1],[.35,0,.32,1],[.52,0,.55,1],[.72,0,.68,1],[.88,0,.90,1], // verticais
+  [0,.15,.6,.55],[.3,0,.9,.7], // diagonais
+];
+
+let _gmapSecs = 14;
+let _gmapTimer = null;
+
+function gmapTypeToRole(type) {
+  // retorna: 'area'(boa=verde), 'fraco'(amarelo), 'alerta'(vermelho), 'combustivel'(azul-info), 'bonus'(verde claro)
+  if (type === 'area')        return {role:'boa',   color:'#1F6F5F', alpha:.22, r:.14};
+  if (type === 'alerta')      return {role:'alerta',color:'#C0392B', alpha:.20, r:.13};
+  if (type === 'dica')        return {role:'dica',  color:'#1a5276', alpha:.15, r:.11};
+  if (type === 'bonus')       return {role:'bonus', color:'#D4820A', alpha:.18, r:.12};
+  if (type === 'combustivel') return {role:'comb',  color:'#D4820A', alpha:.16, r:.10};
+  return {role:'neutro', color:'#888', alpha:.10, r:.09};
+}
+
+function gmapGetCoord(post) {
+  const key = post.loc.toLowerCase().trim();
+  return GMAP_COORDS[key] || null;
+}
+
+function gmapFallbackCoord(idx) {
+  // distribui pontos que não têm coord mapeada de forma espalhada
+  const positions = [{x:.22,y:.30},{x:.75,y:.25},{x:.38,y:.65},{x:.62,y:.72},{x:.15,y:.55},{x:.80,y:.58},{x:.45,y:.18}];
+  return positions[idx % positions.length];
+}
+
+function renderGmapCanvas() {
+  const canvas = el('gmapCanvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const W = canvas.offsetWidth || 480;
+  const H = canvas.offsetHeight || 220;
+  canvas.width = W;
+  canvas.height = H;
+  ctx.clearRect(0, 0, W, H);
+
+  // Fundo
+  ctx.fillStyle = '#EEF2F7';
+  ctx.fillRect(0, 0, W, H);
+
+  // Grade leve
+  ctx.strokeStyle = 'rgba(180,190,210,.35)';
+  ctx.lineWidth = .8;
+  const gridStep = 40;
+  for (let x = 0; x < W; x += gridStep) { ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,H); ctx.stroke(); }
+  for (let y = 0; y < H; y += gridStep) { ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(W,y); ctx.stroke(); }
+
+  // Ruas
+  ctx.strokeStyle = 'rgba(160,175,200,.55)';
+  ctx.lineWidth = 1.2;
+  GMAP_STREETS.forEach(([x1,y1,x2,y2]) => {
+    ctx.beginPath();
+    ctx.moveTo(x1*W, y1*H);
+    ctx.lineTo(x2*W, y2*H);
+    ctx.stroke();
+  });
+
+  // Blobs de calor dos posts
+  const allPosts = [..._galeraUserPosts, ...getGaleraPosts()];
+  const filtered = _galeraFilter === 'tudo' ? allPosts : allPosts.filter(p => p.type === _galeraFilter);
+
+  filtered.forEach((post, idx) => {
+    let coord = gmapGetCoord(post);
+    if (!coord) coord = gmapFallbackCoord(idx);
+    const {color, alpha, r} = gmapTypeToRole(post.type);
+    const cx = coord.x * W;
+    const cy = coord.y * H;
+    const radius = r * Math.min(W, H);
+
+    // Blob radial (gradiente de calor)
+    const grad = ctx.createRadialGradient(cx, cy, 0, cx, cy, radius);
+    const hex = color;
+    grad.addColorStop(0,   hexAlpha(hex, alpha * 2.2));
+    grad.addColorStop(0.4, hexAlpha(hex, alpha * 1.4));
+    grad.addColorStop(1,   hexAlpha(hex, 0));
+    ctx.fillStyle = grad;
+    ctx.beginPath();
+    ctx.arc(cx, cy, radius, 0, Math.PI*2);
+    ctx.fill();
+  });
+
+  // Pontos dos posts (pins)
+  filtered.forEach((post, idx) => {
+    let coord = gmapGetCoord(post);
+    if (!coord) coord = gmapFallbackCoord(idx);
+    const {color} = gmapTypeToRole(post.type);
+    const cx = coord.x * W;
+    const cy = coord.y * H;
+
+    // Sombra
+    ctx.shadowColor = 'rgba(0,0,0,.18)';
+    ctx.shadowBlur = 4;
+
+    // Pin circle
+    ctx.fillStyle = color;
+    ctx.beginPath();
+    ctx.arc(cx, cy, 5, 0, Math.PI*2);
+    ctx.fill();
+
+    // Borda branca
+    ctx.strokeStyle = '#fff';
+    ctx.lineWidth = 1.5;
+    ctx.stroke();
+    ctx.shadowBlur = 0;
+  });
+
+  // Tooltip do post com extra (área boa ou alerta) — máx 3 tooltips
+  let tooltipCount = 0;
+  filtered.forEach((post, idx) => {
+    if (!post.extra && post.type !== 'area' && post.type !== 'alerta') return;
+    if (tooltipCount >= 3) return;
+    let coord = gmapGetCoord(post);
+    if (!coord) coord = gmapFallbackCoord(idx);
+    const {color} = gmapTypeToRole(post.type);
+    const cx = coord.x * W;
+    const cy = coord.y * H;
+
+    const loc = (GMAP_COORDS[post.loc.toLowerCase().trim()] || {}).label || post.loc.split('·')[1]?.trim() || post.loc;
+    const extra = post.extra || '';
+    const label = loc + (extra ? ' · ' + extra : '');
+    const typeIcon = post.type === 'area' ? '✅' : post.type === 'alerta' ? '🚧' : post.type === 'combustivel' ? '⛽' : '💸';
+
+    const padding = 6;
+    ctx.font = '600 10px -apple-system,BlinkMacSystemFont,sans-serif';
+    const textW = ctx.measureText(typeIcon + ' ' + label).width;
+    const bW = textW + padding * 2 + 2;
+    const bH = 22;
+
+    // Posiciona tooltip acima do pin, evitando bordas
+    let tx = cx - bW/2;
+    let ty = cy - bH - 10;
+    tx = Math.max(4, Math.min(W - bW - 4, tx));
+    ty = Math.max(4, ty);
+
+    // Fundo branco com sombra
+    ctx.shadowColor = 'rgba(0,0,0,.12)';
+    ctx.shadowBlur = 6;
+    ctx.fillStyle = '#ffffff';
+    roundRect(ctx, tx, ty, bW, bH, 6);
+    ctx.fill();
+    ctx.shadowBlur = 0;
+
+    // Borda colorida esquerda
+    ctx.fillStyle = color;
+    roundRect(ctx, tx, ty, 3, bH, [3,0,0,3]);
+    ctx.fill();
+
+    // Texto
+    ctx.fillStyle = '#0D1B2A';
+    ctx.fillText(typeIcon + ' ' + label, tx + 8, ty + 14);
+
+    // Linha do pin ao tooltip
+    ctx.strokeStyle = hexAlpha(color, 0.5);
+    ctx.lineWidth = 1;
+    ctx.setLineDash([2,2]);
+    ctx.beginPath();
+    ctx.moveTo(cx, cy - 5);
+    ctx.lineTo(cx, ty + bH);
+    ctx.stroke();
+    ctx.setLineDash([]);
+
+    tooltipCount++;
+  });
+
+  // Você (ponto laranja especial)
+  const youX = .40 * W, youY = .55 * H;
+  ctx.shadowColor = 'rgba(232,127,36,.4)';
+  ctx.shadowBlur = 8;
+  ctx.fillStyle = '#E87F24';
+  ctx.beginPath();
+  ctx.arc(youX, youY, 7, 0, Math.PI*2);
+  ctx.fill();
+  ctx.strokeStyle = '#fff';
+  ctx.lineWidth = 2;
+  ctx.stroke();
+  ctx.shadowBlur = 0;
+
+  // Pontos de motoristas avulsos (background)
+  const extras = [{x:.20,y:.22},{x:.48,y:.30},{x:.72,y:.18},{x:.35,y:.50},{x:.80,y:.40},{x:.14,y:.62},{x:.90,y:.28},{x:.58,y:.68},{x:.25,y:.75},{x:.66,y:.82}];
+  extras.forEach(p => {
+    ctx.fillStyle = 'rgba(17,45,78,.35)';
+    ctx.beginPath();
+    ctx.arc(p.x*W, p.y*H, 3, 0, Math.PI*2);
+    ctx.fill();
+  });
+}
+
+function roundRect(ctx, x, y, w, h, r) {
+  if (typeof r === 'number') r = [r,r,r,r];
+  ctx.beginPath();
+  ctx.moveTo(x + r[0], y);
+  ctx.lineTo(x + w - r[1], y);
+  ctx.arcTo(x+w, y, x+w, y+r[1], r[1]);
+  ctx.lineTo(x+w, y+h-r[2]);
+  ctx.arcTo(x+w, y+h, x+w-r[2], y+h, r[2]);
+  ctx.lineTo(x+r[3], y+h);
+  ctx.arcTo(x, y+h, x, y+h-r[3], r[3]);
+  ctx.lineTo(x, y+r[0]);
+  ctx.arcTo(x, y, x+r[0], y, r[0]);
+  ctx.closePath();
+}
+
+function hexAlpha(hex, a) {
+  const r = parseInt(hex.slice(1,3),16);
+  const g = parseInt(hex.slice(3,5),16);
+  const b = parseInt(hex.slice(5,7),16);
+  return `rgba(${r},${g},${b},${a})`;
+}
+
+function startGmapTimer() {
+  if (_gmapTimer) clearInterval(_gmapTimer);
+  _gmapSecs = 14;
+  _gmapTimer = setInterval(() => {
+    _gmapSecs++;
+    const upd = el('gmapUpdated');
+    if (upd) {
+      if (_gmapSecs < 60) upd.textContent = `Atualizado há ${_gmapSecs} segundos`;
+      else upd.textContent = `Atualizado há ${Math.floor(_gmapSecs/60)} min`;
+    }
+    // Re-render canvas a cada 30s para simular atualização
+    if (_gmapSecs % 30 === 0) renderGmapCanvas();
+  }, 1000);
+}
+
+// ── GALERA NA RUA ──────────────────────────────────────────────
+const GALERA_POSTS_BY_STATE = {
+  SP: [
+    {id:101, initials:'LR', name:'Lucas R.',   color:'#1a5276', loc:'SP · Vila Olímpia',   type:'area',        badge:'ÁREA BOA',    text:'Saindo bastante corrida de gente do happy hour pra Pinheiros e Itaim. Tô fazendo R$ 34/h líquido agora.',               confirms:18, comments:4,  extra:'R$ 34/h',          ago:'3 min'},
+    {id:102, initials:'MA', name:'Marcos A.',   color:'#922b21', loc:'SP · Marginal Tietê', type:'alerta',      badge:'ALERTA',      text:'Marginal sentido Castelo travada por causa de obra na Lapa. Tô há 25 min parado, evita até 22h.',                        confirms:47, comments:12, extra:'obra confirmada',   ago:'11 min'},
+    {id:103, initials:'CR', name:'Carla R.',    color:'#1a5c4b', loc:'SP · Santana',         type:'combustivel', badge:'COMBUSTÍVEL', text:'Posto Shell da Cruzeiro do Sul baixou pra R$ 5,78 a gasolina. Confirmado, acabei de abastecer.',                        confirms:29, comments:6,  extra:'R$ 5,78',          ago:'24 min'},
+    {id:104, initials:'RF', name:'Renan F.',    color:'#7d5108', loc:'SP · Aeroporto',       type:'bonus',       badge:'BÔNUS',       text:'99 com bônus de R$ 8 em corrida acima de R$ 25 no Aeroporto até meia-noite. Tô fazendo só pra cá.',                     confirms:62, comments:21, extra:'+R$ 8',            ago:'36 min'},
+    {id:105, initials:'JM', name:'João M.',     color:'#112D4E', loc:'SP · Vila Mariana',    type:'alerta',      badge:'ALERTA',      text:'Blitz na saída do metrô Santa Cruz. Tô vendo uns 5 carros parados. Evita por pelo menos 1h.',                           confirms:58, comments:9,  extra:'blitz confirmada', ago:'1h 12min'},
+    {id:106, initials:'BT', name:'Bruno T.',    color:'#1F6F5F', loc:'SP · Pinheiros',       type:'area',        badge:'ÁREA BOA',    text:'Pinheiros após as 19h com muita demanda de happy hour. Tô R$ 31/h já faz 2h aqui.',                                     confirms:33, comments:7,  extra:'R$ 31/h',          ago:'48 min'},
+    {id:107, initials:'FA', name:'Fátima A.',   color:'#4a235a', loc:'SP · Capão Redondo',   type:'dica',        badge:'ÁREA FRACA',  text:'Capão muito fraco essa semana, passaram umas horas sem pedido. Vale se deslocar pro centro.',                           confirms:24, comments:5,  extra:'',                 ago:'2h'},
+  ],
+  RJ: [
+    {id:201, initials:'PS', name:'Patrícia S.', color:'#4a235a', loc:'RJ · Copacabana',      type:'area',        badge:'ÁREA BOA',    text:'Copacabana bombando agora, muita demanda de restaurante. Tô fazendo R$ 36/h líquido.',                                  confirms:41, comments:9,  extra:'R$ 36/h',          ago:'5 min'},
+    {id:202, initials:'RC', name:'Rodrigo C.',  color:'#922b21', loc:'RJ · Barra',            type:'alerta',      badge:'ALERTA',      text:'Acidente na Barra perto do Shopping Downtown, trânsito parado sentido Recreio. Evita pelo menos até 21h.',              confirms:38, comments:14, extra:'acidente',         ago:'18 min'},
+    {id:203, initials:'TL', name:'Tânia L.',    color:'#1a5c4b', loc:'RJ · Ipanema',          type:'combustivel', badge:'COMBUSTÍVEL', text:'Posto Ipiranga da Visconde de Pirajá com gasolina a R$ 6,12. Acabei de abastecer, confirmado.',                       confirms:22, comments:4,  extra:'R$ 6,12',          ago:'31 min'},
+    {id:204, initials:'MS', name:'Marcos S.',   color:'#7d5108', loc:'RJ · Centro',           type:'bonus',       badge:'BÔNUS',       text:'Uber com surge 2.1x no Centro agora por causa do evento na Praça Mauá. Vale muito a pena.',                          confirms:55, comments:18, extra:'surge 2.1x',       ago:'42 min'},
+    {id:205, initials:'LF', name:'Lucas F.',    color:'#1a5276', loc:'RJ · Tijuca',           type:'dica',        badge:'DICA',        text:'Saída do metrô Saens Peña sempre rende depois das 18h. Fique parado ali que os pedidos chegam.',                       confirms:31, comments:6,  extra:'',                 ago:'55 min'},
+    {id:206, initials:'GN', name:'Giovana N.',  color:'#1F6F5F', loc:'RJ · Zona Sul',         type:'area',        badge:'ÁREA BOA',    text:'Zona Sul toda boa agora com o pessoal saindo do trabalho. Melhor ficam entre Botafogo e Flamengo.',                    confirms:44, comments:11, extra:'R$ 33/h',          ago:'1h 10min'},
+    {id:207, initials:'AR', name:'André R.',    color:'#4a235a', loc:'RJ · Barra',            type:'dica',        badge:'ÁREA FRACA',  text:'Barra de manhã muito fraca na segunda. Prefira o Centro ou Zona Sul nesses horários.',                                 confirms:19, comments:3,  extra:'',                 ago:'2h'},
+  ],
+  MG: [
+    {id:301, initials:'AS', name:'Anderson S.', color:'#1F6F5F', loc:'MG · BH Centro',        type:'area',        badge:'ÁREA BOA',    text:'BH Centro bombando agora depois do show na Serraria Souza Pinto. Tô fazendo R$ 38/h.',                                 confirms:41, comments:15, extra:'R$ 38/h',          ago:'8 min'},
+    {id:302, initials:'KM', name:'Karina M.',   color:'#922b21', loc:'MG · Savassi',           type:'alerta',      badge:'ALERTA',      text:'Blitz na Av. do Contorno perto da Savassi. Tô vendo 4 carros parados. Melhor dar volta.',                              confirms:29, comments:8,  extra:'blitz',            ago:'22 min'},
+    {id:303, initials:'DV', name:'Diego V.',    color:'#7d5108', loc:'MG · BH Centro',         type:'bonus',       badge:'BÔNUS',       text:'99 com multiplicador 1.8x em BH nessa hora por alta demanda. Aproveita quem tiver online.',                           confirms:36, comments:10, extra:'1.8x',             ago:'35 min'},
+    {id:304, initials:'NB', name:'Nara B.',     color:'#1a5c4b', loc:'MG · Savassi',           type:'combustivel', badge:'COMBUSTÍVEL', text:'Shell da Cristóvão Colombo baixou pra R$ 5,94. Valeu a pena parar.',                                                 confirms:18, comments:2,  extra:'R$ 5,94',          ago:'50 min'},
+    {id:305, initials:'FO', name:'Felipe O.',   color:'#1a5276', loc:'MG · BH Centro',         type:'dica',        badge:'DICA',        text:'Bairro Santa Efigênia quase sempre com demanda boa após 17h. Boa pedida pra fins de tarde.',                           confirms:27, comments:5,  extra:'',                 ago:'1h 20min'},
+  ],
+  PR: [
+    {id:401, initials:'CP', name:'Carla P.',    color:'#1F6F5F', loc:'PR · Curitiba',          type:'area',        badge:'ÁREA BOA',    text:'Batel e Água Verde com muita demanda agora, pessoal saindo dos bares. Tô R$ 32/h.',                                   confirms:28, comments:6,  extra:'R$ 32/h',          ago:'6 min'},
+    {id:402, initials:'RM', name:'Ricardo M.',  color:'#922b21', loc:'PR · Curitiba',          type:'alerta',      badge:'ALERTA',      text:'Batida na BR-277 sentido litoral, trânsito parado. Evita rodovia por enquanto.',                                      confirms:33, comments:11, extra:'acidente',         ago:'20 min'},
+    {id:403, initials:'SL', name:'Sandra L.',   color:'#7d5108', loc:'PR · Curitiba',          type:'bonus',       badge:'BÔNUS',       text:'Uber com surge 1.6x no Centro de Curitiba agora. Demanda alta por causa do frio.',                                    confirms:44, comments:8,  extra:'surge 1.6x',       ago:'38 min'},
+    {id:404, initials:'HR', name:'Hugo R.',     color:'#4a235a', loc:'PR · Curitiba',          type:'dica',        badge:'DICA',        text:'Terminal Guadalupe sempre cheio na hora do almoço. Vale ficar por ali entre 11h e 13h.',                              confirms:21, comments:4,  extra:'',                 ago:'1h'},
+  ],
+  RS: [
+    {id:501, initials:'MA', name:'Marcos A.',   color:'#1F6F5F', loc:'RS · Porto Alegre',      type:'area',        badge:'ÁREA BOA',    text:'Moinhos de Vento e Bela Vista cheios agora, muito happy hour. Tô R$ 29/h líquido.',                                   confirms:25, comments:5,  extra:'R$ 29/h',          ago:'9 min'},
+    {id:502, initials:'JF', name:'Jana F.',     color:'#922b21', loc:'RS · Porto Alegre',      type:'alerta',      badge:'ALERTA',      text:'Alagamento na Av. Ipiranga sentido Centro, água na pista. Evita completamente.',                                      confirms:51, comments:19, extra:'alagamento',       ago:'15 min'},
+    {id:503, initials:'LG', name:'Lucas G.',    color:'#7d5108', loc:'RS · Porto Alegre',      type:'bonus',       badge:'BÔNUS',       text:'99 com bônus R$ 6 por corrida acima de R$ 20 até meia-noite em POA.',                                                 confirms:38, comments:7,  extra:'+R$ 6',            ago:'44 min'},
+  ],
+  BA: [
+    {id:601, initials:'CJ', name:'Carlos J.',   color:'#1F6F5F', loc:'BA · Salvador',          type:'area',        badge:'ÁREA BOA',    text:'Orla de Salvador ótima agora com pessoal do pôr do sol. Tô R$ 31/h liquido facilmente.',                              confirms:32, comments:8,  extra:'R$ 31/h',          ago:'7 min'},
+    {id:602, initials:'AM', name:'Ana M.',      color:'#922b21', loc:'BA · Salvador',          type:'alerta',      badge:'ALERTA',      text:'Protesto na Av. ACM, meia pista fechada. Congestionamento dos dois lados. Evita.',                                    confirms:45, comments:13, extra:'protesto',         ago:'25 min'},
+    {id:603, initials:'EL', name:'Eduardo L.',  color:'#4a235a', loc:'BA · Salvador',          type:'dica',        badge:'DICA',        text:'Shopping Barra tem bastante demanda depois das 18h. Fique na região que aparece pedido.',                               confirms:18, comments:3,  extra:'',                 ago:'1h 5min'},
+  ],
+  DF: [
+    {id:701, initials:'VR', name:'Vera R.',     color:'#1F6F5F', loc:'DF · Plano Piloto',      type:'area',        badge:'ÁREA BOA',    text:'Asa Sul com boa demanda agora, hora de pico dos funcionários públicos. R$ 28/h.',                                      confirms:22, comments:5,  extra:'R$ 28/h',          ago:'11 min'},
+    {id:702, initials:'WT', name:'Wilson T.',   color:'#922b21', loc:'DF · Asa Sul',           type:'alerta',      badge:'ALERTA',      text:'Obras no Eixão Sul fechando 2 faixas. Lentidão enorme. Prefira W3 Sul.',                                              confirms:37, comments:10, extra:'obras',            ago:'30 min'},
+    {id:703, initials:'PL', name:'Paula L.',    color:'#7d5108', loc:'DF · Plano Piloto',      type:'bonus',       badge:'BÔNUS',       text:'Uber com surge 1.9x em Brasília, demanda por causa do evento no Congresso.',                                         confirms:48, comments:14, extra:'surge 1.9x',       ago:'47 min'},
+  ],
+};
+
+// Posts padrão para estados sem dados específicos
+const GALERA_POSTS_DEFAULT = [
+  {id:901, initials:'GN', name:'Galera NoCorre', color:'#112D4E', loc:'Seu estado', type:'dica', badge:'DICA', text:'Seja o primeiro a postar uma dica para a galera do seu estado! Toque em "+ Compartilhar" acima.', confirms:0, comments:0, extra:'', ago:'agora'},
+];
+
+function getGaleraPosts() {
+  const state = S.user && S.user.state ? S.user.state : 'SP';
+  return GALERA_POSTS_BY_STATE[state] || GALERA_POSTS_DEFAULT;
+}
+
+// ═══════════════════════════════════════════════════════════════
+// GALERA NA RUA — Supabase Realtime
+// Substitua SUPABASE_URL e SUPABASE_ANON_KEY pelas suas credenciais
+// em https://supabase.com → Project Settings → API
+// ═══════════════════════════════════════════════════════════════
+
+const SUPABASE_URL      = 'COLE_SUA_URL_AQUI';
+const SUPABASE_ANON_KEY = 'COLE_SUA_ANON_KEY_AQUI';
+
+let _sb = null;
+let _sbReady = false;
+let _sbChannel = null;
+let _galeraRemotePosts = [];
+let _galeraUserPosts   = [];
+let _galeraConfirmed   = new Set();
+let _galeraFilter      = 'tudo';
+let _galeraLoading     = false;
+
+function escHtml(str) {
+  return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+}
+
+function initSupabase() {
+  if (!window.supabase) return;
+  if (SUPABASE_URL.includes('COLE_')) return;
+  try {
+    _sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    _sbReady = true;
+  } catch(e) { console.warn('[Galera] Supabase init error:', e); }
+}
+
+async function fetchGaleraPosts() {
+  if (!_sbReady) return null;
+  const state = S.user?.state || 'SP';
+  try {
+    const { data, error } = await _sb
+      .from('galera_posts')
+      .select('*')
+      .eq('state', state)
+      .eq('active', true)
+      .order('created_at', { ascending: false })
+      .limit(50);
+    if (error) throw error;
+    return data;
+  } catch(e) { console.warn('[Galera] fetch error:', e); return null; }
+}
+
+function sbRowToPost(row) {
+  const BADGE  = {dica:'DICA',alerta:'ALERTA',area:'ÁREA BOA',bonus:'BÔNUS',combustivel:'COMBUSTÍVEL'};
+  const COLORS = {dica:'#4a235a',alerta:'#922b21',area:'#1a5c4b',bonus:'#7d5108',combustivel:'#1a5276'};
+  const CITY   = {SP:'São Paulo',RJ:'Rio de Janeiro',MG:'Belo Horizonte',PR:'Curitiba',RS:'Porto Alegre',BA:'Salvador',DF:'Brasília',GO:'Goiânia',CE:'Fortaleza',PE:'Recife'};
+  const name = row.author_name || 'Motorista';
+  const initials = name.split(' ').map(w=>w[0]).slice(0,2).join('').toUpperCase();
+  const state = row.state || 'SP';
+  return {
+    id: row.id, initials, name,
+    color: COLORS[row.type] || '#112D4E',
+    loc: state + ' · ' + (row.neighborhood || CITY[state] || state),
+    type: row.type,
+    badge: BADGE[row.type] || row.type,
+    text: row.text || '',
+    confirms: row.confirms || 0,
+    comments: 0,
+    extra: row.extra || '',
+    ago: fmtAgo(row.created_at),
+    _remote: true
+  };
+}
+
+function fmtAgo(isoStr) {
+  if (!isoStr) return 'agora';
+  const diff = Math.floor((Date.now() - new Date(isoStr)) / 1000);
+  if (diff < 60)   return diff + 's';
+  if (diff < 3600) return Math.floor(diff/60) + ' min';
+  if (diff < 86400) return Math.floor(diff/3600) + 'h';
+  return Math.floor(diff/86400) + 'd';
+}
+
+async function sbPublishPost(data) {
+  if (!_sbReady) return false;
+  try {
+    const { error } = await _sb.from('galera_posts').insert({
+      state: data.state, author_name: data.name,
+      neighborhood: data.neighborhood || null,
+      type: data.type, text: data.text,
+      extra: data.extra || null, confirms: 0, active: true
+    });
+    if (error) throw error;
+    return true;
+  } catch(e) { console.warn('[Galera] publish error:', e); return false; }
+}
+
+async function sbConfirmPost(id, delta) {
+  if (!_sbReady || String(id).startsWith('local_')) return;
+  try { await _sb.rpc('increment_confirms', { post_id: id, delta }); } catch(e) {}
+}
+
+function subscribeGalera() {
+  if (!_sbReady || _sbChannel) return;
+  const state = S.user?.state || 'SP';
+  _sbChannel = _sb.channel('galera_' + state)
+    .on('postgres_changes', { event:'INSERT', schema:'public', table:'galera_posts', filter:`state=eq.${state}` }, payload => {
+      if (_galeraUserPosts.some(p => p._synced && p._text === payload.new.text)) return;
+      _galeraRemotePosts.unshift(sbRowToPost(payload.new));
+      renderGalera(); renderGmapCanvas();
+    })
+    .on('postgres_changes', { event:'UPDATE', schema:'public', table:'galera_posts', filter:`state=eq.${state}` }, payload => {
+      const idx = _galeraRemotePosts.findIndex(p => p.id === payload.new.id);
+      if (idx !== -1) { _galeraRemotePosts[idx].confirms = payload.new.confirms; renderGalera(); }
+    })
+    .subscribe();
+}
+
+function unsubscribeGalera() {
+  if (_sbChannel && _sb) { _sb.removeChannel(_sbChannel); _sbChannel = null; }
+}
+
+function setGaleraFilter(type, btn) {
+  _galeraFilter = type;
+  document.querySelectorAll('#pgGalera .chip').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  renderGalera();
+  requestAnimationFrame(renderGmapCanvas);
+}
+
+function galeraTypeCss(type) {
+  const map = {dica:'gb-dica',alerta:'gb-alerta',area:'gb-area',bonus:'gb-bonus',combustivel:'gb-combustivel'};
+  return map[type] || 'gb-dica';
+}
+function galeraTypeEmoji(type) {
+  const map = {dica:'💡',alerta:'⚠️',area:'✅',bonus:'💸',combustivel:'⛽'};
+  return map[type] || '📌';
+}
+
+async function renderGalera() {
+  const state = S.user?.state || 'SP';
+  const SMAP  = {SP:'São Paulo',RJ:'Rio de Janeiro',MG:'Minas Gerais',PR:'Paraná',RS:'Rio Grande do Sul',BA:'Bahia',DF:'Distrito Federal',GO:'Goiás',CE:'Ceará',PE:'Pernambuco'};
+  const SMAP2 = {SP:'São Paulo · Centro',RJ:'Rio de Janeiro · Centro',MG:'Belo Horizonte · Centro',PR:'Curitiba · Centro',RS:'Porto Alegre · Centro',BA:'Salvador · Centro',DF:'Brasília · Centro'};
+  const el_title = el('galeraStateTitle');
+  if (el_title) el_title.textContent = (SMAP[state] || state) + ' · agora';
+  const locLabel = el('gmapLocLabel');
+  if (locLabel) locLabel.textContent = SMAP2[state] || (state + ' · Centro');
+  requestAnimationFrame(() => { renderGmapCanvas(); startGmapTimer(); });
+
+  const feed = el('galeraFeed');
+  if (!feed) return;
+
+  if (_sbReady && _galeraRemotePosts.length === 0 && !_galeraLoading) {
+    _galeraLoading = true;
+    feed.innerHTML = `<div style="text-align:center;padding:32px 0;color:var(--txt3)"><div style="font-size:24px;margin-bottom:8px">⏳</div><div style="font-size:13px">Carregando posts da galera...</div></div>`;
+    const remote = await fetchGaleraPosts();
+    _galeraLoading = false;
+    if (remote) _galeraRemotePosts = remote.map(sbRowToPost);
+    subscribeGalera();
+  }
+
+  const localPosts    = _galeraUserPosts.filter(p => !p._synced);
+  const remotePosts   = _galeraRemotePosts;
+  const fallbackPosts = (!_sbReady && remotePosts.length === 0) ? getGaleraPosts() : [];
+  const all      = [...localPosts, ...remotePosts, ...fallbackPosts];
+  const filtered = _galeraFilter === 'tudo' ? all : all.filter(p => p.type === _galeraFilter);
+
+  const offlineBadge = !_sbReady
+    ? `<div style="background:#FEF3E2;border-radius:8px;padding:8px 12px;font-size:11px;color:#7d5108;margin-bottom:10px;display:flex;align-items:center;gap:6px">⚡ Modo demonstração · configure o Supabase para posts em tempo real</div>`
+    : '';
+
+  if (!filtered.length) {
+    feed.innerHTML = offlineBadge + `<div class="empty"><div class="em">🤫</div><h3>Nada por aqui ainda</h3><p>Seja o primeiro a postar para a galera do seu estado!</p></div>`;
+    return;
+  }
+
+  feed.innerHTML = offlineBadge + filtered.map(p => {
+    const confirmed = _galeraConfirmed.has(p.id);
+    return `<div class="galera-post">
+      <div class="galera-post-hdr">
+        <div class="galera-avatar" style="background:${p.color}">${escHtml(p.initials)}</div>
+        <div class="galera-meta">
+          <div class="galera-name">
+            <strong>${escHtml(p.name)}</strong>
+            <span style="font-size:10px;color:var(--txt3);font-weight:400">· ${escHtml(p.loc)}</span>
+            <span class="galera-badge ${galeraTypeCss(p.type)}">${galeraTypeEmoji(p.type)} ${escHtml(p.badge)}</span>
+          </div>
+        </div>
+        <div class="galera-time">${escHtml(p.ago)}</div>
+      </div>
+      <div class="galera-txt">${escHtml(p.text)}</div>
+      <div class="galera-actions">
+        <button class="galera-action ${confirmed?'confirmed':''}" onclick="confirmarGalera('${p.id}',this)">
+          ▲ <span class="galera-confirm-count">${p.confirms+(confirmed?1:0)}</span> confirmaram
+        </button>
+        <button class="galera-action">💬 ${p.comments}</button>
+        ${p.extra?`<span style="margin-left:auto;font-size:11px;font-weight:700;color:var(--txt2)">${escHtml(p.extra)}</span>`:''}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function confirmarGalera(id, btn) {
+  if (_galeraConfirmed.has(id)) {
+    _galeraConfirmed.delete(id);
+    sbConfirmPost(id, -1);
+    toast('Confirmação removida.', 'ok');
+  } else {
+    _galeraConfirmed.add(id);
+    sbConfirmPost(id, 1);
+    toast('Confirmado! A galera agradece. 🤝', 'ok');
+  }
+  renderGalera();
+}
+
+function setGaleraPostType(btn) {
+  document.querySelectorAll('#galeraPostModal .gp-type-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+}
+function openGaleraPost() { openModal('galeraPostModal'); }
+
+async function submitGaleraPost() {
+  const tipo = document.querySelector('#galeraPostModal .gp-type-btn.active');
+  const txt  = el('galeraPostText');
+  if (!tipo || !txt || !txt.value.trim()) { toast('Escolhe o tipo e escreve o que tá rolando.', 'warn'); return; }
+  const typeVal = tipo.dataset.type;
+  const BADGE   = {dica:'DICA',alerta:'ALERTA',area:'ÁREA BOA',bonus:'BÔNUS',combustivel:'COMBUSTÍVEL'};
+  const COLORS  = {dica:'#4a235a',alerta:'#922b21',area:'#1a5c4b',bonus:'#7d5108',combustivel:'#1a5276'};
+  const CITY    = {SP:'São Paulo',RJ:'Rio de Janeiro',MG:'Belo Horizonte',PR:'Curitiba',RS:'Porto Alegre',BA:'Salvador',DF:'Brasília',GO:'Goiânia',CE:'Fortaleza',PE:'Recife'};
+  const state   = S.user?.state || 'SP';
+  const city    = CITY[state] || state;
+  const name    = S.user?.name ? S.user.name.split(' ').slice(0,2).join(' ') : 'Você';
+  const initials = name.split(' ').map(w=>w[0]).slice(0,2).join('').toUpperCase();
+  const text    = txt.value.trim().slice(0, 280);
+  const tempId  = 'local_' + Date.now();
+
+  const optimistic = {
+    id: tempId, initials, name, color: COLORS[typeVal] || '#E87F24',
+    loc: state + ' · ' + city, type: typeVal, badge: BADGE[typeVal],
+    text, confirms: 0, comments: 0, extra: '', ago: 'agora',
+    _synced: false, _text: text
+  };
+  _galeraUserPosts.unshift(optimistic);
+  txt.value = '';
+  closeModal('galeraPostModal');
+  showPage('galera');
+  toast('Post publicado! A galera vai ver. 🚀', 'ok');
+
+  if (_sbReady) {
+    const ok = await sbPublishPost({ state, name, neighborhood: city, type: typeVal, text });
+    if (ok) { optimistic._synced = true; }
+    else { toast('Ficou salvo só aqui por ora — sem conexão. 📵', 'warn'); }
+  }
+}
+
+// ── SISTEMA [i] — TRANSPARÊNCIA DOS INDICADORES ─────────────────
+const INFO_TEXTS = {
+  liquido: {
+    emoji: '💰', title: 'Como calculamos "O que ficou para você"',
+    desc: 'Este valor representa seu <b>ganho líquido real</b> — quanto efetivamente ficou no seu bolso no período selecionado.',
+    formula: 'Ganho líquido = Entrou − Saiu',
+    dynamicKey: 'liquido',
+    footnote: 'Inclui todas as transações registradas — manuais, GPS e automáticas — no período.'
+  },
+  entrou: {
+    emoji: '📥', title: 'Como calculamos "Entrou"',
+    desc: 'Soma de todas as <b>receitas do período</b>: corridas capturadas pelo GPS, lançamentos manuais, bônus de plataforma. Valor bruto, antes de descontar qualquer custo.',
+    formula: 'Entrou = Σ todas as receitas'
+  },
+  saiu: {
+    emoji: '📤', title: 'Como calculamos "Saiu"',
+    desc: 'Soma de todos os <b>custos registrados</b>: combustível calculado por km, alimentação, manutenção e outras despesas.',
+    formula: 'Saiu = Combustível + Alimentação + Outros',
+    footnote: 'Aparece em vermelho porque reduz seu líquido.'
+  },
+  aluguel: {
+    emoji: '🔑', title: 'Como calculamos o Aluguel',
+    desc: 'Custo do aluguel proporcional ao mês. Se você paga por semana, multiplicamos por <b>4,33</b> — média de semanas em um mês.',
+    formula: 'Mensal = Valor semanal × 4,33',
+    footnote: 'Esse valor já está incluído em "Saiu" — aparece separado para deixar claro quanto pesa no mês.'
+  },
+  ritmo: {
+    emoji: '⚡', title: 'Como calculamos "Ritmo hoje"',
+    desc: 'Seu <b>ganho líquido por hora online</b> — quanto você está lucrando por cada hora que ficou disponível hoje.',
+    formula: 'Ritmo = Ganho líquido hoje ÷ Horas online',
+    footnote: 'Inclui tempo de corrida + tempo de espera entre corridas.\n\nA comparação (▲/▼) é feita contra a média dos últimos 7 dias de trabalho.'
+  },
+  projecao: {
+    emoji: '📋', title: 'Como calculamos "Projeção do mês"',
+    desc: 'Estimativa de quanto você terá <b>no final do mês</b>, baseada na sua média recente de ganho líquido por dia.',
+    formula: 'Projeção = Média diária × Dias restantes no mês + Líquido atual',
+    footnote: 'Considera apenas dias em que você trabalhou (com pelo menos uma transação registrada).\n\nA projeção melhora com mais dados. Quanto mais dias registrados, mais precisa fica.'
+  },
+  meta: {
+    emoji: '🎯', title: 'Como funciona a Meta',
+    desc: 'Quanto do seu objetivo você já atingiu no período escolhido. Compara o <b>líquido acumulado</b> com o valor da meta que você definiu.',
+    formula: 'Progresso = Líquido atual ÷ Meta × 100%',
+    footnote: 'Configure a meta pelo botão "Editar". A barra enche conforme você avança.'
+  },
+  gpsLiquido: {
+    emoji: '💵', title: 'Como calculamos o Líquido da sessão',
+    desc: 'Ganho real da sessão atual. O <b>combustível é estimado automaticamente</b> com base nos km rodados e o consumo do seu veículo.',
+    formula: 'Líquido = Ganho bruto − Combustível estimado',
+    footnote: 'Atualiza a cada corrida capturada. Você pode editar qualquer registro no Histórico.'
+  },
+  gpsKm: {
+    emoji: '📍', title: 'Como medimos os Km rodados',
+    desc: 'Distância total percorrida na sessão, calculada pelo <b>GPS do celular</b>. Inclui km vazio (sem passageiro) e km com passageiro.',
+    formula: 'Custo/km = Preço do litro ÷ Consumo (km/l)',
+    footnote: 'Usado para calcular o custo real de combustível da sessão.'
+  },
+  gpsCorridas: {
+    emoji: '🚗', title: 'Como contamos as Corridas',
+    desc: 'Total de corridas registradas na sessão. Capturas automáticas pelo GPS criam entradas com <b>valor estimado, tempo e km</b>. Você pode editar qualquer uma.',
+    formula: 'Total = capturas GPS automáticas + lançamentos manuais'
+  },
+  gpsTempo: {
+    emoji: '⏱️', title: 'Como medimos o Tempo online',
+    desc: 'Tempo total desde que você ligou o GPS. Inclui o tempo parado aguardando corridas. Usado para calcular seu <b>ganho por hora real</b>.',
+    formula: 'R$/h = Líquido acumulado ÷ Horas online',
+    footnote: 'O ganho por hora é o indicador mais importante para comparar dias e horários.'
+  },
+  eficiencia: {
+    emoji: '📊', title: 'Como calculamos a Eficiência',
+    desc: 'Porcentagem dos km rodados que <b>geraram receita</b>. Quanto maior, menos km vazio você está fazendo.',
+    formula: 'Eficiência = Km com passageiro ÷ Km totais × 100%',
+    footnote: 'Acima de 60% é boa. Abaixo de 40%: vale revisar onde você fica esperando.'
+  },
+  custoKm: {
+    emoji: '⛽', title: 'Como calculamos o custo de combustível',
+    desc: 'O NoCorre calcula o gasto com combustível <b>por km rodado</b>, usando dados do seu veículo e preço do seu estado.',
+    formula: 'Custo = KM rodados × (Preço/litro ÷ Consumo km/l)',
+    dynamicKey: 'custoKm',
+    footnote: 'Preços baseados em média estadual. Precisão de ±15-20% em relação ao gasto real.'
+  },
+  saude: {
+    emoji: '🔧', title: 'Como funciona a Saúde do veículo',
+    desc: 'Alerta baseado nos <b>km desde a última manutenção</b>: troca de óleo, pneus e revisão. Os intervalos são configurados no seu perfil de veículo.',
+    formula: 'Progresso = km desde última manutenção ÷ intervalo recomendado',
+    footnote: 'Verde = ok. Amarelo = atenção em breve. Vermelho = vencido. Manutenção em dia reduz custo por km.'
+  },
+  ipva: {
+    emoji: '📋', title: 'Como calculamos o IPVA',
+    desc: 'O IPVA é calculado como <b>porcentagem do valor FIPE</b> do veículo. Você informou o valor real.',
+    formula: 'IPVA = Valor informado por você',
+    dynamicKey: 'ipva',
+    footnote: 'A alíquota real varia de 1% a 4% dependendo do estado. Se souber o valor exato, informe na configuração do veículo.'
+  },
+  seguro: {
+    emoji: '🛡️', title: 'Como calculamos o Seguro estimado',
+    desc: 'Estimativa baseada em <b>5% do valor FIPE por ano</b> — média de mercado para veículos de aplicativo. Se você tem seguro com valor diferente, informe no veículo.',
+    formula: 'Seguro anual ≈ Valor FIPE × 5%',
+    dynamicKey: 'seguro',
+    footnote: 'O valor real do seguro depende do perfil do motorista, cidade e cobertura. Use esse número como referência mínima.'
+  },
+  manutencao: {
+    emoji: '🔩', title: 'Como calculamos a Manutenção média',
+    desc: 'Estimativa mensal de <b>revisões e consumíveis</b>: óleo, filtros, pneus e reparos periódicos, rateados por mês de uso.',
+    formula: 'Manutenção mensal = Σ custos anuais estimados ÷ 12',
+    dynamicKey: 'manutencao',
+    footnote: 'Baseado em intervalos típicos para veículos de alta quilometragem. Veículos mais novos tendem a ter custos menores.'
+  },
+  depreciacao: {
+    emoji: '📉', title: 'Como calculamos a Depreciação',
+    desc: 'A desvalorização anual do veículo é calculada com base na <b>tabela FIPE</b> e taxa de depreciação por tipo.',
+    formula: 'V(t) = V₀ × (1 − taxa)^t',
+    dynamicKey: 'depreciacao',
+    footnote: 'Fórmula exponencial validada com 50+ testes contra tabela FIPE real.'
+  },
+  custoFixo: {
+    emoji: '💰', title: 'Como calculamos a Reserva Total',
+    desc: 'Soma de todos os custos fixos mensais que você deveria reservar para <b>não ser pego de surpresa</b>.',
+    formula: 'Reserva = IPVA + Seguro + Manutenção',
+    dynamicKey: 'reserva',
+    footnote: 'Estimativas orientativas. O NoCorre não guarda esse dinheiro — é uma bússola para você reservar por conta própria.'
+  },
+};
+
+// ── Render dinâmico de rows por chave ──────────────────────────
+function buildInfoRows(dynamicKey) {
+  const v = S.vehicle;
+  const h = v && v.fipeValue ? calcVehicleHealth() : null;
+
+  if (dynamicKey === 'liquido') {
+    const r = periodRange(S.displayPeriod);
+    const txns = txnsInRange(r.start, r.end);
+    const inc = income(txns), exp = expense(txns), liq = inc - exp;
+    const periodLabel = (PERIOD_LABELS && PERIOD_LABELS[S.displayPeriod]) || 'período';
+    return {
+      rows: [
+        { icon:'✅', lbl:`Total que entrou (corridas, gorjetas)`, val:`+${R(inc)}`, valClass:'green' },
+        { icon:'🔴', lbl:`Total que saiu (combustível, taxas, etc)`, val:`−${R(exp)}`, valClass:'red' },
+      ],
+      result: { val: R(liq), lbl: `Ganho líquido no ${periodLabel}` }
+    };
+  }
+
+  if (dynamicKey === 'custoKm' && v) {
+    const fuelPrice = S.fuelPrice || 0;
+    const consumo = v.kmPerLiter || 0;
+    const custo = consumo > 0 && fuelPrice > 0 ? fuelPrice / consumo : 0;
+    const stateLabel = S.user && S.user.state ? S.user.state : 'undefined';
+    const veiculoLabel = v.make && v.model ? `${v.make} ${v.model}` : 'Seu veículo';
+    return {
+      rows: [
+        { lbl:'Veículo', val: veiculoLabel },
+        { lbl:'Consumo médio', val:`${consumo} km/l` },
+        { lbl:`Preço gasolina (${stateLabel})`, val:`R$ ${fuelPrice.toFixed(2)}/l` },
+        { lbl:'Custo por km', val:`R$ ${custo.toFixed(3)}`, valClass:'orange' },
+      ]
+    };
+  }
+
+  if (dynamicKey === 'ipva' && h) {
+    return {
+      rows: [
+        { lbl:'Valor FIPE', val: R(h.fipeValue || v.fipeValue) },
+        { lbl:'IPVA anual', val: R(h.ipvaAnual) },
+        { lbl:'IPVA mensal (÷12)', val: R(h.ipvaMensal), valClass:'orange' },
+      ]
+    };
+  }
+
+  if (dynamicKey === 'seguro' && h) {
+    const seguroAnual = v.seguro || ((v.fipeValue||0) * 0.05);
+    return {
+      rows: [
+        { lbl:'Valor FIPE', val: R(v.fipeValue||0) },
+        { lbl:'Taxa aplicada', val:'5% ao ano' },
+        { lbl:'Seguro anual estimado', val: R(seguroAnual) },
+        { lbl:'Seguro mensal (÷12)', val: R(h.seguroMensal), valClass:'orange' },
+      ]
+    };
+  }
+
+  if (dynamicKey === 'manutencao' && h) {
+    return {
+      rows: [
+        { lbl:'Revisões e consumíveis', val: R(h.manutencaoMensal * 12) + '/ano' },
+        { lbl:'Manutenção mensal (÷12)', val: R(h.manutencaoMensal), valClass:'orange' },
+      ]
+    };
+  }
+
+  if (dynamicKey === 'depreciacao' && v && v.fipeValue) {
+    const rate = FIPE_DEPR_RATE[v.type || 'car'] || 0.135;
+    const fipe = v.fipeValue;
+    const anuais = fipe * rate;
+    const mensal = anuais / 12;
+    const tipoLabel = (v.type === 'moto' ? 'Moto' : 'Carro') + ` (${Math.round(rate*100)}%/ano)`;
+    return {
+      rows: [
+        { lbl:'Tipo', val: tipoLabel },
+        { lbl:'Valor FIPE atual', val: R(fipe) },
+        { lbl:'Desvalorização anual', val: R(anuais), valClass:'red' },
+        { lbl:'Desvalorização mensal', val: R(mensal), valClass:'red' },
+      ]
+    };
+  }
+
+  if (dynamicKey === 'reserva' && h) {
+    const rows = [
+      { icon:'📋', lbl:'IPVA mensal', val: R(h.ipvaMensal) },
+      { icon:'🛡️', lbl:'Seguro mensal', val: R(h.seguroMensal) },
+      { icon:'🔧', lbl:'Manutenção mensal', val: R(h.manutencaoMensal) },
+    ];
+    if (h.aluguelMensal > 0) rows.push({ icon:'🔑', lbl:'Aluguel mensal', val: R(h.aluguelMensal) });
+    if (h.saveForNew && h.depreciaMensal > 0) rows.push({ icon:'📉', lbl:'Depreciação mensal', val: R(h.depreciaMensal) });
+    return {
+      rows,
+      result: { val: R(h.totalMensal) + '/mês', lbl: 'Total recomendado de reserva' }
+    };
+  }
+
+  return null;
+}
+
+function showInfo(key, event) {
+  if (event) event.stopPropagation();
+  const info = INFO_TEXTS[key];
+  if (!info) return;
+
+  el('infoEmoji').textContent = info.emoji || '';
+  el('infoTitle').textContent = info.title;
+  el('infoDesc').innerHTML    = info.desc || '';
+
+  const fEl = el('infoFormula');
+  if (info.formula) { fEl.textContent = info.formula; fEl.style.display = 'block'; }
+  else fEl.style.display = 'none';
+
+  // Linhas dinâmicas + resultado
+  const rEl = el('infoRows');
+  const dynamic = info.dynamicKey ? buildInfoRows(info.dynamicKey) : null;
+
+  if (dynamic) {
+    const colorMap = { green:'#1F6F5F', red:'#C0392B', orange:'#E87F24' };
+    let html = dynamic.rows.map(r => {
+      const valColor = r.valClass ? `color:${colorMap[r.valClass]||'#0D1B2A'}` : 'color:#0D1B2A';
+      const icon = r.icon ? `<span style="margin-right:6px">${r.icon}</span>` : '';
+      return `<div class="info-box-row">${icon}<span class="info-box-row-lbl">${r.lbl}</span><span class="info-box-row-val" style="${valColor}">${r.val}</span></div>`;
+    }).join('');
+
+    if (dynamic.result) {
+      html += `<div style="background:#E6F4F1;border-radius:12px;padding:16px;text-align:center;margin-top:12px">
+        <div style="font-size:22px;font-weight:800;color:#1F6F5F">${dynamic.result.val}</div>
+        <div style="font-size:12px;color:#1F6F5F;margin-top:2px">${dynamic.result.lbl}</div>
+      </div>`;
+    }
+    rEl.innerHTML = html;
+    rEl.style.display = 'block';
+  } else {
+    rEl.style.display = 'none';
+  }
+
+  const ftEl = el('infoFootnote');
+  if (info.footnote) {
+    ftEl.innerHTML = info.footnote.replace(/\n\n/g, '<br><br>');
+    ftEl.style.display = 'block';
+  } else ftEl.style.display = 'none';
+
+  el('infoModal').classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeInfo() {
+  el('infoModal').classList.remove('active');
+  document.body.style.overflow = '';
+}
+// ── HEATMAP DIAS × HORÁRIOS ──────────────────────────────────────
+function openHeatmap() {
+  renderHeatmapGrid();
+  el('heatmapModal').classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+function closeHeatmap() {
+  el('heatmapModal').classList.remove('active');
+  document.body.style.overflow = '';
+}
+function hmColor(t) {
+  if (t <= 0) return '#E8F5F0';
+  const s = [[232,245,240],[180,230,210],[100,195,165],[43,168,130],[31,111,95],[16,70,58]];
+  const i = Math.min(t * (s.length - 1), s.length - 1.001);
+  const lo = Math.floor(i), hi = Math.ceil(i), f = i - lo;
+  return `rgb(${Math.round(s[lo][0]+(s[hi][0]-s[lo][0])*f)},${Math.round(s[lo][1]+(s[hi][1]-s[lo][1])*f)},${Math.round(s[lo][2]+(s[hi][2]-s[lo][2])*f)})`;
+}
+function renderHeatmapGrid() {
+  // Coleta corridas GPS + auto das transações
+  const gpsTxns = S.transactions.filter(t => t.source === 'gps' && t.type === 'income');
+  const fuelRef = {};
+  S.transactions.filter(t => t.source === 'gps' && t.type === 'expense')
+    .forEach(t => { if (t._rideRef) fuelRef[t._rideRef] = t; });
+  const rides = gpsTxns.map(t => {
+    const r = t._ride || {}, fuel = fuelRef[t.id];
+    return { date: t.date, time: (r.startTime || t.time || ''), net: (parseFloat(t.amount)||0) - (fuel ? parseFloat(fuel.amount)||0 : r.fuelCost||0), dur: r.durationMin||0 };
+  });
+  S.transactions.filter(t => t.source === 'auto' && t.type === 'income' && t._ride)
+    .forEach(t => rides.push({ date: t.date, time: (t._ride.startTime||t.time||''), net: (parseFloat(t.amount)||0) - (t._ride.fuelCost||0), dur: t._ride.durationMin||0 }));
+
+  // Monta matriz [dow 0-6][slot 0-4] → {rph, count}
+  const cut = new Date(); cut.setDate(cut.getDate() - 28);
+  const mat = {};
+  rides.filter(r => r.date && new Date(r.date) >= cut).forEach(r => {
+    const m = (r.time||'').match(/(\d{1,2}):/);
+    if (!m) return;
+    const h = parseInt(m[1]);
+    const slot = h>=6&&h<10?0:h>=10&&h<14?1:h>=14&&h<18?2:h>=18&&h<22?3:h>=22||h<2?4:-1;
+    if (slot < 0) return;
+    const dow = new Date(r.date + 'T12:00:00').getDay();
+    const key = dow + '_' + slot;
+    if (!mat[key]) mat[key] = {sum:0,h:0,n:0};
+    mat[key].sum += r.net;
+    mat[key].h += r.dur > 0 ? r.dur/60 : 0.5;
+    mat[key].n++;
+  });
+  const cells = {}, rphs = [];
+  for (const k in mat) { const c = mat[k]; const rph = c.h>0?c.sum/c.h:0; cells[k] = {rph:Math.max(0,rph),n:c.n}; if(rph>0) rphs.push(rph); }
+  const maxRph = rphs.length ? Math.max(...rphs) : 0;
+  const hasData = rphs.length > 0;
+
+  const DAYS = ['Seg','Ter','Qua','Qui','Sex','Sáb','Dom'];
+  const DOWS = [1,2,3,4,5,6,0];
+  const SLOTS = ['6h','10h','14h','18h','22h'];
+  const SLBL = ['6–10h','10–14h','14–18h','18–22h','22–2h'];
+
+  // Melhor célula
+  let bestDow=5, bestSlot=3, bestRph=0;
+  for (const k in cells) { const [d,s] = k.split('_').map(Number); if(cells[k].rph>bestRph){bestRph=cells[k].rph;bestDow=d;bestSlot=s;} }
+
+  el('hmBestBadge').textContent = hasData
+    ? DAYS[DOWS.indexOf(bestDow)] + ' ' + SLBL[bestSlot] + ': R$ ' + bestRph.toFixed(0) + '/h'
+    : 'Sex 18–22h: R$ 42/h (demonstração)';
+
+  el('hmLegend').innerHTML = [0,1,2,3,4,5].map(i =>
+    `<div class="hm-legend-cell" style="background:${hmColor(i/5)}"></div>`).join('');
+
+  // Dados demo (quando sem corridas)
+  const DEMO = {'1_0':.6,'1_1':.4,'1_2':.5,'1_3':.7,'1_4':.3,'2_0':.55,'2_1':.35,'2_2':.45,'2_3':.65,'2_4':.25,'3_0':.2,'3_1':.1,'3_2':.3,'3_3':.5,'3_4':.2,'4_0':.5,'4_1':.4,'4_2':.6,'4_3':.8,'4_4':.4,'5_0':.7,'5_1':.55,'5_2':.7,'5_3':1.0,'5_4':.6,'6_0':.65,'6_1':.6,'6_2':.8,'6_3':.9,'6_4':.5,'0_0':.4,'0_1':.5,'0_2':.6,'0_3':.7,'0_4':.3};
+
+  let g = '<div style="display:grid;gap:3px">';
+  // Header
+  g += '<div class="hm-day-row"><div class="hm-row-lbl"></div>' + DAYS.map(d=>`<div class="hm-col-lbl">${d}</div>`).join('') + '</div>';
+  // Linhas
+  SLOTS.forEach((sl,si) => {
+    g += '<div class="hm-day-row"><div class="hm-row-lbl">' + sl + '</div>';
+    DOWS.forEach(dow => {
+      const k = dow + '_' + si;
+      let intensity=0, rph=0, n=0;
+      if (hasData && cells[k]) { intensity = maxRph>0 ? cells[k].rph/maxRph : 0; rph=cells[k].rph; n=cells[k].n; }
+      else if (!hasData) { intensity = DEMO[k]||0; rph=intensity*42; n=Math.round(intensity*8); }
+      const sel = (dow===bestDow && si===bestSlot);
+      const tip = n>0 ? `R$ ${rph.toFixed(0)}/h · ${n} corrida${n!==1?'s':''}` : 'Sem dados';
+      g += `<div class="hm-cell${sel?' selected':''}" style="background:${hmColor(intensity)}" title="${tip}" onclick="hmCell(this,${dow},${si},${rph.toFixed(0)},${n})"></div>`;
+    });
+    g += '</div>';
+  });
+  g += '</div>';
+  el('hmGridWrap').innerHTML = g;
+
+  const DAYS_ALL = ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'];
+  const earlyAvg = [1,2,3,4,5].flatMap(d=>[0,1].map(s=>cells[d+'_'+s]||{rph:0,n:0})).filter(c=>c.n>0);
+  const lateAvg  = [1,2,3,4,5].flatMap(d=>[2,3].map(s=>cells[d+'_'+s]||{rph:0,n:0})).filter(c=>c.n>0);
+  const avgE = earlyAvg.length ? earlyAvg.reduce((a,c)=>a+c.rph,0)/earlyAvg.length : 0;
+  const avgL = lateAvg.length  ? lateAvg.reduce((a,c)=>a+c.rph,0)/lateAvg.length   : 0;
+  let ins = '';
+  if (!hasData) ins = '<b>Exemplo de insight:</b> seu R$/h cai 38% quando você roda antes das 10h em dias úteis. Registre corridas para ver seus dados reais.';
+  else if (avgE>0&&avgL>0) { const pct=Math.round(Math.abs(avgL-avgE)/Math.max(avgE,avgL)*100); ins = avgL>avgE ? `<b>Insight:</b> você rende ${pct}% mais depois das 14h. Priorize tarde e noite.` : `<b>Insight:</b> você rende ${pct}% mais de manhã. Seu pico é antes das 14h.`; }
+  else ins = `<b>Insight:</b> ${rides.length} corrida${rides.length!==1?'s':''} analisadas. Continue registrando para mais padrões.`;
+  el('hmInsight').innerHTML = ins;
+}
+function hmCell(el, dow, slot, rph, n) {
+  document.querySelectorAll('.hm-cell.selected').forEach(c=>c.classList.remove('selected'));
+  el.classList.add('selected');
+  const DAYS=['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'], SL=['6–10h','10–14h','14–18h','18–22h','22–2h'];
+  document.getElementById('hmBestBadge').textContent = n>0 ? DAYS[dow]+' '+SL[slot]+': R$ '+rph+'/h' : DAYS[dow]+' '+SL[slot]+': sem dados';
+}
 </script>
+
+<!-- GALERA POST MODAL -->
+<div id="galeraPostModal" class="modal">
+  <div class="modal-box">
+    <div class="modal-hdr">
+      <span class="modal-title">✏️ O que tá rolando?</span>
+      <button class="modal-close" onclick="closeModal('galeraPostModal')">×</button>
+    </div>
+    <p style="font-size:12px;color:var(--txt2);margin-bottom:14px">Posta só o que você viu. A galera confirma e todo mundo ganha.</p>
+    <div class="form-grp">
+      <label class="form-lbl">Tipo de post</label>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-bottom:4px">
+        <button class="gp-type-btn per-btn active" data-type="dica" onclick="setGaleraPostType(this)"><span>💡</span>Dica</button>
+        <button class="gp-type-btn per-btn" data-type="alerta" onclick="setGaleraPostType(this)"><span>⚠️</span>Alerta</button>
+        <button class="gp-type-btn per-btn" data-type="area" onclick="setGaleraPostType(this)"><span>✅</span>Área boa</button>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px">
+        <button class="gp-type-btn per-btn" data-type="bonus" onclick="setGaleraPostType(this)"><span>💸</span>Bônus</button>
+        <button class="gp-type-btn per-btn" data-type="combustivel" onclick="setGaleraPostType(this)"><span>⛽</span>Combustível</button>
+      </div>
+    </div>
+    <div class="form-grp">
+      <label class="form-lbl">O que tá rolando (uma linha basta)</label>
+      <textarea id="galeraPostText" class="f-input" placeholder="Ex: Bônus de R$ 8 na 99 no Aeroporto até meia-noite. Confirmado." rows="3" style="resize:none;line-height:1.5"></textarea>
+    </div>
+    <button class="btn acc" onclick="submitGaleraPost()">Publicar para a galera →</button>
+  </div>
+</div>
+
+<!-- INFO MODAL -->
+<div id="infoModal" class="info-modal" onclick="if(event.target===this)closeInfo()">
+  <div class="info-box">
+    <div class="info-box-header">
+      <div class="info-box-emoji" id="infoEmoji"></div>
+      <div class="info-box-title" id="infoTitle"></div>
+    </div>
+    <div class="info-box-desc" id="infoDesc"></div>
+    <div class="info-box-formula" id="infoFormula" style="display:none"></div>
+    <div class="info-box-rows" id="infoRows" style="display:none"></div>
+    <div class="info-box-footnote" id="infoFootnote" style="display:none"></div>
+    <button class="info-box-btn" onclick="closeInfo()">Entendi</button>
+  </div>
+</div>
+
+<!-- HEATMAP MODAL -->
+<div id="heatmapModal" class="hm-modal" onclick="if(event.target===this)closeHeatmap()">
+  <div class="hm-box">
+    <div class="hm-hdr">
+      <div><div class="hm-title">R$/h Líquido · Últimas 4 semanas</div><div class="hm-sub">Toque em uma célula para ver o detalhe</div></div>
+      <button class="hm-close" onclick="closeHeatmap()">×</button>
+    </div>
+    <div id="hmBestBadge" class="hm-best-badge" style="display:inline-block;margin-bottom:14px"></div>
+    <div id="hmGridWrap"></div>
+    <div class="hm-legend" style="margin-top:8px"><span>menos</span><div class="hm-legend-cells" id="hmLegend"></div><span>mais</span></div>
+    <div id="hmInsight" class="hm-insight" style="margin-top:12px"></div>
+  </div>
+</div>
 </body>
 </html>
